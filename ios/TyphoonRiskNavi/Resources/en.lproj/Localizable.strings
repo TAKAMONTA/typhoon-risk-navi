@@ -1,0 +1,79 @@
+/* English Localizations for Okinawa Typhoon Navi */
+
+/* Tabs */
+"tab.map" = "Okinawa Typhoons";
+"tab.locations" = "My Locations";
+"tab.settings" = "Settings";
+
+/* General */
+"retry" = "Retry";
+"error.data_fetch_failed" = "Failed to fetch data";
+"real_data" = "Real Data";
+"demo_data" = "Demo Data";
+"demo_data_error" = "Demo (Real Data Failed)";
+"precision_model" = "Precision Model %.1f%%";
+
+/* Locations View */
+"locations.empty.title" = "No Saved Locations";
+"locations.empty.description" = "Add locations in Okinawa (Naha, Ishigaki, Miyako, etc.) to see typhoon risk and arrival predictions.\nTap + in the top right to add.";
+"locations.add_manual" = "Add Manually";
+"locations.add_current" = "Add Current Location";
+"locations.add.title" = "Add Location";
+"locations.edit.title" = "Edit Location";
+"locations.cancel" = "Cancel";
+"locations.open_settings" = "Open Settings";
+"locations.real_data_failure" = "Real Data Retrieval Failed";
+
+/* Settings View */
+"settings.currently_using" = "Currently Using";
+"settings.real_data_desc" = "Using real data (JTWC/JMA).";
+"settings.demo_data_desc" = "Using demo data.";
+"settings.demo_error_desc" = "Using demo data because real data could not be retrieved.";
+"settings.error_prefix" = "Error: ";
+"settings.last_real_data" = "Last successful real data: %@";
+"settings.notifications_section" = "Notifications (Coming Soon)";
+"settings.notification_strong_wind" = "Strong Wind Area Approach Notification";
+"settings.notification_path_update" = "Typhoon Path Update Notification";
+"settings.notification_note" = "Notification levels can be set for each saved location. Push notification support is planned for the future.";
+"settings.reload_data" = "Reload Data";
+"settings.version" = "Version";
+"settings.build" = "Build";
+"settings.app_description" = "A typhoon prediction app specialized for Okinawa. Uses real data and a dynamic decay model to predict impacts on your registered locations (Naha, Ishigaki, Miyako, etc.) more realistically.";
+"settings.precision_model_title" = "Precision Model";
+"settings.precision_model_desc" = "As typhoons approaching Okinawa move north and weaken, the wind radius tends to shrink. This is automatically calculated from the typhoon's own forecast data.";
+"settings.precision_model_detail" = "The baseline is about 8%, but it adjusts between 4–16% depending on actual latitude progression and wind speed decrease rate (displayed as “Precision Model XX%” in the UI).\n\nBecause Okinawa is frequently affected by typhoons, this model provides more realistic arrival time predictions.";
+
+/* Map View */
+"map.title" = "Okinawa Typhoons";
+"map.real_data" = "Real Data";
+"map.real_data_failure" = "Real Data Retrieval In Progress";
+
+/* DataSourceStatusBanner */
+"banner.demo_in_use" = "Using demo data";
+"banner.real_data_failure" = "Real Data Retrieval Failed";
+
+/* LocationsView additional */
+"alert.location_permission_title" = "Location Permission Required";
+"locations.permission_required" = "To add your current location, please allow \"Location Access\" in Settings.";
+"locations.hours_strong_wind" = "%d hours until strong wind area";
+"locations.hours_to_level" = "Notification Level (%@) in %d hours";
+"locations.current_distance" = "Currently %d km";
+"locations.no_risk_info" = "No risk information";
+"locations.not_set" = "Not set";
+
+/* TyphoonMapView legend */
+"map.wind_radii" = "Wind Radii";
+"map.34kt_strong" = "34kt (Strong Wind Area)";
+"map.50kt" = "50kt";
+"map.64kt_violent" = "64kt (Violent Wind Area)";
+
+/* General additional */
+"hours_suffix" = "%dh";
+
+/* Settings additional */
+"settings.data_source_section" = "Data Source";
+"settings.demo_data" = "Demo Data";
+"settings.demo_data_error" = "Demo Data (Real Data Failed)";
+"settings.using_demo_because_no_real" = "Using demo data because real data is unavailable.";
+"settings.using_demo_because_fetch_failed" = "Using demo data because real data retrieval failed.";
+"settings.error_prefix" = "Error: ";

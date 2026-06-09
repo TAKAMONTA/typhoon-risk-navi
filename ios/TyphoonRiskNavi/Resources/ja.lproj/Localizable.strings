@@ -1,0 +1,79 @@
+/* 日本語ローカライズ for 沖縄台風ナビ */
+
+/* タブ */
+"tab.map" = "沖縄の台風";
+"tab.locations" = "沖縄の場所";
+"tab.settings" = "設定";
+
+/* 共通 */
+"retry" = "再試行";
+"error.data_fetch_failed" = "データの取得に失敗しました";
+"real_data" = "実データ";
+"demo_data" = "デモデータ";
+"demo_data_error" = "デモデータ（実データ失敗）";
+"precision_model" = "精度モデル %.1f%%";
+
+/* 場所一覧 */
+"locations.empty.title" = "保存場所がありません";
+"locations.empty.description" = "那覇・石垣・宮古などの沖縄の場所を追加すると、台風接近時のリスクと到達時間を予測します。\n右上の + から追加してください。";
+"locations.add_manual" = "手動で追加";
+"locations.add_current" = "現在地を追加";
+"locations.add.title" = "場所を追加";
+"locations.edit.title" = "場所を編集";
+"locations.cancel" = "キャンセル";
+"locations.open_settings" = "設定を開く";
+"locations.real_data_failure" = "実データ取得失敗中";
+
+/* 設定画面 */
+"settings.currently_using" = "現在使用中";
+"settings.real_data_desc" = "実データ (JTWC/JMA) を使用しています。";
+"settings.demo_data_desc" = "デモデータを使用しています。";
+"settings.demo_error_desc" = "実データの取得に失敗したためデモデータを使用しています。";
+"settings.error_prefix" = "エラー: ";
+"settings.last_real_data" = "最終実データ: %@";
+"settings.notifications_section" = "通知（今後実装予定）";
+"settings.notification_strong_wind" = "強風域接近通知";
+"settings.notification_path_update" = "台風進路更新通知";
+"settings.notification_note" = "通知レベルは保存場所ごとに設定できます。将来的にプッシュ通知に対応予定です。";
+"settings.reload_data" = "データを再読み込み";
+"settings.version" = "バージョン";
+"settings.build" = "ビルド";
+"settings.app_description" = "沖縄に特化した台風予測アプリ。実データと動的減衰モデルで、登録した場所（那覇・石垣・宮古など）への影響をより現実的に予測します。";
+"settings.precision_model_title" = "精度モデル";
+"settings.precision_model_desc" = "沖縄に接近する台風が北上・弱体化するにつれて風速半径が縮小する傾向を、台風自身の予報データから自動計算して反映しています。";
+"settings.precision_model_detail" = "基準は約8%ですが、実際の緯度進行と風速減少率に応じて4〜16%の範囲で調整されます（UIに「精度モデル XX%」と表示）。\n\n沖縄は台風の影響を受けやすいため、このモデルでより現実的な到達時間を予測できます。";
+
+/* 地図画面 */
+"map.title" = "沖縄の台風";
+"map.real_data" = "実データ";
+"map.real_data_failure" = "実データ取得失敗中";
+
+/* DataSourceStatusBanner */
+"banner.demo_in_use" = "デモデータを使用中";
+"banner.real_data_failure" = "実データ取得失敗";
+
+/* LocationsView additional */
+"alert.location_permission_title" = "位置情報の許可が必要です";
+"locations.permission_required" = "現在地を追加するには、設定で「位置情報へのアクセス」を許可してください。";
+"locations.hours_strong_wind" = "%d時間後に強風域";
+"locations.hours_to_level" = "通知レベル(%@)到達まであと%d時間";
+"locations.current_distance" = "現在 %dkm";
+"locations.no_risk_info" = "リスク情報なし";
+"locations.not_set" = "未設定";
+
+/* TyphoonMapView legend */
+"map.wind_radii" = "風速半径";
+"map.34kt_strong" = "34kt (強風域)";
+"map.50kt" = "50kt";
+"map.64kt_violent" = "64kt (暴風域)";
+
+/* General additional */
+"hours_suffix" = "%dh";
+
+/* Settings additional */
+"settings.data_source_section" = "データソース";
+"settings.demo_data" = "デモデータ";
+"settings.demo_data_error" = "デモデータ（実データ失敗）";
+"settings.using_demo_because_no_real" = "実データが利用できないためデモデータを使用しています。";
+"settings.using_demo_because_fetch_failed" = "実データの取得に失敗したためデモデータを使用しています。";
+"settings.error_prefix" = "エラー: ";
