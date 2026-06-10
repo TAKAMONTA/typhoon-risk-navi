@@ -21,7 +21,7 @@ settings:
     GENERATE_INFOPLIST_FILE: NO     # 我々の Info.plist を使う
     MARKETING_VERSION: "0.9.0"
     CURRENT_PROJECT_VERSION: "2"
-    DEVELOPMENT_TEAM: ""            # Xcode で開発者の Team ID を設定
+    DEVELOPMENT_TEAM: "J3U2LZ2886"  # TAKAYUKI NAKAIMA
     CODE_SIGN_STYLE: Automatic
 
 targets:
