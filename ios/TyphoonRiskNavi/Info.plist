@@ -17,9 +17,9 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.9.0</string>
+	<string>0.9.1</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>3</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>
@@ -54,7 +54,8 @@
 
 	<!--
 		ネットワーク:
-		このアプリは独自バックエンドを持たず、JTWC (https://www.metoc.navy.mil/) のみ HTTPS で叩く。
+		このアプリは独自バックエンドを持たず、気象庁 (https://www.jma.go.jp/) を主データ源として HTTPS で取得する。
+		取得失敗時の保険として JTWC (https://www.metoc.navy.mil/) も試行する。
 		App Transport Security はデフォルト（HTTPS 必須）のまま。例外キーは置かない。
 	-->
 </dict>

@@ -43,7 +43,12 @@
 
 本アプリは、以下の場合にのみインターネット通信を行います。
 
-- **米軍 JTWC（Joint Typhoon Warning Center）からの台風情報取得**
+- **気象庁（Japan Meteorological Agency）からの台風情報取得（主データ源）**
+  - 通信先: `https://www.jma.go.jp/bosai/typhoon/data/targetTc.json` および `https://www.jma.go.jp/bosai/typhoon/data/{eventId}/specifications.json`
+  - 通信内容: 公開されている台風解析・予報 JSON の取得（HTTPS）
+  - 送信する情報: なし（GET リクエストのみ）
+
+- **米軍 JTWC（Joint Typhoon Warning Center）からの台風情報取得（取得失敗時の保険）**
   - 通信先: `https://www.metoc.navy.mil/jtwc/products/wpacprod.txt`
   - 通信内容: 公開されている台風警告テキストの取得（HTTPS）
   - 送信する情報: なし（GET リクエストのみ）
@@ -110,7 +115,12 @@ The App does **not** collect:
 
 The App performs network communication only in the following cases:
 
-- **Retrieving typhoon information from JTWC (Joint Typhoon Warning Center)**
+- **Retrieving typhoon information from JMA (Japan Meteorological Agency) — primary source**
+  - Endpoints: `https://www.jma.go.jp/bosai/typhoon/data/targetTc.json` and `https://www.jma.go.jp/bosai/typhoon/data/{eventId}/specifications.json`
+  - Content: Publicly available typhoon analysis/forecast JSON (HTTPS)
+  - Information sent: None (GET request only)
+
+- **Retrieving typhoon information from JTWC (Joint Typhoon Warning Center) — fallback when JMA fails**
   - Endpoint: `https://www.metoc.navy.mil/jtwc/products/wpacprod.txt`
   - Content: Publicly available typhoon warning text (HTTPS)
   - Information sent: None (GET request only)

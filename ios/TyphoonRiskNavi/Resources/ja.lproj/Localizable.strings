@@ -26,7 +26,7 @@
 
 /* 設定画面 */
 "settings.currently_using" = "現在使用中";
-"settings.real_data_desc" = "実データ (JTWC/JMA) を使用しています。";
+"settings.real_data_desc" = "実データ（気象庁）を使用しています。";
 "settings.demo_data_desc" = "デモデータを使用しています。";
 "settings.demo_error_desc" = "実データの取得に失敗したためデモデータを使用しています。";
 "settings.error_prefix" = "エラー: ";
@@ -50,6 +50,8 @@
 
 /* DataSourceStatusBanner */
 "banner.demo_in_use" = "デモデータを使用中";
+"banner.no_typhoon" = "現在進行中の台風はありません";
+"banner.no_typhoon_detail" = "台風が発生すると、気象庁の実データを自動で表示します。";
 "banner.real_data_failure" = "実データ取得失敗";
 
 /* LocationsView additional */
@@ -60,6 +62,17 @@
 "locations.current_distance" = "現在 %dkm";
 "locations.no_risk_info" = "リスク情報なし";
 "locations.not_set" = "未設定";
+
+/* TyphoonMapView summary card */
+"map.summary.most_urgent" = "最も注意が必要";
+"map.summary.hours_to_gale" = "強風域まで 約%d時間";
+"map.summary.hours_to_storm" = "暴風域まで 約%d時間";
+"map.summary.action.severe" = "早めに屋外物の固定と避難準備を行ってください";
+"map.summary.action.high" = "早めに屋外物の固定を確認してください";
+"map.summary.action.medium" = "台風情報の更新をこまめに確認してください";
+"map.summary.action.low" = "大きな影響は少ない見込みです。情報をチェックしましょう";
+"map.summary.no_locations" = "場所を追加するとリスクが表示されます";
+"map.summary.demo_label" = "デモデータ";
 
 /* TyphoonMapView legend */
 "map.wind_radii" = "風速半径";
@@ -74,6 +87,6 @@
 "settings.data_source_section" = "データソース";
 "settings.demo_data" = "デモデータ";
 "settings.demo_data_error" = "デモデータ（実データ失敗）";
-"settings.using_demo_because_no_real" = "実データが利用できないためデモデータを使用しています。";
+"settings.using_demo_because_no_real" = "現在進行中の台風はありません。デモデータで操作を確認できます。";
 "settings.using_demo_because_fetch_failed" = "実データの取得に失敗したためデモデータを使用しています。";
 "settings.error_prefix" = "エラー: ";

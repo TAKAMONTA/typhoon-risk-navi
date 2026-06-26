@@ -39,6 +39,23 @@ struct DataSourceStatusBanner: View {
             .padding(.vertical, 8)
             .background(Color.gray.opacity(0.12))
             .cornerRadius(10)
+
+        case .noTyphoon:
+            VStack(alignment: .leading, spacing: 6) {
+                HStack {
+                    Image(systemName: "info.circle")
+                        .foregroundStyle(.blue)
+                    Text(L10n.bannerNoTyphoon)
+                        .font(.subheadline.bold())
+                        .foregroundStyle(.blue)
+                }
+                Text(L10n.bannerNoTyphoonDetail)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            .padding(12)
+            .background(Color.blue.opacity(0.08))
+            .cornerRadius(10)
             
         case .demoDueToError(let message):
             VStack(alignment: .leading, spacing: 8) {

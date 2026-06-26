@@ -19,6 +19,10 @@ struct SettingsView: View {
                             Text(L10n.settingsDemoData)
                                 .foregroundStyle(.orange)
                                 .bold()
+                        case .noTyphoon:
+                            Text(L10n.bannerNoTyphoon)
+                                .foregroundStyle(.blue)
+                                .bold()
                         case .demoDueToError:
                             Text(L10n.settingsDemoDataError)
                                 .foregroundStyle(.orange)
@@ -38,7 +42,7 @@ struct SettingsView: View {
                                     .foregroundStyle(.secondary)
                             }
                         }
-                    case .demo:
+                    case .demo, .noTyphoon:
                         Text(L10n.settingsUsingDemoBecauseNoReal)
                             .font(.caption)
                             .foregroundStyle(.secondary)

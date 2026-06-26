@@ -26,7 +26,7 @@
 
 /* Settings View */
 "settings.currently_using" = "Currently Using";
-"settings.real_data_desc" = "Using real data (JTWC/JMA).";
+"settings.real_data_desc" = "Using real data (Japan Meteorological Agency).";
 "settings.demo_data_desc" = "Using demo data.";
 "settings.demo_error_desc" = "Using demo data because real data could not be retrieved.";
 "settings.error_prefix" = "Error: ";
@@ -50,6 +50,8 @@
 
 /* DataSourceStatusBanner */
 "banner.demo_in_use" = "Using demo data";
+"banner.no_typhoon" = "No active typhoons";
+"banner.no_typhoon_detail" = "When a typhoon forms, real JMA data will appear automatically.";
 "banner.real_data_failure" = "Real Data Retrieval Failed";
 
 /* LocationsView additional */
@@ -60,6 +62,17 @@
 "locations.current_distance" = "Currently %d km";
 "locations.no_risk_info" = "No risk information";
 "locations.not_set" = "Not set";
+
+/* TyphoonMapView summary card */
+"map.summary.most_urgent" = "Highest priority";
+"map.summary.hours_to_gale" = "Strong wind area in ~%d hours";
+"map.summary.hours_to_storm" = "Storm area in ~%d hours";
+"map.summary.action.severe" = "Secure outdoor items and prepare to evacuate soon.";
+"map.summary.action.high" = "Check and secure outdoor items early.";
+"map.summary.action.medium" = "Check typhoon updates frequently.";
+"map.summary.action.low" = "Major impact is unlikely. Stay informed.";
+"map.summary.no_locations" = "Add locations to see risk summaries.";
+"map.summary.demo_label" = "Demo data";
 
 /* TyphoonMapView legend */
 "map.wind_radii" = "Wind Radii";
@@ -74,6 +87,6 @@
 "settings.data_source_section" = "Data Source";
 "settings.demo_data" = "Demo Data";
 "settings.demo_data_error" = "Demo Data (Real Data Failed)";
-"settings.using_demo_because_no_real" = "Using demo data because real data is unavailable.";
+"settings.using_demo_because_no_real" = "No active typhoons at this time. Demo data is shown for exploration.";
 "settings.using_demo_because_fetch_failed" = "Using demo data because real data retrieval failed.";
 "settings.error_prefix" = "Error: ";

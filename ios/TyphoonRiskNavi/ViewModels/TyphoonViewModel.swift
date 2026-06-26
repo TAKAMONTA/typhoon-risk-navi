@@ -16,6 +16,8 @@ class TyphoonViewModel: ObservableObject {
     enum DataSourceStatus {
         case real
         case demo
+        /// 台風シーズン外など、進行中の台風がない正常状態（デモ表示で操作確認可能）
+        case noTyphoon
         case demoDueToError(String)
     }
 
@@ -103,14 +105,26 @@ class TyphoonViewModel: ObservableObject {
             return
         }
 
-        // JTWC を試す
-        var realTyphoon: Typhoon? = nil
-        var realError: String? = nil
+        // 気象庁を優先、失敗時のみ JTWC を試す
+        var realTyphoon: Typhoon?
+        var fetchError: String?
+
         do {
-            let typhoons = try await JTWCFetcher.fetchActive()
+            let typhoons = try await JMAFetcher.fetchActive()
             realTyphoon = typhoons.first
+        } catch JMAFetcher.FetchError.noActiveTyphoons {
+            // 台風なしは正常状態。エラー扱いしない。
         } catch {
-            realError = error.localizedDescription
+            fetchError = error.localizedDescription
+            do {
+                let typhoons = try await JTWCFetcher.fetchActive()
+                realTyphoon = typhoons.first
+                fetchError = nil
+            } catch JTWCFetcher.FetchError.noActiveTyphoons {
+                fetchError = nil
+            } catch let jtwcError {
+                fetchError = fetchError ?? jtwcError.localizedDescription
+            }
         }
 
         loadingContext = "リスク情報を計算しています..."
@@ -121,9 +135,12 @@ class TyphoonViewModel: ObservableObject {
             typhoon = real
             status = .real
             lastSuccessfulRealData = Date()
+        } else if fetchError == nil, realTyphoon == nil {
+            typhoon = DemoData.demoTyphoon
+            status = .noTyphoon
         } else {
             typhoon = DemoData.demoTyphoon
-            if let err = realError {
+            if let err = fetchError {
                 status = .demoDueToError(err)
             } else {
                 status = .demo
@@ -281,5 +298,20 @@ class TyphoonViewModel: ObservableObject {
     /// 後方互換のため残す。displayRisks と同じ。
     var computedUserRisks: [RiskAssessment] {
         displayRisks
+    }
+
+    /// 地図サマリーカード用。SEVERE > HIGH > MEDIUM > LOW、同順位は到達時間が近い地点を優先。
+    var topRiskAssessment: RiskAssessment? {
+        let risks = displayRisks
+        guard !risks.isEmpty else { return nil }
+        let priority: [String: Int] = ["SEVERE": 4, "HIGH": 3, "MEDIUM": 2, "LOW": 1]
+        return risks.max { lhs, rhs in
+            let p1 = priority[lhs.riskLevel] ?? 0
+            let p2 = priority[rhs.riskLevel] ?? 0
+            if p1 != p2 { return p1 < p2 }
+            let h1 = lhs.earliestArrivalHours ?? .infinity
+            let h2 = rhs.earliestArrivalHours ?? .infinity
+            return h1 > h2
+        }
     }
 }

@@ -7,7 +7,7 @@ struct LocationsView: View {
     @State private var showingLocationAlert = false
     @State private var showingEditSheet = false
     @State private var selectedLocation: SavedLocation? = nil
-    @State private var locationManager = CLLocationManager()
+    @State private var locationHelper = LocationManagerHelper()
     
     private var locations: [SavedLocation] {
         let all = viewModel.state?.savedLocations ?? []
@@ -188,37 +188,16 @@ struct LocationsView: View {
     
     // 現在地を取得してすぐに保存するフロー
     private func requestCurrentLocationAndSave() {
-        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
-        
-        let status = locationManager.authorizationStatus
-        
-        switch status {
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-            // 少し待ってから再試行（実アプリでは delegate を使うべき）
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                self.trySaveCurrentLocation()
-            }
-        case .authorizedWhenInUse, .authorizedAlways:
-            trySaveCurrentLocation()
-        case .denied, .restricted:
-            showingLocationAlert = true
-        @unknown default:
+        locationHelper.onLocation = { loc in
+            let lat = loc.coordinate.latitude
+            let lon = loc.coordinate.longitude
+            let name = "現在地 (\(Date().formatted(date: .omitted, time: .shortened)))"
+            addLocation(name: name, lat: lat, lon: lon, notificationLevel: "MEDIUM")
+        }
+        locationHelper.onFailure = {
             showingLocationAlert = true
         }
-    }
-    
-    private func trySaveCurrentLocation() {
-        guard let loc = locationManager.location else {
-            // 位置が取れなかった場合
-            showingLocationAlert = true
-            return
-        }
-        
-        let lat = loc.coordinate.latitude
-        let lon = loc.coordinate.longitude
-        let name = "現在地 (\(Date().formatted(date: .omitted, time: .shortened)))"
-        addLocation(name: name, lat: lat, lon: lon, notificationLevel: "MEDIUM")
+        locationHelper.requestLocation()
     }
 }
 
@@ -449,6 +428,13 @@ extension RiskAssessment {
     var hoursToStrongWind: Double? {
         // 34kt (強風域) 到達までの時間
         return arrival34kt?.hours
+    }
+
+    /// サマリー表示用。最も早い到達予測（34/50/64kt の最小値）。
+    var earliestArrivalHours: Double? {
+        [arrival34kt?.hours, arrival50kt?.hours, arrival64kt?.hours]
+            .compactMap { $0 }
+            .min()
     }
 }
 

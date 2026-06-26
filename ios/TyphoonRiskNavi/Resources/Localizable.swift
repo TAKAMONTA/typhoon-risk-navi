@@ -77,6 +77,8 @@ enum L10n {
     
     // DataSourceStatusBanner
     static let bannerDemoInUse = "banner.demo_in_use".localized
+    static let bannerNoTyphoon = "banner.no_typhoon".localized
+    static let bannerNoTyphoonDetail = "banner.no_typhoon_detail".localized
     static let bannerRealDataFailure = "banner.real_data_failure".localized
     
     // LocationsView additional
@@ -93,6 +95,21 @@ enum L10n {
     static let locationsNoRiskInfo = "locations.no_risk_info".localized
     static let locationsNotSet = "locations.not_set".localized
     
+    // TyphoonMapView summary card
+    static let mapSummaryMostUrgent = "map.summary.most_urgent".localized
+    static func mapSummaryHoursToGale(_ hours: Int) -> String {
+        String(format: "map.summary.hours_to_gale".localized, hours)
+    }
+    static func mapSummaryHoursToStorm(_ hours: Int) -> String {
+        String(format: "map.summary.hours_to_storm".localized, hours)
+    }
+    static let mapSummaryActionSevere = "map.summary.action.severe".localized
+    static let mapSummaryActionHigh = "map.summary.action.high".localized
+    static let mapSummaryActionMedium = "map.summary.action.medium".localized
+    static let mapSummaryActionLow = "map.summary.action.low".localized
+    static let mapSummaryNoLocations = "map.summary.no_locations".localized
+    static let mapSummaryDemoLabel = "map.summary.demo_label".localized
+
     // TyphoonMapView legend
     static let mapWindRadii = "map.wind_radii".localized
     static let map34ktStrong = "map.34kt_strong".localized

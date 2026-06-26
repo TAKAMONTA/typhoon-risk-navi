@@ -12,6 +12,9 @@
 		421B63785175D6914ECF14DE /* TyphoonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7760478548819A747667D779 /* TyphoonViewModel.swift */; };
 		4BC6A5FCE7C695B2EEDC0663 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76111743BD294C3A74DCBD0 /* MainTabView.swift */; };
 		4C6CC53765BB79DF28C595B0 /* LocalLocationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB735590313CAFB2558F9F5B /* LocalLocationStore.swift */; };
+		5D15AD6219EBC3397B7D342A /* JMAParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ADB00051BCD6EE40B5F001 /* JMAParserTests.swift */; };
+		6628405111AD492BCEFA26A8 /* JMAParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A284B78754D72C957BFE1E /* JMAParser.swift */; };
+		6C142E10E349EFF616072261 /* JMAFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1457F76248D6CC3F098EB07E /* JMAFetcher.swift */; };
 		720444B2BE2CAC72606E99E3 /* LocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E442F1D07E9BC516574505A /* LocationsView.swift */; };
 		7A83D009FE81DC3A53FE2CB4 /* JTWCParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AE01192F80178E166D04 /* JTWCParser.swift */; };
 		7EB67AA36B564C58DE4CB955 /* JTWCFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180A45E944E280E4CCE618C9 /* JTWCFetcher.swift */; };
@@ -24,6 +27,7 @@
 		A793621033DF5606C5511E8C /* JTWCParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE330269A063510A9116FBB5 /* JTWCParserTests.swift */; };
 		BB9DCA1F568C23F3EAA610FD /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 1AD2F6DBD66C8DABE66AEE80 /* PrivacyInfo.xcprivacy */; };
 		C25E6CB4D651230951D3FAD7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F903263231A3D51783A97642 /* Localizable.strings */; };
+		E4D65AB98F3E099395784FD6 /* LocationManagerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85B424DDCED6F2860E01B4B /* LocationManagerHelper.swift */; };
 		EC3E32D4E589143A9EA27E95 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E846E8D940B7EE67897F71 /* SettingsView.swift */; };
 		F477A6702A56DEF110377F4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77315EC2B2ABD06E8FA83495 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -40,10 +44,12 @@
 
 /* Begin PBXFileReference section */
 		0EF9AE01192F80178E166D04 /* JTWCParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTWCParser.swift; sourceTree = "<group>"; };
+		1457F76248D6CC3F098EB07E /* JMAFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMAFetcher.swift; sourceTree = "<group>"; };
 		180A45E944E280E4CCE618C9 /* JTWCFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTWCFetcher.swift; sourceTree = "<group>"; };
-		1AD2F6DBD66C8DABE66AEE80 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		1AD2F6DBD66C8DABE66AEE80 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		1E56CE1C9C58D7974059A46F /* TyphoonRiskNaviTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TyphoonRiskNaviTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FB5D2A64DFFAC9612DEE1D1 /* RiskCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiskCalculator.swift; sourceTree = "<group>"; };
+		31ADB00051BCD6EE40B5F001 /* JMAParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMAParserTests.swift; sourceTree = "<group>"; };
 		31B10BDF4448CC71D0C7F0A2 /* TyphoonRiskNaviApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TyphoonRiskNaviApp.swift; sourceTree = "<group>"; };
 		4E91DE24F246777322AAD301 /* Localizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizable.swift; sourceTree = "<group>"; };
 		6D49D1949BCB393A2D0357A9 /* DemoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoData.swift; sourceTree = "<group>"; };
@@ -52,7 +58,8 @@
 		77315EC2B2ABD06E8FA83495 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7760478548819A747667D779 /* TyphoonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TyphoonViewModel.swift; sourceTree = "<group>"; };
 		7B6119A0C9521F2B9E98298E /* DataSourceStatusBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceStatusBanner.swift; sourceTree = "<group>"; };
-		7D38E8FB0EEFC3A6E2AA465E /* TyphoonRiskNavi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TyphoonRiskNavi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D38E8FB0EEFC3A6E2AA465E /* TyphoonRiskNavi.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TyphoonRiskNavi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		98A284B78754D72C957BFE1E /* JMAParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMAParser.swift; sourceTree = "<group>"; };
 		A3F7DEEB1BDF30FAA4AE93B5 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B9E23C0D7FD52C934DA6A3B4 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		BE330269A063510A9116FBB5 /* JTWCParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTWCParserTests.swift; sourceTree = "<group>"; };
@@ -60,6 +67,7 @@
 		D34C5B6AB65DA39AE418BB45 /* TyphoonMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TyphoonMapView.swift; sourceTree = "<group>"; };
 		D4BE136F5A8640E6BC99524F /* RiskCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiskCalculatorTests.swift; sourceTree = "<group>"; };
 		D76111743BD294C3A74DCBD0 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		D85B424DDCED6F2860E01B4B /* LocationManagerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerHelper.swift; sourceTree = "<group>"; };
 		EC21C07400635595F4BEEBB3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,6 +128,7 @@
 		A1833BAC3A03D6C15D3EE931 /* TyphoonRiskNaviTests */ = {
 			isa = PBXGroup;
 			children = (
+				31ADB00051BCD6EE40B5F001 /* JMAParserTests.swift */,
 				BE330269A063510A9116FBB5 /* JTWCParserTests.swift */,
 				D4BE136F5A8640E6BC99524F /* RiskCalculatorTests.swift */,
 			);
@@ -147,9 +156,12 @@
 			isa = PBXGroup;
 			children = (
 				6D49D1949BCB393A2D0357A9 /* DemoData.swift */,
+				1457F76248D6CC3F098EB07E /* JMAFetcher.swift */,
+				98A284B78754D72C957BFE1E /* JMAParser.swift */,
 				180A45E944E280E4CCE618C9 /* JTWCFetcher.swift */,
 				0EF9AE01192F80178E166D04 /* JTWCParser.swift */,
 				CB735590313CAFB2558F9F5B /* LocalLocationStore.swift */,
+				D85B424DDCED6F2860E01B4B /* LocationManagerHelper.swift */,
 				1FB5D2A64DFFAC9612DEE1D1 /* RiskCalculator.swift */,
 			);
 			path = Services;
@@ -204,10 +216,11 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					280585842F15F9826EDD30B3 = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = J3U2LZ2886;
 						ProvisioningStyle = Automatic;
 					};
 					2E228A9F6882D49185F77E50 = {
+						DevelopmentTeam = J3U2LZ2886;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -251,6 +264,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D15AD6219EBC3397B7D342A /* JMAParserTests.swift in Sources */,
 				A793621033DF5606C5511E8C /* JTWCParserTests.swift in Sources */,
 				A5E10E806FDCB22CF6927768 /* RiskCalculatorTests.swift in Sources */,
 			);
@@ -262,10 +276,13 @@
 			files = (
 				9443EB1C226D33BDD0BA28B7 /* DataSourceStatusBanner.swift in Sources */,
 				93827317748054CB8DA70EC1 /* DemoData.swift in Sources */,
+				6C142E10E349EFF616072261 /* JMAFetcher.swift in Sources */,
+				6628405111AD492BCEFA26A8 /* JMAParser.swift in Sources */,
 				7EB67AA36B564C58DE4CB955 /* JTWCFetcher.swift in Sources */,
 				7A83D009FE81DC3A53FE2CB4 /* JTWCParser.swift in Sources */,
 				4C6CC53765BB79DF28C595B0 /* LocalLocationStore.swift in Sources */,
 				A30FC2EC5FA506191871CB5F /* Localizable.swift in Sources */,
+				E4D65AB98F3E099395784FD6 /* LocationManagerHelper.swift in Sources */,
 				720444B2BE2CAC72606E99E3 /* LocationsView.swift in Sources */,
 				4BC6A5FCE7C695B2EEDC0663 /* MainTabView.swift in Sources */,
 				1561230299D25038238E167A /* Models.swift in Sources */,
@@ -305,7 +322,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = J3U2LZ2886;
 				INFOPLIST_FILE = TyphoonRiskNavi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -324,7 +340,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = J3U2LZ2886;
 				INFOPLIST_FILE = TyphoonRiskNavi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -390,9 +405,9 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = J3U2LZ2886;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -478,9 +493,9 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = J3U2LZ2886;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
