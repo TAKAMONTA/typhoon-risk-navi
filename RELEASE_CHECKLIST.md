@@ -1,4 +1,4 @@
-# 沖縄台風ナビ - Release Checklist (MVP / v0.9 → TestFlight準備)
+# 沖縄台風ナビ - Release Checklist (v0.9.2 → TestFlight準備)
 
 **方向性**: 沖縄県限定の台風予測・リスク可視化アプリ
 
@@ -11,7 +11,7 @@
 - `ios/TyphoonRiskNavi/Resources/PrivacyInfo.xcprivacy` — プライバシーマニフェスト（Xcodeに追加必要）
 
 ## 1. コード品質・安定性
-- [x] 実データソース（JTWC/JMA）が失敗した時のエラーメッセージとフォールバックがユーザーフレンドリー（DataSourceStatus + バナー + リトライ完了）
+- [x] 実データソース（JMA優先・JTWCフォールバック）が失敗した時のエラーメッセージとフォールバックがユーザーフレンドリー（DataSourceStatus + バナー + リトライ完了）
 - [ ] ネットワークエラー時のリトライUI（現在は手動再読み込みのみ）
 - [ ] アプリ起動時の初回ロード体験（スプラッシュ的な何か or 明確なローディング）
 - [x] 実データ vs デモデータの区別が全画面で一貫しているか確認（ツールバー + バナー + リスク計算分岐）
@@ -19,7 +19,7 @@
 ## 2. データ関連
 - [x] 実データ取得時に、保存場所ごとのリスク/到達時間がクライアント側計算で正しく出ているか最終確認（estimateArrivalUsingWindRadii + 動的減衰完全実装）
 - [x] 通知レベル（HIGH/SEVEREなど）が高い場所がマップ上でちゃんと強調されているか
-- [x] SQLiteのマイグレーションが必要になった場合の対応方針（現在はシンプルな単一テーブル）（dev note: テーブル再作成で対応可）
+- [x] UserDefaults JSON 永続化の運用方針（数十件想定。将来は SwiftData / CloudKit へ移行可能）
 
 ## 3. UI/UX 最終確認
 - [x] 場所タブの編集体験（長押し → 編集シート）が自然か
@@ -47,27 +47,27 @@
 
 ## 3.5 予測精度モデル（2026年追加の重要機能）
 - [x] 精度モデル「動的減衰」（緯度進行 + 最大風速減少トレンドから自動算出 4〜16%/日）の実装（クライアント到達時間計算）
-- [x] バックエンド RiskCalculationService との完全同期
+- [x] 端末上（オンデバイス）の RiskCalculator に完全統合
 - [x] マップ上の未来風速半径（forecastWindRadii）にも動的減衰を適用して可視化
 - [x] ツールバーに「精度モデル XX.X%」バッジを表示（実データ使用時に現在の予測モデルを明示）
 
 ## 4. ビルド・配布準備
 - [ ] Xcodeプロジェクトのバージョン番号（Marketing Version / Build）確認（SettingsViewで表示済み）
 - [ ] Info.plist の Privacy Keys がすべて揃っているか（特に Location）
-- [x] PrivacyInfo.xcprivacy の作成（`ios/TyphoonRiskNavi/Resources/PrivacyInfo.xcprivacy` を作成済み。Xcodeプロジェクトへの追加が必要）
+- [x] PrivacyInfo.xcprivacy の作成と XcodeGen resources への追加（`ios/TyphoonRiskNavi/Resources/PrivacyInfo.xcprivacy`）
 - [ ] アイコン・アプリアイコンセットの最終確認
 - [ ] TestFlight 配布用のExportOptions.plist や Provisioning Profile の準備状況
 - [x] リリースノート（初回TestFlight用テキスト）のドラフト作成 → 専用ファイル `RELEASE_NOTES.md` に移動済み
-- [x] スクリーンショット撮影ガイドの詳細化 → `docs/TestFlight_Screenshots_Guide.md` として独立ファイル化（7枚構成＋理想状態の詳細記載）
+- [x] スクリーンショット撮影ガイドの詳細化 → `docs/TestFlight_Screenshots_Guide.md` として独立ファイル化（iPhone/iPadサイズと検証済みパスを記載）
 
 ## 5. ドキュメント
-- [ ] README（ルート + ios）が現在の機能に追いついているか（済）
+- [x] README（ルート + ios）が現在の機能に追いついているか
 - [ ] 開発者向けの「実データが取れない時のデバッグ方法」が書かれているか
-- [ ] バックエンドのSQLite DBファイルの場所とバックアップ方針の記載
+- [x] 保存場所が UserDefaults JSON（端末ローカル）であることの記載
 
 ## 6. その他
-- [x] 不要なデバッグログ・print文の削除（iOSは #if DEBUG 保護済み / backendの /debug/sources はコメントで明示）
-- [ ] 本番公開時に `/debug/sources` エンドポイントの保護方針を決定（現在は開発者向け）
+- [x] 不要なデバッグログ・print文の削除（iOS側はリリースビルドで不要な出力を抑制）
+- [x] 専用バックエンド/APIエンドポイントが不要な構成であることを確認
 - [ ] ハードコードされた座標やデモ用文言の最終掃除
 - [ ] パフォーマンス：大量の保存場所があった場合の挙動（現在は数十件想定）
 
@@ -76,7 +76,7 @@
 **現在の優先推奨（TestFlight準備フェーズ）**:
 1. **TestFlight / 内部テスト配布向け最終整備**（現在進行中）
    - [ ] アプリ説明文・サブタイトル・What's New の最終ドラフト（下記参照）
-   - [ ] スクリーンショット撮影用シナリオの確定（5〜7枚推奨）
+   - [x] スクリーンショット撮影用シナリオの確定（v0.9.2は主要3画面をiPhone/iPad各サイズで撮影済み）
    - [ ] バージョン/ビルド番号の初回設定と運用ルール
    - [ ] 不要デバッグコードの最終掃除（現在は #if DEBUG の安全なprintのみ）
    - [ ] 初回起動・オンボーディング体験の軽いブラッシュアップ
@@ -95,7 +95,7 @@
 **サブタイトル**: 実データで予測する、あなたの場所への台風影響
 
 **説明**:
-沖縄県内の台風をJTWC・気象庁の実データで取得し、進路・風速半径（34/50/64kt）を地図上に表示します。沖縄に特化した台風予測・リスク管理アプリです。
+沖縄県内の台風を気象庁・JTWCの実データで取得し、進路・風速半径（34/50/64kt）を地図上に表示します。沖縄に特化した台風予測・リスク管理アプリです。
 
 登録した場所ごとに「通知レベル」を設定すると、強風域や暴風域が近づくまでの時間をクライアント側で予測。台風の緯度変化や強さの減少傾向を考慮した「精度モデル（動的減衰）」で、より現実的な到達時間予測を行います。
 
@@ -135,7 +135,7 @@
 
 - [ ] `AppStore_Metadata.md` の内容を App Store Connect にコピー
 - [ ] `RELEASE_NOTES.md` をリリースノート欄に設定
-- [ ] スクリーンショット7枚を `docs/TestFlight_Screenshots_Guide.md` に従って撮影・アップロード
+- [x] 主要3画面のスクリーンショットを iPhone / iPad 各サイズで撮影・検証済み（アップロードはApp Store Connect側で実施）
 - [ ] PrivacyInfo.xcprivacy を Xcode プロジェクトに追加済み
 - [ ] バージョン番号とビルド番号を設定（例: 0.9.0 / 1）
 - [ ] アプリ内「プライバシー」ページの内容を確認

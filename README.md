@@ -1,6 +1,6 @@
 # 沖縄台風ナビ（Okinawa Typhoon Navi）
 
-沖縄県内の台風進路・風速半径・リスクを地図上で視覚化し、登録した場所ごとの影響を予測する **iPhone 単体アプリ**。
+沖縄県内の台風進路・風速半径・リスクを地図上で視覚化し、登録した場所ごとの影響を予測する **iPhone / iPad 対応アプリ**。
 
 **沖縄に住む人・訪れる人のための台風予測ツール**です。
 
@@ -8,25 +8,28 @@
 
 ## アーキテクチャ
 
-**iPhone 単体で動作します。専用バックエンドはありません。**
+**iPhone / iPad 単体で動作します。専用バックエンドはありません。**
 
 ```
-┌──────────────────────────────┐
-│      iPhone (アプリ本体)      │
-│                              │
-│  ┌────────────────────────┐  │
-│  │ JTWCFetcher (HTTPS)    │──┼─→ https://www.metoc.navy.mil/jtwc/products/wpacprod.txt
-│  │ JTWCParser (regex)     │  │
-│  │ RiskCalculator (pure)  │  │
-│  │ LocalLocationStore     │  │  保存場所は UserDefaults（端末ローカル）
-│  └────────────────────────┘  │
-└──────────────────────────────┘
+┌──────────────────────────────────┐
+│     iPhone / iPad (アプリ本体)    │
+│                                  │
+│  ┌────────────────────────────┐  │
+│  │ JMAFetcher (HTTPS)        │──┼─→ 気象庁 https://www.jma.go.jp/bosai/typhoon/data/
+│  │ JMAParser (JSON)          │  │   （主データ源）
+│  │ JTWCFetcher (HTTPS)       │──┼─→ 米軍JTWC https://www.metoc.navy.mil/jtwc/products/wpacprod.txt
+│  │ JTWCParser (regex)        │  │   （JMA 失敗時のフォールバック）
+│  │ RiskCalculator (pure)     │  │
+│  │ LocalLocationStore        │  │  保存場所は UserDefaults（端末ローカル）
+│  └────────────────────────────┘  │
+└──────────────────────────────────┘
 ```
 
-- **データソース**: 米軍 JTWC (Joint Typhoon Warning Center) の Western Pacific 警告テキストを iPhone から直接取得
+- **データソース（主）**: 気象庁 (JMA) 防災情報 JSON を iPhone から直接取得（`targetTc.json` → `specifications.json`）
+- **データソース（フォールバック）**: 気象庁の取得に失敗した場合のみ、米軍 JTWC (Joint Typhoon Warning Center) の Western Pacific 警告テキストを試行
 - **保存場所**: 端末ローカル（UserDefaults JSON）。アプリ削除でクリアされる
 - **リスク計算**: 端末上で完結。動的減衰モデル（4〜16%/日）も on-device
-- **JTWC が取得失敗した場合**: 自動でデモデータにフォールバック（ステータスは UI に明示）
+- **どちらも取得できない場合**: 自動でデモデータにフォールバック（ステータスは UI に明示）
 
 ---
 
@@ -64,7 +67,7 @@ xcodebuild test \
   -destination 'platform=iOS Simulator,name=iPhone 15'
 ```
 
-XCTest で `JTWCParser` と `RiskCalculator` をカバーしています。
+XCTest で `JMAParser`・`JTWCParser`・`RiskCalculator` をカバーしています。
 
 ---
 
@@ -73,9 +76,9 @@ XCTest で `JTWCParser` と `RiskCalculator` をカバーしています。
 - **沖縄特化**: 地図の初期表示が沖縄本島周辺に最適化
 - **地図タブ**: 台風進路 + 予報円 + 風速半径（34kt/50kt/64kt）の同心円表示 + 凡例 + データソース表示
 - **場所タブ**: 保存場所の永続化（端末ローカル） + リスクレベル表示 + 通知レベル設定（LOW/MEDIUM/HIGH/SEVERE） + タップで即時変更 + 長押しで編集 + 現在地ワンタップ追加 + 優先度ソート
-- **JTWC 直接取得**: 米軍 JTWC の警告テキストを iPhone から直接取得しオンデバイスで解釈
+- **気象庁データの直接取得**: 気象庁 (JMA) の台風防災情報 JSON を iPhone から直接取得しオンデバイスで解釈（取得失敗時は米軍 JTWC の警告テキストにフォールバック）
 - **動的減衰モデル**: 緯度進行と最大風速トレンドから 4〜16%/日 の減衰率を算出し、未来の風速半径を縮小表示
-- **デモフォールバック**: JTWC が取れないときは自動でデモ台風を表示し、ステータスを UI に明示
+- **デモフォールバック**: 気象庁も JTWC も取れないときは自動でデモ台風を表示し、ステータスを UI に明示
 
 ---
 
@@ -91,16 +94,19 @@ typhoon-risk-navi/
 │       ├── ViewModels/TyphoonViewModel.swift
 │       ├── Views/                ← MapView / LocationsView / SettingsView / etc.
 │       ├── Services/
-│       │   ├── JTWCFetcher.swift          ← HTTPS GET to JTWC
+│       │   ├── JMAFetcher.swift           ← HTTPS GET to 気象庁（主データ源）
+│       │   ├── JMAParser.swift            ← 気象庁 JSON パーサー
+│       │   ├── JTWCFetcher.swift          ← HTTPS GET to JTWC（フォールバック）
 │       │   ├── JTWCParser.swift           ← regex-based pure parser
 │       │   ├── RiskCalculator.swift       ← pure risk math
 │       │   ├── LocalLocationStore.swift   ← UserDefaults JSON
+│       │   ├── LocationManagerHelper.swift ← 現在地取得（CoreLocation）
 │       │   └── DemoData.swift             ← フォールバック用デモ台風
 │       ├── Resources/
 │       │   ├── Localizable.swift, ja.lproj/, en.lproj/
 │       │   └── PrivacyInfo.xcprivacy
 │       └── Info.plist
-├── ios/TyphoonRiskNaviTests/     ← XCTest（JTWCParser / RiskCalculator）
+├── ios/TyphoonRiskNaviTests/     ← XCTest（JMAParser / JTWCParser / RiskCalculator）
 ├── backend/                      ← レガシー Bun + Hono バックエンド（v1 では使用しない）
 ├── demo/                         ← 簡易HTMLデモ
 ├── AppStore_Metadata.md
@@ -115,12 +121,12 @@ typhoon-risk-navi/
 
 ## アーキテクチャのポイント
 
-- **iPhone 単体で完結**
-  - JTWC の公開テキストを iPhone から直接 HTTPS で取得
+- **iPhone / iPad 単体で完結**
+  - 気象庁 (JMA) の公開 JSON を端末から直接 HTTPS で取得（取得失敗時は米軍 JTWC の公開テキストにフォールバック）
   - 保存場所は端末ローカル（UserDefaults JSON）に永続化
   - 月額のホスティング費用なし、バックエンドのダウンタイムを気にする必要なし
 - **失敗時の体験を明示**
-  - JTWC が 403 を返したり台風シーズン外で 0 件のときは自動でデモにフォールバック
+  - 気象庁・JTWC の両方が取得失敗したり台風シーズン外で 0 件のときは自動でデモにフォールバック
   - ステータス（実データ / デモデータ / 取得失敗）を Map・場所一覧・設定画面で常に表示
 - **動的減衰モデル**
   - 北上速度（緯度進行）と最大風速の弱体化トレンドから減衰率を自動算出
@@ -131,12 +137,12 @@ typhoon-risk-navi/
 
 ## リリース準備状況
 
-- ✅ iPhone 単体で完結する on-device 構成
+- ✅ iPhone / iPad 単体で完結する on-device 構成
 - ✅ Info.plist（位置情報 Usage / ローカライズ / HTTPS 厳密化）
 - ✅ Privacy Manifest（Location + UserDefaults 宣言済）
 - ✅ ローカライズ（日本語 + English）
 - ✅ XcodeGen による再現可能なプロジェクト生成
-- ✅ XCTest（JTWCParser / RiskCalculator）
+- ✅ XCTest（JMAParser / JTWCParser / RiskCalculator）
 - ⬜ アプリアイコン（1024×1024 から全サイズ展開、Bakery 等で生成）
 - ⬜ Apple Developer Program 加入 + Team ID 設定
 - ⬜ スクリーンショット撮影（`docs/TestFlight_Screenshots_Guide.md` 参照）
@@ -155,7 +161,7 @@ typhoon-risk-navi/
 
 - **iOS**: SwiftUI + MapKit + CoreLocation + Combine
 - **永続化**: UserDefaults JSON（端末ローカル）
-- **ネットワーク**: URLSession で JTWC HTTPS を直接叩く
+- **ネットワーク**: URLSession で気象庁 (JMA) の HTTPS を直接叩く（フォールバックで JTWC）
 - **テスト**: XCTest
 
 ---
@@ -163,7 +169,7 @@ typhoon-risk-navi/
 ## レガシー backend について
 
 `backend/` ディレクトリは過去の構成（Bun + Hono + SQLite）の名残です。
-v1 リリースでは iPhone 単体で動作するため使いません。`run-dev.sh` も同様です。
+v1 リリースでは iPhone / iPad 単体で動作するため使いません。`run-dev.sh` も同様です。
 
 将来、Xweather などの商用ソース統合や、マルチデバイス同期を導入する際の再利用候補として残しています。
 
@@ -181,7 +187,7 @@ v1 リリースでは iPhone 単体で動作するため使いません。`run-d
 ### よくあるご質問
 
 **Q. 「実データ取得失敗」と表示されます**
-A. データソースの米軍 JTWC（Joint Typhoon Warning Center）が、現在進行中の台風がない期間や、ネットワーク状況によっては取得失敗を返すことがあります。その場合は自動でデモデータ表示に切り替わります。アプリの不具合ではなく、想定された挙動です。
+A. 主データ源の気象庁 (JMA) と、そのフォールバックである米軍 JTWC（Joint Typhoon Warning Center）が、現在進行中の台風がない期間や、ネットワーク状況によっては取得失敗を返すことがあります。その場合は自動でデモデータ表示に切り替わります。アプリの不具合ではなく、想定された挙動です。
 
 **Q. 沖縄以外の地域でも使えますか？**
 A. このアプリは沖縄県内の地点に最適化されています。沖縄県以外の場所も登録できますが、台風の進路予測表示の初期表示は沖縄本島周辺になります。
@@ -199,7 +205,7 @@ A. 通知レベルの設定は将来のプッシュ通知機能のための準�
 - 位置情報（ユーザーが明示的に「現在地を追加」を選択した場合のみ取得し、端末ローカルにのみ保存）
 - アプリの使用状況の分析データ
 
-外部サーバとの通信は、米軍 JTWC（https://www.metoc.navy.mil/jtwc/）からの台風データ取得時のみ発生します。
+外部サーバとの通信は、気象庁（https://www.jma.go.jp/）からの台風データ取得時、およびそのフォールバックである米軍 JTWC（https://www.metoc.navy.mil/jtwc/）へのアクセス時のみ発生します。
 
 ---
 
