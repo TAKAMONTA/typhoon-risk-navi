@@ -54,3 +54,6 @@ bun.lockb
 # OS noise
 Thumbs.db
 ehthumbs.db
+
+# Archive / upload artifacts (xcarchive, ipa, dSYMs, logs)
+.asc/
