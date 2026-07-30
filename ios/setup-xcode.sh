@@ -60,11 +60,11 @@ if [ -d "TyphoonRiskNavi.xcodeproj" ]; then
     echo "次のステップ:"
     echo "  1. open TyphoonRiskNavi.xcodeproj"
     echo "  2. Signing & Capabilities でチーム ID を設定"
-    echo "  3. backend を起動（プロジェクトルートで ./run-dev.sh）"
-    echo "  4. シミュレータでビルド＆実行（⌘R）"
+    echo "  3. シミュレータまたは実機でビルド＆実行（⌘R）"
     echo ""
-    echo "ℹ️  本番デプロイ時は ios/TyphoonRiskNavi/Info.plist の APIBaseURL を"
-    echo "    HTTPS の本番 URL に変更してください。"
+    echo "ℹ️  このアプリは iPhone/iPad 単体で動作します。"
+    echo "    気象庁 (JMA) を主データ源として HTTPS で直接取得し、"
+    echo "    失敗時のみ JTWC にフォールバックします。backend 起動は不要です。"
 else
     echo -e "${RED}❌ プロジェクト生成に失敗しました${NC}"
     exit 1

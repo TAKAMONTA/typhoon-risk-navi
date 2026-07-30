@@ -82,7 +82,9 @@ struct RiskAssessment: Codable, Identifiable {
 // MARK: - API Response Models
 
 struct DemoStateResponse: Codable {
-    let typhoon: Typhoon
+    /// 進行中の台風。台風なし（.noTyphoon）のときは nil。
+    /// nil のときは地図・リスクに台風を一切描かず、テキスト表示と整合させる。
+    let typhoon: Typhoon?
     let risks: [RiskAssessment]
     let savedLocations: [SavedLocation]
     let lastUpdated: String

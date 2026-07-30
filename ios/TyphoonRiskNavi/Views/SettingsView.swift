@@ -2,7 +2,10 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject private var viewModel: TyphoonViewModel
-    
+    @AppStorage(NotificationPreferences.strongWindKey) private var notifyStrongWind = false
+    @AppStorage(NotificationPreferences.pathUpdateKey) private var notifyPathUpdate = false
+    @State private var notificationDeniedAlert = false
+
     var body: some View {
         NavigationView {
             Form {
@@ -29,7 +32,7 @@ struct SettingsView: View {
                                 .bold()
                         }
                     }
-                    
+
                     switch viewModel.dataSourceStatus {
                     case .real:
                         VStack(alignment: .leading, spacing: 2) {
@@ -42,7 +45,11 @@ struct SettingsView: View {
                                     .foregroundStyle(.secondary)
                             }
                         }
-                    case .demo, .noTyphoon:
+                    case .noTyphoon:
+                        Text(L10n.settingsNoTyphoonDesc)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    case .demo:
                         Text(L10n.settingsUsingDemoBecauseNoReal)
                             .font(.caption)
                             .foregroundStyle(.secondary)
@@ -58,7 +65,7 @@ struct SettingsView: View {
                                     .font(.caption2)
                                     .foregroundStyle(.secondary)
                             }
-                            
+
                             Button {
                                 Task { await viewModel.loadData() }
                             } label: {
@@ -70,24 +77,28 @@ struct SettingsView: View {
                         }
                     }
                 }
-                
+
                 Section(L10n.settingsNotificationsSection) {
-                    Toggle(L10n.settingsNotificationStrongWind, isOn: .constant(false))
-                        .disabled(true)
-                    Toggle(L10n.settingsNotificationPathUpdate, isOn: .constant(false))
-                        .disabled(true)
-                    
+                    Toggle(L10n.settingsNotificationStrongWind, isOn: $notifyStrongWind)
+                        .onChange(of: notifyStrongWind) { _, enabled in
+                            Task { await handleNotificationToggle(enabled: enabled, which: .strongWind) }
+                        }
+                    Toggle(L10n.settingsNotificationPathUpdate, isOn: $notifyPathUpdate)
+                        .onChange(of: notifyPathUpdate) { _, enabled in
+                            Task { await handleNotificationToggle(enabled: enabled, which: .pathUpdate) }
+                        }
+
                     Text(L10n.settingsNotificationNote)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
-                
+
                 Section {
                     Button(L10n.settingsReloadData) {
                         Task { await viewModel.loadData() }
                     }
                 }
-                
+
                 Section("アプリ情報") {
                     HStack {
                         Text(L10n.settingsVersion)
@@ -95,14 +106,14 @@ struct SettingsView: View {
                         Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "不明")
                             .foregroundStyle(.secondary)
                     }
-                    
+
                     HStack {
                         Text(L10n.settingsBuild)
                         Spacer()
                         Text(Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "不明")
                             .foregroundStyle(.secondary)
                     }
-                    
+
                     Text(L10n.settingsAppDescription)
                         .font(.caption)
                         .foregroundStyle(.secondary)
@@ -112,7 +123,7 @@ struct SettingsView: View {
                     VStack(alignment: .leading, spacing: 6) {
                         Text(L10n.settingsPrecisionModelDesc)
                             .font(.caption)
-                        
+
                         Text(L10n.settingsPrecisionModelDetail)
                             .font(.caption2)
                             .foregroundStyle(.secondary)
@@ -121,6 +132,53 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle(L10n.tabSettings)
+            .task {
+                if !viewModel.hasData {
+                    await viewModel.loadData()
+                }
+            }
+            .alert(L10n.notificationPermissionTitle, isPresented: $notificationDeniedAlert) {
+                Button(L10n.locationsOpenSettings) {
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                Button(L10n.locationsCancel, role: .cancel) {}
+            } message: {
+                Text(L10n.notificationPermissionMessage)
+            }
         }
+    }
+
+    private enum NotificationToggleKind {
+        case strongWind
+        case pathUpdate
+    }
+
+    private func handleNotificationToggle(enabled: Bool, which: NotificationToggleKind) async {
+        guard enabled else {
+            await LocalNotificationService.shared.refreshNotifications(
+                risks: viewModel.displayRisks,
+                typhoon: viewModel.state?.typhoon,
+                dataSourceIsReal: viewModel.isUsingRealData
+            )
+            return
+        }
+
+        let allowed = await LocalNotificationService.shared.requestAuthorizationIfNeeded()
+        if !allowed {
+            switch which {
+            case .strongWind: notifyStrongWind = false
+            case .pathUpdate: notifyPathUpdate = false
+            }
+            notificationDeniedAlert = true
+            return
+        }
+
+        await LocalNotificationService.shared.refreshNotifications(
+            risks: viewModel.displayRisks,
+            typhoon: viewModel.state?.typhoon,
+            dataSourceIsReal: viewModel.isUsingRealData
+        )
     }
 }

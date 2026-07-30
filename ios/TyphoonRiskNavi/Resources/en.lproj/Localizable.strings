@@ -13,6 +13,20 @@
 "demo_data_error" = "Demo (Real Data Failed)";
 "precision_model" = "Precision Model %.1f%%";
 
+/* Onboarding */
+"onboarding.title" = "Welcome to Okinawa Typhoon Navi";
+"onboarding.skip" = "Skip";
+"onboarding.start" = "Get Started";
+"onboarding.footnote" = "Location is used only when you tap Add Current Location. Saved locations stay on this device.";
+"onboarding.map.title" = "Know the typhoon";
+"onboarding.map.message" = "See track, forecast circles, and wind areas on the map, plus your place risk at a glance.";
+"onboarding.locations.title" = "Know what to do";
+"onboarding.locations.message" = "Get risk-based action steps and quick links to nearest municipality disaster and evacuation info.";
+"onboarding.data.title" = "Real data first, demo when needed";
+"onboarding.data.message" = "The app prioritizes Japan Meteorological Agency typhoon data. When no typhoon is active or data cannot be retrieved, demo data keeps the app explorable.";
+"onboarding.privacy.title" = "Location only when you choose";
+"onboarding.privacy.message" = "Your location is used only when you choose Add Current Location. It is not sent externally and is stored as a local saved place.";
+
 /* Locations View */
 "locations.empty.title" = "No Saved Locations";
 "locations.empty.description" = "Add locations in Okinawa (Naha, Ishigaki, Miyako, etc.) to see typhoon risk and arrival predictions.\nTap + in the top right to add.";
@@ -31,10 +45,21 @@
 "settings.demo_error_desc" = "Using demo data because real data could not be retrieved.";
 "settings.error_prefix" = "Error: ";
 "settings.last_real_data" = "Last successful real data: %@";
-"settings.notifications_section" = "Notifications (Coming Soon)";
-"settings.notification_strong_wind" = "Strong Wind Area Approach Notification";
-"settings.notification_path_update" = "Typhoon Path Update Notification";
-"settings.notification_note" = "Notification levels can be set for each saved location. Push notification support is planned for the future.";
+"settings.notifications_section" = "Notifications";
+"settings.notification_strong_wind" = "Strong wind area approach";
+"settings.notification_path_update" = "Typhoon path updates";
+"settings.notification_note" = "Notifications are scheduled on this device. Turning them on asks for permission. Always confirm evacuation orders on official municipality pages.";
+"notification.permission.title" = "Notification permission needed";
+"notification.permission.message" = "Allow notifications in Settings to get approach and path-update alerts.";
+"notification.strong_wind.title" = "Strong wind area approaching";
+"notification.strong_wind.body" = "%@: about %d hours remaining. Check your preparations.";
+"notification.path_update.title" = "Typhoon path updated";
+"notification.path_update.body" = "Check the latest information for %@.";
+"map.summary.warning.title" = "JMA warnings / advisories";
+"map.summary.warning.evacuation_hint" = "Evacuation orders come from municipalities. Also check the municipality links below.";
+"map.summary.warning.unavailable" = "Could not load warning info. Please reload.";
+"map.summary.open_warning_detail" = "Warning details";
+"warning.none.headline" = "No active warnings or advisories right now";
 "settings.reload_data" = "Reload Data";
 "settings.version" = "Version";
 "settings.build" = "Build";
@@ -65,6 +90,8 @@
 
 /* TyphoonMapView summary card */
 "map.summary.most_urgent" = "Highest priority";
+"map.summary.your_risk" = "Your risk";
+"map.summary.no_risk_yet" = "No typhoon risk can be calculated right now";
 "map.summary.hours_to_gale" = "Strong wind area in ~%d hours";
 "map.summary.hours_to_storm" = "Storm area in ~%d hours";
 "map.summary.action.severe" = "Secure outdoor items and prepare to evacuate soon.";
@@ -73,6 +100,39 @@
 "map.summary.action.low" = "Major impact is unlikely. Stay informed.";
 "map.summary.no_locations" = "Add locations to see risk summaries.";
 "map.summary.demo_label" = "Demo data";
+"map.summary.municipality.title" = "Nearest municipality info";
+"map.summary.municipality.distance" = "About %d km from your key place";
+"map.summary.municipality.hint" = "Check official pages for evacuation orders, shelters, and the latest local guidance.";
+"map.summary.municipality.need_location" = "Add a location to see nearest municipality official info.";
+"map.summary.open_disaster" = "Disaster info";
+"map.summary.open_evacuation" = "Evacuation";
+"map.summary.open_prefecture" = "Okinawa Pref.";
+"map.summary.open_jma" = "JMA typhoon";
+"risk.level.severe" = "Severe";
+"risk.level.high" = "High";
+"risk.level.medium" = "Medium";
+"risk.level.low" = "Low";
+
+/* Action guide (know → act) */
+"map.summary.actions.title" = "What to do now";
+"map.summary.actions.quiet_title" = "Prepare while quiet";
+"action.severe.1" = "Check local evacuation notices and follow official instructions";
+"action.severe.2" = "Secure outdoor items and protect windows from flying debris";
+"action.severe.3" = "Keep flashlight, water, food, and a charged phone ready";
+"action.severe.4" = "Avoid unnecessary travel and prepare to move to a safer place";
+"action.high.1" = "Secure outdoor items (pots, laundry, signs) or bring them inside";
+"action.high.2" = "Check windows/shutters and prepare for flying debris";
+"action.high.3" = "Share shelter locations and routes with family";
+"action.high.4" = "Check the municipality disaster page for updates";
+"action.medium.1" = "Monitor the typhoon track and arrival timing often";
+"action.medium.2" = "Finish errands early while travel is still easy";
+"action.medium.3" = "Check your emergency go-bag contents";
+"action.low.1" = "Major impact is unlikely. Keep checking updates";
+"action.low.2" = "Do light prep such as clearing drains";
+"action.low.3" = "Confirm how your family will stay in contact";
+"action.quiet.1" = "Review saved places and notification levels";
+"action.quiet.2" = "Bookmark your municipality disaster and evacuation pages";
+"action.quiet.3" = "Check your go-bag and water/food supplies";
 
 /* TyphoonMapView legend */
 "map.wind_radii" = "Wind Radii";
@@ -88,5 +148,34 @@
 "settings.demo_data" = "Demo Data";
 "settings.demo_data_error" = "Demo Data (Real Data Failed)";
 "settings.using_demo_because_no_real" = "No active typhoons at this time. Demo data is shown for exploration.";
+"settings.no_typhoon_desc" = "No active typhoons at this time. When a typhoon forms, real JMA data will appear automatically.";
 "settings.using_demo_because_fetch_failed" = "Using demo data because real data retrieval failed.";
 "settings.error_prefix" = "Error: ";
+
+/* Map focus controls */
+"map.focus.home" = "Okinawa";
+"map.focus.typhoon" = "Typhoon";
+"map.focus.current_location" = "My location";
+
+/* Typhoon position */
+"map.summary.typhoon_position" = "About %3$d km %2$@ of %1$@";
+"map.summary.typhoon_far_hint" = "Still far away, so the map stays on Okinawa. Tap \"Typhoon\" to see where it is.";
+
+/* Compass */
+"compass.n" = "north";
+"compass.ne" = "northeast";
+"compass.e" = "east";
+"compass.se" = "southeast";
+"compass.s" = "south";
+"compass.sw" = "southwest";
+"compass.w" = "west";
+"compass.nw" = "northwest";
+
+/* Summary card expand */
+"map.summary.expand" = "Actions, warnings & city info";
+"map.summary.collapse" = "Close";
+
+/* Data freshness */
+"last_real_data.just_now" = "Latest real data: just now";
+"last_real_data.relative" = "Latest real data: %@";
+"map.anchor.okinawa" = "Okinawa";

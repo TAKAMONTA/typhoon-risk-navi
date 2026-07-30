@@ -30,6 +30,20 @@ enum L10n {
     static let realData = "real_data".localized
     static let demoData = "demo_data".localized
     static let demoDataError = "demo_data_error".localized
+
+    // Onboarding
+    static let onboardingTitle = "onboarding.title".localized
+    static let onboardingSkip = "onboarding.skip".localized
+    static let onboardingStart = "onboarding.start".localized
+    static let onboardingFootnote = "onboarding.footnote".localized
+    static let onboardingMapTitle = "onboarding.map.title".localized
+    static let onboardingMapMessage = "onboarding.map.message".localized
+    static let onboardingLocationsTitle = "onboarding.locations.title".localized
+    static let onboardingLocationsMessage = "onboarding.locations.message".localized
+    static let onboardingDataTitle = "onboarding.data.title".localized
+    static let onboardingDataMessage = "onboarding.data.message".localized
+    static let onboardingPrivacyTitle = "onboarding.privacy.title".localized
+    static let onboardingPrivacyMessage = "onboarding.privacy.message".localized
     
     // Precision Model
     static func precisionModel(_ percent: Double) -> String {
@@ -62,6 +76,21 @@ enum L10n {
     static let settingsNotificationStrongWind = "settings.notification_strong_wind".localized
     static let settingsNotificationPathUpdate = "settings.notification_path_update".localized
     static let settingsNotificationNote = "settings.notification_note".localized
+    static let notificationPermissionTitle = "notification.permission.title".localized
+    static let notificationPermissionMessage = "notification.permission.message".localized
+    static let notificationStrongWindTitle = "notification.strong_wind.title".localized
+    static func notificationStrongWindBody(_ place: String, _ hours: Int) -> String {
+        String(format: "notification.strong_wind.body".localized, place, hours)
+    }
+    static let notificationPathUpdateTitle = "notification.path_update.title".localized
+    static func notificationPathUpdateBody(_ name: String) -> String {
+        String(format: "notification.path_update.body".localized, name)
+    }
+    static let mapSummaryWarningTitle = "map.summary.warning.title".localized
+    static let mapSummaryWarningEvacuationHint = "map.summary.warning.evacuation_hint".localized
+    static let mapSummaryWarningUnavailable = "map.summary.warning.unavailable".localized
+    static let mapSummaryOpenWarningDetail = "map.summary.open_warning_detail".localized
+    static let warningNoneHeadline = "warning.none.headline".localized
     static let settingsReloadData = "settings.reload_data".localized
     static let settingsVersion = "settings.version".localized
     static let settingsBuild = "settings.build".localized
@@ -97,6 +126,8 @@ enum L10n {
     
     // TyphoonMapView summary card
     static let mapSummaryMostUrgent = "map.summary.most_urgent".localized
+    static let mapSummaryYourRisk = "map.summary.your_risk".localized
+    static let mapSummaryNoRiskYet = "map.summary.no_risk_yet".localized
     static func mapSummaryHoursToGale(_ hours: Int) -> String {
         String(format: "map.summary.hours_to_gale".localized, hours)
     }
@@ -109,6 +140,74 @@ enum L10n {
     static let mapSummaryActionLow = "map.summary.action.low".localized
     static let mapSummaryNoLocations = "map.summary.no_locations".localized
     static let mapSummaryDemoLabel = "map.summary.demo_label".localized
+    static let mapSummaryMunicipalityTitle = "map.summary.municipality.title".localized
+    static func mapSummaryMunicipalityDistance(_ km: Int) -> String {
+        String(format: "map.summary.municipality.distance".localized, km)
+    }
+    static let mapSummaryMunicipalityHint = "map.summary.municipality.hint".localized
+    static let mapSummaryMunicipalityNeedLocation = "map.summary.municipality.need_location".localized
+    static let mapSummaryOpenDisaster = "map.summary.open_disaster".localized
+    static let mapSummaryOpenEvacuation = "map.summary.open_evacuation".localized
+    static let mapSummaryOpenPrefecture = "map.summary.open_prefecture".localized
+    static let mapSummaryOpenJMA = "map.summary.open_jma".localized
+    static func mapSummaryTyphoonPosition(_ anchorName: String, _ direction: String, _ km: Int) -> String {
+        String(format: "map.summary.typhoon_position".localized, anchorName, direction, km)
+    }
+    static let mapAnchorOkinawa = "map.anchor.okinawa".localized
+    static let mapSummaryTyphoonFarHint = "map.summary.typhoon_far_hint".localized
+    static let mapSummaryExpand = "map.summary.expand".localized
+    static let mapSummaryCollapse = "map.summary.collapse".localized
+
+    // Data freshness
+    static let lastRealDataJustNow = "last_real_data.just_now".localized
+    static func lastRealData(_ relative: String) -> String {
+        String(format: "last_real_data.relative".localized, relative)
+    }
+
+    // Map focus controls
+    static let mapFocusHome = "map.focus.home".localized
+    static let mapFocusTyphoon = "map.focus.typhoon".localized
+    static let mapFocusCurrentLocation = "map.focus.current_location".localized
+
+    /// 8方位。index は北=0 から時計回り。
+    static func compassDirection(_ index: Int) -> String {
+        let keys = [
+            "compass.n", "compass.ne", "compass.e", "compass.se",
+            "compass.s", "compass.sw", "compass.w", "compass.nw",
+        ]
+        guard keys.indices.contains(index) else { return "" }
+        return keys[index].localized
+    }
+    static func riskLevelLabel(_ level: String) -> String {
+        switch level {
+        case "SEVERE": return "risk.level.severe".localized
+        case "HIGH": return "risk.level.high".localized
+        case "MEDIUM": return "risk.level.medium".localized
+        case "LOW": return "risk.level.low".localized
+        default: return level
+        }
+    }
+
+    // Action guide (知る → 対策する)
+    static let mapSummaryActionsTitle = "map.summary.actions.title".localized
+    static let mapSummaryActionsQuietTitle = "map.summary.actions.quiet_title".localized
+    static let actionSevere1 = "action.severe.1".localized
+    static let actionSevere2 = "action.severe.2".localized
+    static let actionSevere3 = "action.severe.3".localized
+    static let actionSevere4 = "action.severe.4".localized
+    static let actionHigh1 = "action.high.1".localized
+    static let actionHigh2 = "action.high.2".localized
+    static let actionHigh3 = "action.high.3".localized
+    static let actionHigh4 = "action.high.4".localized
+    static let actionMedium1 = "action.medium.1".localized
+    static let actionMedium2 = "action.medium.2".localized
+    static let actionMedium3 = "action.medium.3".localized
+    static let actionLow1 = "action.low.1".localized
+    static let actionLow2 = "action.low.2".localized
+    static let actionLow3 = "action.low.3".localized
+    static let actionQuiet1 = "action.quiet.1".localized
+    static let actionQuiet2 = "action.quiet.2".localized
+    static let actionQuiet3 = "action.quiet.3".localized
 
     // TyphoonMapView legend
     static let mapWindRadii = "map.wind_radii".localized
@@ -126,6 +225,7 @@ enum L10n {
     static let settingsDemoData = "settings.demo_data".localized
     static let settingsDemoDataError = "settings.demo_data_error".localized
     static let settingsUsingDemoBecauseNoReal = "settings.using_demo_because_no_real".localized
+    static let settingsNoTyphoonDesc = "settings.no_typhoon_desc".localized
     static let settingsUsingDemoBecauseFetchFailed = "settings.using_demo_because_fetch_failed".localized
 
     static let alertLocationPermissionTitle = "alert.location_permission_title".localized

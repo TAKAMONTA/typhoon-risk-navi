@@ -417,7 +417,11 @@ struct LocationRiskRow: View {
 
 extension RiskAssessment {
     var riskColor: Color {
-        switch riskLevel {
+        Self.staticRiskColor(for: riskLevel)
+    }
+
+    static func staticRiskColor(for level: String) -> Color {
+        switch level {
         case "SEVERE": return .red
         case "HIGH": return .orange
         case "MEDIUM": return .yellow

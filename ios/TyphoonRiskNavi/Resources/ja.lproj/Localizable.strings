@@ -13,6 +13,20 @@
 "demo_data_error" = "デモデータ（実データ失敗）";
 "precision_model" = "精度モデル %.1f%%";
 
+/* オンボーディング */
+"onboarding.title" = "沖縄台風ナビへようこそ";
+"onboarding.skip" = "スキップ";
+"onboarding.start" = "はじめる";
+"onboarding.footnote" = "位置情報は「現在地を追加」を押した時だけ使います。保存場所は端末内に保存されます。";
+"onboarding.map.title" = "台風を知る";
+"onboarding.map.message" = "進路・予報円・強風域を地図で確認し、自分の場所の危険度が一目でわかります。";
+"onboarding.locations.title" = "対策がわかる";
+"onboarding.locations.message" = "危険度に応じた「いま取る対策」と、最寄り自治体の防災・避難情報へすぐアクセスできます。";
+"onboarding.data.title" = "実データ優先、取れない時も安心";
+"onboarding.data.message" = "気象庁の台風データを優先して取得します。台風がない時や取得できない時はデモデータで操作を確認できます。";
+"onboarding.privacy.title" = "現在地は必要な時だけ";
+"onboarding.privacy.message" = "現在地は、あなたが「現在地を追加」を選んだ時だけ使用します。外部送信せず、端末内の保存場所として扱います。";
+
 /* 場所一覧 */
 "locations.empty.title" = "保存場所がありません";
 "locations.empty.description" = "那覇・石垣・宮古などの沖縄の場所を追加すると、台風接近時のリスクと到達時間を予測します。\n右上の + から追加してください。";
@@ -31,10 +45,21 @@
 "settings.demo_error_desc" = "実データの取得に失敗したためデモデータを使用しています。";
 "settings.error_prefix" = "エラー: ";
 "settings.last_real_data" = "最終実データ: %@";
-"settings.notifications_section" = "通知（今後実装予定）";
-"settings.notification_strong_wind" = "強風域接近通知";
-"settings.notification_path_update" = "台風進路更新通知";
-"settings.notification_note" = "通知レベルは保存場所ごとに設定できます。将来的にプッシュ通知に対応予定です。";
+"settings.notifications_section" = "通知";
+"settings.notification_strong_wind" = "強風域の接近通知";
+"settings.notification_path_update" = "台風進路の更新通知";
+"settings.notification_note" = "通知は端末内で予約します。ONにすると許可が求められます。避難指示そのものは自治体公式ページで必ず確認してください。";
+"notification.permission.title" = "通知の許可が必要です";
+"notification.permission.message" = "設定アプリで通知を許可すると、接近や進路更新をお知らせできます。";
+"notification.strong_wind.title" = "強風域が近づいています";
+"notification.strong_wind.body" = "%@ まで、およそ%d時間前です。備えを確認してください。";
+"notification.path_update.title" = "台風進路が更新されました";
+"notification.path_update.body" = "%@ の最新情報を確認してください。";
+"map.summary.warning.title" = "気象庁の警報・注意報";
+"map.summary.warning.evacuation_hint" = "避難指示・避難所の発令は自治体が行います。下の自治体リンクもあわせて確認してください。";
+"map.summary.warning.unavailable" = "警報情報を取得できませんでした。再読み込みしてください。";
+"map.summary.open_warning_detail" = "警報の詳細";
+"warning.none.headline" = "現在、発表中の警報・注意報はありません";
 "settings.reload_data" = "データを再読み込み";
 "settings.version" = "バージョン";
 "settings.build" = "ビルド";
@@ -65,6 +90,8 @@
 
 /* TyphoonMapView summary card */
 "map.summary.most_urgent" = "最も注意が必要";
+"map.summary.your_risk" = "あなたの危険度";
+"map.summary.no_risk_yet" = "いま計算できる台風リスクはありません";
 "map.summary.hours_to_gale" = "強風域まで 約%d時間";
 "map.summary.hours_to_storm" = "暴風域まで 約%d時間";
 "map.summary.action.severe" = "早めに屋外物の固定と避難準備を行ってください";
@@ -73,6 +100,39 @@
 "map.summary.action.low" = "大きな影響は少ない見込みです。情報をチェックしましょう";
 "map.summary.no_locations" = "場所を追加するとリスクが表示されます";
 "map.summary.demo_label" = "デモデータ";
+"map.summary.municipality.title" = "最寄り自治体の情報";
+"map.summary.municipality.distance" = "代表地点から約%d km";
+"map.summary.municipality.hint" = "避難指示・避難所などの最新情報は、自治体の公式ページで確認してください。";
+"map.summary.municipality.need_location" = "場所を追加すると、最寄り自治体の公式情報を表示します。";
+"map.summary.open_disaster" = "防災情報";
+"map.summary.open_evacuation" = "避難情報";
+"map.summary.open_prefecture" = "沖縄県防災";
+"map.summary.open_jma" = "気象庁台風";
+"risk.level.severe" = "非常に高い";
+"risk.level.high" = "高い";
+"risk.level.medium" = "注意";
+"risk.level.low" = "低い";
+
+/* 対策ガイド（知る → 対策する） */
+"map.summary.actions.title" = "いま取る対策";
+"map.summary.actions.quiet_title" = "いまできる備え";
+"action.severe.1" = "自治体の避難情報を確認し、指示があれば従ってください";
+"action.severe.2" = "屋外の物を固定・片づけ、ガラスに飛散防止を";
+"action.severe.3" = "懐中電灯・水・食料・充電器を手元に用意";
+"action.severe.4" = "不要な外出を避け、安全な場所へ移動する準備を";
+"action.high.1" = "屋外の物（植木鉢・物干し・看板）を固定または室内へ";
+"action.high.2" = "窓・雨戸を確認し、飛来物に備える";
+"action.high.3" = "避難所の場所とルートを家族で共有する";
+"action.high.4" = "自治体の防災ページで最新情報を確認する";
+"action.medium.1" = "台風の進路・到達時間をこまめに確認する";
+"action.medium.2" = "買い物・洗濯など、外出が必要な用事を早めに済ませる";
+"action.medium.3" = "非常用持ち出し袋の中身を確認する";
+"action.low.1" = "大きな影響は少ない見込みです。情報の更新をチェック";
+"action.low.2" = "排水溝の掃除など、軽い備えを進めておく";
+"action.low.3" = "家族の連絡手段を確認しておく";
+"action.quiet.1" = "保存場所を確認し、通知レベルを見直す";
+"action.quiet.2" = "最寄り自治体の防災・避難ページをブックマークする";
+"action.quiet.3" = "非常用持ち出し袋と水・食料の備蓄を確認する";
 
 /* TyphoonMapView legend */
 "map.wind_radii" = "風速半径";
@@ -88,5 +148,34 @@
 "settings.demo_data" = "デモデータ";
 "settings.demo_data_error" = "デモデータ（実データ失敗）";
 "settings.using_demo_because_no_real" = "現在進行中の台風はありません。デモデータで操作を確認できます。";
+"settings.no_typhoon_desc" = "現在進行中の台風はありません。台風が発生すると、気象庁の実データを自動で表示します。";
 "settings.using_demo_because_fetch_failed" = "実データの取得に失敗したためデモデータを使用しています。";
 "settings.error_prefix" = "エラー: ";
+
+/* Map focus controls */
+"map.focus.home" = "沖縄";
+"map.focus.typhoon" = "台風";
+"map.focus.current_location" = "現在地";
+
+/* Typhoon position */
+"map.summary.typhoon_position" = "%1$@の%2$@ 約%3$dkm";
+"map.summary.typhoon_far_hint" = "まだ遠方のため地図には沖縄を表示しています。「台風」ボタンで台風の位置を確認できます。";
+
+/* Compass */
+"compass.n" = "北";
+"compass.ne" = "北東";
+"compass.e" = "東";
+"compass.se" = "南東";
+"compass.s" = "南";
+"compass.sw" = "南西";
+"compass.w" = "西";
+"compass.nw" = "北西";
+
+/* Summary card expand */
+"map.summary.expand" = "対策・警報・自治体を見る";
+"map.summary.collapse" = "閉じる";
+
+/* Data freshness */
+"last_real_data.just_now" = "最終実データ: たった今";
+"last_real_data.relative" = "最終実データ: %@";
+"map.anchor.okinawa" = "沖縄本島";
