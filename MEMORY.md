@@ -28,5 +28,21 @@
 ### 検証
 - 46テスト全通過。シミュレータ（iPhone 17 Pro）で地図表示・拠点ピン・現在地の青点（那覇に正しく表示）・台風／沖縄／現在地ボタン・カード展開・警報リンクを実機確認。
 
+## 2026-07-31 v0.9.4 (build 6) リリース作業
+
+### やったこと
+- fix/map-display-and-current-location を main に ff マージ。
+- 0.9.4 (build 6) をアーカイブ→App Store Connect にアップロード。処理 VALID、暗号化申告 exempt 設定済み。
+
+### 決定事項・教訓
+- **バージョンは 0.9.4**。0.9.3 は 7/22 の build 5 が審査承認済み（READY_FOR_DISTRIBUTION）でトレイン閉鎖のため、同バージョンへの追加アップロードは ITMS-90062/90186 で拒否される。
+- **Info.plist の版数直書きが罠だった**。CFBundleVersion が「5」固定で project.yml の CURRENT_PROJECT_VERSION 変更が無視されていた。両キーを `$(MARKETING_VERSION)` / `$(CURRENT_PROJECT_VERSION)` 参照に変更済み。今後は project.yml の1箇所だけ上げればよい。
+- **ITSAppUsesNonExemptEncryption=false を Info.plist に追加**（通信は気象庁への HTTPS のみ）。以後のビルドはコンプライアンス質問が自動回答になり、手動申告不要。
+- リリース手順: `asc xcode archive` → `asc xcode export` → `asc builds upload --app 6777631827 --wait`（成果物は .asc/artifacts/、git 追跡外）。
+
+### 未了
+- ローカル main が origin/main より先行（push 未実施、指示待ち）。
+- App Store 版 0.9.4 のバージョン作成・リリースノート・審査提出は未実施。TestFlight のグループ配布も未設定。
+
 ### 環境の問題（未解決）
 `~/.claude/settings.json` の env で `ANTHROPIC_DEFAULT_OPUS_MODEL` と `ANTHROPIC_DEFAULT_SONNET_MODEL` が `anthropic/claude-sonnet-4.6` に固定されているが、このIDは現在無効。そのため implementer / reviewer / scout / Explore などサブエージェントが全滅する（haiku も同様に失敗）。今回はメインセッションで実装・レビューまで行った。オーケストラ運用を戻すには有効なモデルIDへの修正が必要。
