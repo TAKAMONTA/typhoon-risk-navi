@@ -60,6 +60,8 @@
 "map.summary.warning.unavailable" = "Could not load warning info. Please reload.";
 "map.summary.open_warning_detail" = "Warning details";
 "warning.none.headline" = "No active warnings or advisories right now";
+"warning.stale_notice" = "Could not retrieve the latest warning information. Please check the JMA official site for current details.";
+"warning.last_report" = "Latest report we could retrieve: %@";
 "settings.reload_data" = "Reload Data";
 "settings.version" = "Version";
 "settings.build" = "Build";
@@ -102,6 +104,7 @@
 "map.summary.demo_label" = "Demo data";
 "map.summary.municipality.title" = "Nearest municipality info";
 "map.summary.municipality.distance" = "About %d km from your key place";
+"map.summary.municipality.distance_from_current" = "About %d km from your location";
 "map.summary.municipality.hint" = "Check official pages for evacuation orders, shelters, and the latest local guidance.";
 "map.summary.municipality.need_location" = "Add a location to see nearest municipality official info.";
 "map.summary.open_disaster" = "Disaster info";

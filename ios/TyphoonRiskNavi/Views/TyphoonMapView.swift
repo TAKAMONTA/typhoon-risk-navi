@@ -242,7 +242,8 @@ struct TyphoonMapView: View {
     /// 台風が沖縄から遠いときでも、ワンタップで台風／沖縄を行き来できるようにする。
     @ViewBuilder
     private var mapFocusControls: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        // ボタン同士の間隔も広げ、指で押し分けやすくする。
+        VStack(alignment: .leading, spacing: 10) {
             focusButton(title: L10n.mapFocusHome, systemImage: "house") {
                 cameraPosition = .region(viewModel.homeRegion)
             }
@@ -255,6 +256,11 @@ struct TyphoonMapView: View {
 
             focusButton(title: L10n.mapFocusCurrentLocation, systemImage: "location") {
                 if locationHelper.isAuthorized {
+                    // 最寄り自治体の判定にも使えるよう、カメラ移動と合わせて実測座標を取得する。
+                    locationHelper.onLocation = { location in
+                        viewModel.updateDeviceLocation(location.coordinate)
+                    }
+                    locationHelper.requestLocation()
                     cameraPosition = .userLocation(fallback: .region(viewModel.homeRegion))
                 } else if locationHelper.isDenied {
                     // 無反応にせず、設定アプリで許可し直せることを伝える。
@@ -276,13 +282,19 @@ struct TyphoonMapView: View {
             withAnimation { action() }
         } label: {
             Label(title, systemImage: systemImage)
-                .font(.caption2.bold())
-                .padding(.horizontal, 8)
-                .padding(.vertical, 5)
-                .background(.ultraThinMaterial)
+                .imageScale(.medium)
+                .font(.subheadline.weight(.semibold))
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+                // HIGの最小タップ領域(44pt)を確保し、押しやすくする。
+                .frame(minHeight: 44)
+                .background(.regularMaterial)
                 .clipShape(Capsule())
+                // 明るい地図の上でも輪郭が沈まないよう影で分離する。
+                .shadow(color: .black.opacity(0.18), radius: 5, y: 2)
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(title)
     }
 }
 
@@ -347,10 +359,14 @@ struct RiskSummaryCard: View {
                 isExpanded ? L10n.mapSummaryCollapse : L10n.mapSummaryExpand,
                 systemImage: isExpanded ? "chevron.down" : "chevron.up"
             )
-            .font(.caption.bold())
+            .imageScale(.medium)
+            .font(.subheadline.weight(.semibold))
+            .frame(maxWidth: .infinity)
         }
-        .buttonStyle(.bordered)
-        .controlSize(.small)
+        .buttonStyle(.borderedProminent)
+        .buttonBorderShape(.capsule)
+        // 地図上の切り替えボタンと同じ 44pt を確保し、押し分けやすさを揃える。
+        .frame(minHeight: 44)
     }
 
     @ViewBuilder
@@ -516,15 +532,36 @@ struct RiskSummaryCard: View {
             Text(warning.areaName)
                 .font(.subheadline.bold())
 
-            Text(warning.hasActiveWarning ? warning.headline : L10n.warningNoneHeadline)
-                .font(.caption)
-                .foregroundStyle(warning.hasActiveWarning ? .primary : .secondary)
-                .fixedSize(horizontal: false, vertical: true)
+            if warning.isStale {
+                // 気象庁側の警報エンドポイントが更新停止している等で情報が古い場合、
+                // 見出し・警報名を「現在の警報」として見せると危険なため表示しない。
+                Text(L10n.warningStaleNotice)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
 
-            if !warning.warningNames.isEmpty {
-                Text(warning.warningNames.joined(separator: "・"))
-                    .font(.caption2)
-                    .foregroundStyle(.orange)
+                if let reportDateDescription = warning.reportDateDescription {
+                    Text(L10n.warningLastReport(reportDateDescription))
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+            } else {
+                if let reportDateDescription = warning.reportDateDescription {
+                    Text(reportDateDescription)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+
+                Text(warning.hasActiveWarning ? warning.headline : L10n.warningNoneHeadline)
+                    .font(.caption)
+                    .foregroundStyle(warning.hasActiveWarning ? .primary : .secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                if !warning.warningNames.isEmpty {
+                    Text(warning.warningNames.joined(separator: "・"))
+                        .font(.caption2)
+                        .foregroundStyle(.orange)
+                }
             }
 
             Text(L10n.mapSummaryWarningEvacuationHint)
@@ -554,7 +591,11 @@ struct RiskSummaryCard: View {
         if let info = viewModel.nearestMunicipalityInfo {
             Text(info.municipality.name)
                 .font(.subheadline.bold())
-            Text(L10n.mapSummaryMunicipalityDistance(Int(info.distanceKm.rounded())))
+            Text(
+                viewModel.isMunicipalityFromDeviceLocation
+                    ? L10n.mapSummaryMunicipalityDistanceFromCurrent(Int(info.distanceKm.rounded()))
+                    : L10n.mapSummaryMunicipalityDistance(Int(info.distanceKm.rounded()))
+            )
                 .font(.caption)
                 .foregroundStyle(.secondary)
 

@@ -60,6 +60,8 @@
 "map.summary.warning.unavailable" = "警報情報を取得できませんでした。再読み込みしてください。";
 "map.summary.open_warning_detail" = "警報の詳細";
 "warning.none.headline" = "現在、発表中の警報・注意報はありません";
+"warning.stale_notice" = "最新の警報情報を取得できませんでした。気象庁の公式ページで最新情報をご確認ください。";
+"warning.last_report" = "取得できた最新の発表: %@";
 "settings.reload_data" = "データを再読み込み";
 "settings.version" = "バージョン";
 "settings.build" = "ビルド";
@@ -102,6 +104,7 @@
 "map.summary.demo_label" = "デモデータ";
 "map.summary.municipality.title" = "最寄り自治体の情報";
 "map.summary.municipality.distance" = "代表地点から約%d km";
+"map.summary.municipality.distance_from_current" = "現在地から約%dkm";
 "map.summary.municipality.hint" = "避難指示・避難所などの最新情報は、自治体の公式ページで確認してください。";
 "map.summary.municipality.need_location" = "場所を追加すると、最寄り自治体の公式情報を表示します。";
 "map.summary.open_disaster" = "防災情報";

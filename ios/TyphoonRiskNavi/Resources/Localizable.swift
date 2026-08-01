@@ -91,6 +91,10 @@ enum L10n {
     static let mapSummaryWarningUnavailable = "map.summary.warning.unavailable".localized
     static let mapSummaryOpenWarningDetail = "map.summary.open_warning_detail".localized
     static let warningNoneHeadline = "warning.none.headline".localized
+    static let warningStaleNotice = "warning.stale_notice".localized
+    static func warningLastReport(_ time: String) -> String {
+        String(format: "warning.last_report".localized, time)
+    }
     static let settingsReloadData = "settings.reload_data".localized
     static let settingsVersion = "settings.version".localized
     static let settingsBuild = "settings.build".localized
@@ -143,6 +147,9 @@ enum L10n {
     static let mapSummaryMunicipalityTitle = "map.summary.municipality.title".localized
     static func mapSummaryMunicipalityDistance(_ km: Int) -> String {
         String(format: "map.summary.municipality.distance".localized, km)
+    }
+    static func mapSummaryMunicipalityDistanceFromCurrent(_ km: Int) -> String {
+        String(format: "map.summary.municipality.distance_from_current".localized, km)
     }
     static let mapSummaryMunicipalityHint = "map.summary.municipality.hint".localized
     static let mapSummaryMunicipalityNeedLocation = "map.summary.municipality.need_location".localized
