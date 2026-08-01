@@ -14,6 +14,39 @@ struct OfficialWarning: Identifiable, Equatable {
     var hasActiveWarning: Bool {
         !warningNames.isEmpty
     }
+
+    /// `reportDatetime`（ISO8601, 例: "2026-05-28T10:13:00+09:00"）をパースした発表日時。
+    var reportDate: Date? {
+        ISO8601DateFormatter.internetDateTime.date(from: reportDatetime)
+    }
+
+    /// 気象庁側の警報エンドポイントが更新停止するなどして情報が古いまま止まっている場合、
+    /// 現在の警報として誤解させないための鮮度しきい値。台風接近時は数時間単位で状況が変わるため、
+    /// 24時間より古い発表は「最新情報ではない」とみなす。
+    static let stalenessThreshold: TimeInterval = 24 * 60 * 60
+
+    /// 発表日時が取得できない、またはしきい値より古い場合に true。
+    var isStale: Bool {
+        guard let reportDate else { return true }
+        return Date().timeIntervalSince(reportDate) > Self.stalenessThreshold
+    }
+
+    /// 発表時刻を日本語で読める形（例: "5月28日 10:13 発表"）に整形。パース不能なら nil。
+    var reportDateDescription: String? {
+        guard let reportDate else { return nil }
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ja_JP")
+        formatter.dateFormat = "M月d日 HH:mm"
+        return formatter.string(from: reportDate) + " 発表"
+    }
+}
+
+private extension ISO8601DateFormatter {
+    static let internetDateTime: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime]
+        return formatter
+    }()
 }
 
 enum JMAWarningFetcher {
