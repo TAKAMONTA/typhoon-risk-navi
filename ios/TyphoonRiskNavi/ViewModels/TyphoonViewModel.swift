@@ -32,6 +32,10 @@ class TyphoonViewModel: ObservableObject {
     /// 端末ローカルの保存場所ストア（観察可能）
     let locationStore = LocalLocationStore.shared
 
+    /// 端末の実測現在地。保存場所（デモシード等）に紛れず「今ユーザーがいる場所」を
+    /// 自治体判定に使えるよう、測位に成功したときだけ別枠で保持する。
+    @Published var deviceLocation: CLLocationCoordinate2D?
+
     private var cancellables: Set<AnyCancellable> = []
 
     init() {
@@ -475,9 +479,28 @@ class TyphoonViewModel: ObservableObject {
         }
     }
 
-    /// 代表地点から見た最寄り自治体と距離。
-    var nearestMunicipalityInfo: (municipality: OkinawaMunicipality, distanceKm: Double)? {
+    /// 端末の実測現在地を更新する。「現在地」ボタンや「現在地を追加」での測位成功時に呼ばれる。
+    func updateDeviceLocation(_ coordinate: CLLocationCoordinate2D) {
+        deviceLocation = coordinate
+    }
+
+    /// 最寄り自治体判定の基準座標。
+    /// 「最寄り自治体の情報」はユーザーが今いる場所の避難情報へ導くためのものなので、
+    /// 端末の実測現在地があれば最優先で使う。無ければ代表地点（従来どおり）にフォールバックする。
+    private var municipalityAnchorCoordinate: CLLocationCoordinate2D? {
+        if let deviceLocation { return deviceLocation }
         guard let location = representativeLocation else { return nil }
-        return OkinawaMunicipalityCatalog.nearest(to: location)
+        return CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon)
+    }
+
+    /// 最寄り自治体の判定基準が端末の実測現在地かどうか。View 側の表示文言の出し分けに使う。
+    var isMunicipalityFromDeviceLocation: Bool {
+        deviceLocation != nil
+    }
+
+    /// 基準座標（現在地優先、なければ代表地点）から見た最寄り自治体と距離。
+    var nearestMunicipalityInfo: (municipality: OkinawaMunicipality, distanceKm: Double)? {
+        guard let anchor = municipalityAnchorCoordinate else { return nil }
+        return OkinawaMunicipalityCatalog.nearest(to: anchor)
     }
 }

@@ -193,6 +193,8 @@ struct LocationsView: View {
             let lon = loc.coordinate.longitude
             let name = "現在地 (\(Date().formatted(date: .omitted, time: .shortened)))"
             addLocation(name: name, lat: lat, lon: lon, notificationLevel: "MEDIUM")
+            // 登録直後から「最寄り自治体の情報」が実際の現在地基準になるようにする。
+            viewModel.updateDeviceLocation(loc.coordinate)
         }
         locationHelper.onFailure = {
             showingLocationAlert = true
