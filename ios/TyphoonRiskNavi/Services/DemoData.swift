@@ -55,6 +55,11 @@ enum DemoData {
         )
     }
 
+    /// シードした場所の id につける接頭辞。
+    /// 「ユーザー自身が登録した場所」とデモ地点を後から見分けるために使う。
+    /// seedLocations に地点を足すときは必ずこの接頭辞をつけること。
+    static let seedIdPrefix = "seed-"
+
     /// 初回起動時に投入する沖縄の主要地点
     static let seedLocations: [SavedLocation] = [
         SavedLocation(id: "seed-naha", name: "那覇市", lat: 26.21, lon: 127.68, notificationLevel: "SEVERE"),
@@ -63,4 +68,14 @@ enum DemoData {
         SavedLocation(id: "seed-ishigaki", name: "石垣島", lat: 24.34, lon: 124.16, notificationLevel: "MEDIUM"),
         SavedLocation(id: "seed-onna", name: "恩納村", lat: 26.50, lon: 127.83, notificationLevel: "LOW"),
     ]
+}
+
+extension SavedLocation {
+    /// 初回起動時に投入したデモ地点か。
+    /// ユーザー自身が登録した場所をデモ地点より優先したい場面で使う。
+    /// SavedLocation の Codable 構造を変えると既存の保存データが壊れるため、
+    /// フィールドを増やさず id の接頭辞だけで判別する。
+    var isDemoSeed: Bool {
+        id.hasPrefix(DemoData.seedIdPrefix)
+    }
 }

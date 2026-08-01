@@ -10,6 +10,9 @@ struct TyphoonMapView: View {
     /// すでにカメラを合わせた対象。タブを行き来しただけで手動操作を巻き戻さないために持つ。
     @State private var appliedFocusKey: String?
 
+    /// 起動後に一度だけ現在地を測り直したか。タブを行き来するたびに測位しないために持つ。
+    @State private var didRefreshDeviceLocation = false
+
     /// App Store スクショ撮影モードか。`-screenshotMode YES` で起動時に true。
     private var isScreenshotMode: Bool {
         UserDefaults.standard.bool(forKey: "screenshotMode")
@@ -216,11 +219,31 @@ struct TyphoonMapView: View {
                 Text(L10n.locationsPermissionRequired)
             }
             .task {
+                // 測位はコールバック方式で待たないので、通信より先に始めておく。
+                refreshDeviceLocationIfAlreadyAuthorized()
+
                 if !viewModel.hasData {
                     await viewModel.loadData()
                 }
             }
         }
+    }
+
+    /// すでに位置情報の許可が下りているときだけ、起動後に一度だけ現在地を測り直す。
+    /// 「最寄り自治体の情報」を、引っ越しや移動のあとも実際の居場所基準に保つため。
+    ///
+    /// 未許可（.notDetermined）のときは何もしない。オンボーディングで
+    /// 「現在地を追加を押したときだけ使う」と説明しているので、
+    /// ユーザー操作なしに許可ダイアログを出してはいけない。
+    private func refreshDeviceLocationIfAlreadyAuthorized() {
+        guard !didRefreshDeviceLocation, locationHelper.isAuthorized else { return }
+        didRefreshDeviceLocation = true
+
+        locationHelper.onLocation = { location in
+            viewModel.updateDeviceLocation(location.coordinate)
+        }
+        // 失敗しても何も出さない。保存済みの現在地をそのまま使い続ければよい。
+        locationHelper.requestLocation()
     }
 
     /// 台風や拠点が変わったときだけカメラを合わせ直す。
