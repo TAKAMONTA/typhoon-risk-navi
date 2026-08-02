@@ -26,10 +26,18 @@ enum JMAParser {
         }
 
         let typhoonNumber = title["typhoonNumber"] as? String ?? eventId
+        let isTyphoon = Int(typhoonNumber) != nil
         let nameInfo = title["name"] as? [String: String] ?? [:]
-        let nameEn = nameInfo["en"] ?? "TYPHOON"
-        let nameJp = nameInfo["jp"].map { "台風第\(typhoonNumberSuffix(typhoonNumber))号（\($0)）" }
-            ?? "台風第\(typhoonNumberSuffix(typhoonNumber))号"
+        let nameEn = nameInfo["en"] ?? (isTyphoon ? "TYPHOON" : "TD")
+        // typhoonNumber が数値変換できない場合は台風未満の熱帯低気圧（fetchActiveTargets のフィルタをすり抜けた場合の防御）。
+        // 「台風第ｂ号」のような表記を避け、単に「熱帯低気圧」とする。
+        let nameJp: String
+        if isTyphoon {
+            nameJp = nameInfo["jp"].map { "台風第\(typhoonNumberSuffix(typhoonNumber))号（\($0)）" }
+                ?? "台風第\(typhoonNumberSuffix(typhoonNumber))号"
+        } else {
+            nameJp = "熱帯低気圧"
+        }
 
         let issueTime = (title["issue"] as? [String: String])?["UTC"]
             ?? (title["issue"] as? [String: String])?["JST"]

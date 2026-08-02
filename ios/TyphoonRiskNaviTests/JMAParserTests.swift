@@ -91,4 +91,89 @@ final class JMAParserTests: XCTestCase {
     func testReturnsNilForInvalidInput() {
         XCTAssertNil(JMAParser.parseSpecificationsArray([], eventId: "TC0000"))
     }
+
+    // MARK: - 熱帯低気圧（typhoonNumber が英字仮番号）の防御
+
+    func testTropicalDepressionNameJaIsNotTyphoonNumberFormat() {
+        let tdJSON: [[String: Any]] = [
+            [
+                "part": "title",
+                "issue": ["JST": "2026-08-02T10:15:00+09:00"],
+                "typhoonNumber": "b",
+                "category": ["jp": "熱帯低気圧", "en": "TD"],
+            ],
+            [
+                "part": ["jp": "実況", "en": "Analysis"],
+                "advancedHours": 0,
+                "position": ["deg": [20.0, 130.0]],
+            ],
+        ]
+        guard let t = JMAParser.parseSpecificationsArray(tdJSON, eventId: "TC2616") else {
+            XCTFail("Expected typhoon-shaped model even for TD")
+            return
+        }
+        XCTAssertEqual(t.nameJa, "熱帯低気圧")
+        XCTAssertNotEqual(t.nameJa, "台風第ｂ号")
+        XCTAssertEqual(t.name, "TD")
+    }
+}
+
+final class JMAFetcherTargetParsingTests: XCTestCase {
+
+    /// ユーザー提供の実データそのまま（TD "b" + TY "2613"）。
+    private let realTargetTcJSON: [[String: Any]] = [
+        [
+            "tropicalCyclone": "TC2616",
+            "typhoonNumber": "b",
+            "category": "TD",
+            "issue": "2026-08-02T10:15:00+09:00",
+        ],
+        [
+            "tropicalCyclone": "TC2615",
+            "typhoonNumber": "2613",
+            "category": "TY",
+            "issue": "2026-08-02T09:45:00+09:00",
+        ],
+    ]
+
+    func testParseActiveTargetsExcludesTropicalDepression() {
+        let result = JMAFetcher.parseActiveTargets(realTargetTcJSON)
+        XCTAssertEqual(result, ["TC2615"])
+    }
+
+    func testParseActiveTargetsReturnsEmptyWhenAllAreTropicalDepressions() {
+        let allTD: [[String: Any]] = [
+            ["tropicalCyclone": "TC2616", "typhoonNumber": "b", "category": "TD"],
+            ["tropicalCyclone": "TC2617", "typhoonNumber": "c", "category": "TD"],
+        ]
+        XCTAssertEqual(JMAFetcher.parseActiveTargets(allTD), [])
+    }
+
+    // MARK: - 沖縄本島に近い順のソート
+
+    private func makeTyphoon(id: String, lat: Double, lon: Double) -> Typhoon {
+        Typhoon(
+            id: id,
+            name: "TEST",
+            nameJa: nil,
+            source: "JMA",
+            status: "ACTIVE",
+            currentCenter: Coordinate(lat: lat, lon: lon),
+            maxWindSpeed: nil,
+            centralPressure: nil,
+            direction: nil,
+            speed: nil,
+            windRadii: nil,
+            forecasts: [],
+            lastUpdated: "2026-08-02T10:15:00+09:00"
+        )
+    }
+
+    func testSortByProximityToOkinawaOrdersNearestFirst() {
+        // 沖縄本島から遠い台風と近い台風を用意し、近い順に並ぶことを確認する。
+        let far = makeTyphoon(id: "JMA-FAR", lat: 10.0, lon: 130.0)
+        let near = makeTyphoon(id: "JMA-NEAR", lat: 26.0, lon: 127.5)
+        let sorted = JMAFetcher.sortByProximityToOkinawa([far, near])
+        XCTAssertEqual(sorted.map(\.id), ["JMA-NEAR", "JMA-FAR"])
+    }
 }

@@ -1,8 +1,12 @@
+import CoreLocation
 import Foundation
 
 /// 気象庁（JMA）防災情報 JSON から台風データを取得する。
 /// targetTc.json でアクティブ台風 ID を取得し、specifications.json で詳細を取得する。
 enum JMAFetcher {
+
+    /// 沖縄本島（那覇市付近）の代表座標。台風の並び替えの基準点に使う。
+    static let okinawaMainIslandCoordinate = CLLocationCoordinate2D(latitude: 26.2, longitude: 127.7)
 
     enum FetchError: LocalizedError {
         case invalidResponse
@@ -50,10 +54,11 @@ enum JMAFetcher {
         if typhoons.isEmpty {
             throw FetchError.noActiveTyphoons
         }
-        return typhoons
+        return sortByProximityToOkinawa(typhoons)
     }
 
-    /// targetTc.json からアクティブな eventId 一覧を取得。
+    /// targetTc.json からアクティブな台風の eventId 一覧を取得。
+    /// 台風未満の熱帯低気圧（typhoonNumber が英字仮番号）はここで除外する。
     static func fetchActiveTargets(
         url: URL = targetTcURL,
         session: URLSession = .shared
@@ -63,7 +68,29 @@ enum JMAFetcher {
         guard let array = json as? [[String: Any]] else {
             throw FetchError.decoding
         }
-        return array.compactMap { $0["tropicalCyclone"] as? String }
+        return parseActiveTargets(array)
+    }
+
+    /// targetTc.json のパース済み JSON 配列から、台風として扱うべき eventId 一覧を抽出する（テスト用にも公開）。
+    /// 気象庁は正式な台風番号に4桁などの数字を、台風未満の熱帯低気圧には英字の仮番号（例 "b"）を割り当てるため、
+    /// typhoonNumber が全桁数字かどうかで判定する。category 文字列は表記揺れの可能性があるため判定に使わない。
+    static func parseActiveTargets(_ array: [[String: Any]]) -> [String] {
+        array.compactMap { entry -> String? in
+            guard let eventId = entry["tropicalCyclone"] as? String,
+                  let typhoonNumber = entry["typhoonNumber"] as? String,
+                  Int(typhoonNumber) != nil else {
+                return nil
+            }
+            return eventId
+        }
+    }
+
+    /// 台風配列を沖縄本島に近い順に並べ替える（テスト用にも公開）。
+    static func sortByProximityToOkinawa(_ typhoons: [Typhoon]) -> [Typhoon] {
+        typhoons.sorted {
+            RiskCalculator.distanceKm(from: okinawaMainIslandCoordinate, to: $0.currentCenter.clLocation)
+                < RiskCalculator.distanceKm(from: okinawaMainIslandCoordinate, to: $1.currentCenter.clLocation)
+        }
     }
 
     /// 単一 eventId の specifications.json を取得して Typhoon に変換。
