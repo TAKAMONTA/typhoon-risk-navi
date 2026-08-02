@@ -120,13 +120,13 @@ class TyphoonViewModel: ObservableObject {
         errorMessage = nil
         loadingContext = "実データを取得しています..."
 
-        // 初回シード（冪等）
-        locationStore.seedDemoLocationsIfNeeded()
-
         // スクショ撮影モードでは JTWC を呼ばず、即デモ状態で表示
         if isScreenshotMode {
             let typhoon = DemoData.demoTyphoon
-            let locs = locationStore.locations
+            // 撮影用の地点はその場限りの表示データ。locationStore には一切書き込まない
+            // （撮影用のデモ地点がユーザーの保存場所として残ると、登録していない土地の
+            // 危険度・通知が出てしまうため）。
+            let locs = DemoData.seedLocations
             let risks = RiskCalculator.assessAll(locations: locs, typhoon: typhoon)
             state = DemoStateResponse(
                 typhoon: typhoon,
@@ -139,6 +139,9 @@ class TyphoonViewModel: ObservableObject {
             isLoading = false
             return
         }
+
+        // 旧バージョンが投入したデモ場所の後始末（実行は一度きり。撮影モードでは書き換えない）
+        locationStore.purgeDemoSeedsIfNeeded()
 
         // 気象庁を優先、失敗時のみ JTWC を試す
         var realTyphoon: Typhoon?
@@ -492,8 +495,15 @@ class TyphoonViewModel: ObservableObject {
 
     /// 起動時サマリーの「自分の危険度」に使う代表地点。
     /// 台風リスクがあるときは最優先地点、なければ通知レベルが高い保存場所を選ぶ。
+    ///
+    /// ユーザーが自分で登録した場所が1つでもあれば、その中からだけ選ぶ。
+    /// 旧バージョンのデモシード（恩納村 LOW や那覇市 SEVERE など）は、ユーザーが
+    /// 現在地を登録したあとも代表として居座り続け、「自分の危険度」や距離の基準に
+    /// 身に覚えのない市町村が出てしまうため。
+    /// シードしか残っていない端末（＝名前や座標を編集して自分の場所として使っており、
+    /// クリーンアップでも消さなかったケース）では、従来どおり全体から選ぶ。
     var representativeLocation: SavedLocation? {
-        representative(of: currentSavedLocations)
+        userCreatedRepresentativeLocation ?? representative(of: currentSavedLocations)
     }
 
     /// 与えられた場所集合から代表地点を1つ選ぶ。

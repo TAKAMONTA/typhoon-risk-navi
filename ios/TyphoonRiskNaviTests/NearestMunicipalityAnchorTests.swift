@@ -122,9 +122,10 @@ final class NearestMunicipalityAnchorTests: XCTestCase {
             XCTAssertEqual(info.municipality.id, "urasoe")
             XCTAssertEqual(info.municipality.name, "浦添市")
 
-            // 「あなたの危険度」の代表地点はデモシードのまま。
-            // この修正で変えたのは自治体判定の基準だけ、ということを固定する。
-            XCTAssertEqual(viewModel.representativeLocation?.id, "seed-naha")
+            // 「あなたの危険度」の代表地点もユーザー登録の場所になる。
+            // 登録していない那覇市（デモシード SEVERE）を代表にすると、身に覚えのない
+            // 市町村の危険度・距離が出てしまうため。
+            XCTAssertEqual(viewModel.representativeLocation?.id, urasoeHome.id)
         }
     }
 

@@ -16,17 +16,24 @@ final class LocalLocationStore: ObservableObject {
     private let defaults: UserDefaults
     private let storeKey: String
     private let seedFlagKey: String
+    private let purgeFlagKey: String
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
 
+    /// - Parameters:
+    ///   - seedFlagKey: 旧バージョンの「デモ場所を投入済み」フラグ。もうシードしないので
+    ///     読み書きしないが、同じキーを別の意味で再利用して事故らないよう予約として残す。
+    ///   - purgeFlagKey: 「デモ場所の削除を実行済み」フラグ。テストで差し替えられるよう注入可能にする。
     init(
         defaults: UserDefaults = .standard,
         storeKey: String = "saved_locations_v1",
-        seedFlagKey: String = "has_seeded_demo_locations_v1"
+        seedFlagKey: String = "has_seeded_demo_locations_v1",
+        purgeFlagKey: String = "has_purged_demo_locations_v1"
     ) {
         self.defaults = defaults
         self.storeKey = storeKey
         self.seedFlagKey = seedFlagKey
+        self.purgeFlagKey = purgeFlagKey
         self.locations = load()
     }
 
@@ -81,19 +88,25 @@ final class LocalLocationStore: ObservableObject {
         return update(id: id, notificationLevel: level)
     }
 
-    // MARK: - Demo Seed
+    // MARK: - Demo Seed Cleanup
 
-    /// 初回起動時にデモ場所を投入する。冪等：既にシード済みフラグが立っていれば何もしない。
-    func seedDemoLocationsIfNeeded() {
-        guard !defaults.bool(forKey: seedFlagKey) else { return }
-        // 既に何かしらの場所があれば（ユーザーがすでに使い始めていれば）シードしない
-        guard locations.isEmpty else {
-            defaults.set(true, forKey: seedFlagKey)
-            return
-        }
-        locations = DemoData.seedLocations
+    /// 旧バージョンが初回起動時に投入したデモ場所を、一度だけ削除する。
+    /// ユーザーが登録していない土地の危険度や通知を出さないための後始末。
+    /// 新規インストールでは消す対象が無いので何も起きない（シードもしない）。
+    ///
+    /// 名前や座標を編集したデモ地点は、ユーザーが自分の場所として使っている可能性が
+    /// あるので残す（isUntouchedDemoSeed の判定）。
+    /// 実行済みフラグを立てるので、以降ユーザーが同名・同座標の場所を自分で作っても消えない。
+    func purgeDemoSeedsIfNeeded() {
+        guard !defaults.bool(forKey: purgeFlagKey) else { return }
+        // 何も消さなかった場合でも二度と走らせない（ユーザーの新しい場所を巻き込まないため）。
+        defer { defaults.set(true, forKey: purgeFlagKey) }
+
+        let remaining = locations.filter { !$0.isUntouchedDemoSeed }
+        // 消すものが無ければ保存もしない（不要な書き込みと @Published 通知を避ける）。
+        guard remaining.count != locations.count else { return }
+        locations = remaining
         save()
-        defaults.set(true, forKey: seedFlagKey)
     }
 
     // MARK: - Persistence

@@ -1,6 +1,6 @@
 import Foundation
 
-/// 実データ取得に失敗したとき、および初回起動時のシード用デモデータ。
+/// 実データ取得に失敗したときのデモ台風と、旧バージョンが投入していたデモ地点の定義。
 /// backend/src/data/demo.ts を Swift に移植したもの。
 enum DemoData {
 
@@ -55,12 +55,18 @@ enum DemoData {
         )
     }
 
-    /// シードした場所の id につける接頭辞。
+    /// デモ地点の id につける接頭辞。
     /// 「ユーザー自身が登録した場所」とデモ地点を後から見分けるために使う。
     /// seedLocations に地点を足すときは必ずこの接頭辞をつけること。
     static let seedIdPrefix = "seed-"
 
-    /// 初回起動時に投入する沖縄の主要地点
+    /// 旧バージョンが初回起動時に投入していた沖縄の主要地点。
+    ///
+    /// **初回投入には使わない。** ユーザーが登録していない土地の危険度を「あなたの危険度」に
+    /// 出したり、その土地について通知を飛ばしたりするのは防災アプリとして不適切なため。
+    /// 現在の用途は次の2つだけ:
+    /// 1. 既存端末に残っているデモ地点のクリーンアップ判定（isUntouchedDemoSeed の照合元）
+    /// 2. App Store 用スクリーンショット撮影モードの表示データ（永続化しない）
     static let seedLocations: [SavedLocation] = [
         SavedLocation(id: "seed-naha", name: "那覇市", lat: 26.21, lon: 127.68, notificationLevel: "SEVERE"),
         SavedLocation(id: "seed-ginowan", name: "宜野湾市", lat: 26.28, lon: 127.72, notificationLevel: "HIGH"),
@@ -77,5 +83,18 @@ extension SavedLocation {
     /// フィールドを増やさず id の接頭辞だけで判別する。
     var isDemoSeed: Bool {
         id.hasPrefix(DemoData.seedIdPrefix)
+    }
+
+    /// 旧バージョンが投入したまま、ユーザーが一度も編集していないデモ地点か。
+    /// 既存端末のクリーンアップで「消してよい地点」を判定するために使う。
+    ///
+    /// id が一致するだけでは消さない。名前か座標が元の定義と違えば、ユーザーが
+    /// 自分の場所として編集して使っている可能性があるので残す。
+    /// 通知レベルは地点そのものではなく通知の設定なので、比較対象に含めない。
+    var isUntouchedDemoSeed: Bool {
+        guard let original = DemoData.seedLocations.first(where: { $0.id == id }) else {
+            return false
+        }
+        return name == original.name && lat == original.lat && lon == original.lon
     }
 }
