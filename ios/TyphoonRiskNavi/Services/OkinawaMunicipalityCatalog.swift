@@ -32,64 +32,64 @@ enum OkinawaMunicipalityCatalog {
             id: "naha",
             name: "那覇市",
             lat: 26.2124, lon: 127.6809,
-            disasterInfoURL: URL(string: "https://www.city.naha.okinawa.jp/safety/")!,
-            evacuationInfoURL: URL(string: "https://www.city.naha.okinawa.jp/safety/")!
+            disasterInfoURL: URL(string: "https://www.city.naha.okinawa.jp/safety/saigai/index.html")!,
+            evacuationInfoURL: URL(string: "https://www.city.naha.okinawa.jp/safety/saigai/1001598/index.html")!
         ),
         OkinawaMunicipality(
             id: "ginowan",
             name: "宜野湾市",
             lat: 26.2816, lon: 127.7786,
-            disasterInfoURL: URL(string: "https://www.city.ginowan.lg.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.city.ginowan.lg.jp/")!
+            disasterInfoURL: URL(string: "https://www.city.ginowan.lg.jp/soshiki/somu/4/1/saigaihenosonae/2459.html")!,
+            evacuationInfoURL: URL(string: "https://www.city.ginowan.lg.jp/soshiki/somu/4/1/2468.html")!
         ),
         OkinawaMunicipality(
             id: "urasoe",
             name: "浦添市",
             lat: 26.2458, lon: 127.7219,
-            disasterInfoURL: URL(string: "https://www.city.urasoe.lg.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.city.urasoe.lg.jp/")!
+            disasterInfoURL: URL(string: "https://www.city.urasoe.lg.jp/category/bunya/anshin/bosai/")!,
+            evacuationInfoURL: URL(string: "https://www.city.urasoe.lg.jp/faq/60d6c271b68c817b09ae35fc/")!
         ),
         OkinawaMunicipality(
             id: "okinawa-city",
             name: "沖縄市",
             lat: 26.3344, lon: 127.8056,
-            disasterInfoURL: URL(string: "https://www.city.okinawa.okinawa.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.city.okinawa.okinawa.jp/")!
+            disasterInfoURL: URL(string: "https://www.city.okinawa.okinawa.jp/k002-001/anshin/bousai/saigaijouhou/492.html")!,
+            evacuationInfoURL: URL(string: "https://www.city.okinawa.okinawa.jp/k002-001/anshin/bousai/bousai/hinan/22150.html")!
         ),
         OkinawaMunicipality(
             id: "uruma",
             name: "うるま市",
             lat: 26.3792, lon: 127.8575,
-            disasterInfoURL: URL(string: "https://www.city.uruma.lg.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.city.uruma.lg.jp/")!
+            disasterInfoURL: URL(string: "https://www.city.uruma.lg.jp/bousaianzen/bousaibouhan/bousai/index.html")!,
+            evacuationInfoURL: URL(string: "https://www.city.uruma.lg.jp/bousaianzen/bousaibouhan/bousai/hinan/index.html")!
         ),
         OkinawaMunicipality(
             id: "itoman",
             name: "糸満市",
             lat: 26.1236, lon: 127.6658,
-            disasterInfoURL: URL(string: "https://www.city.itoman.lg.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.city.itoman.lg.jp/")!
+            disasterInfoURL: URL(string: "https://www.city.itoman.lg.jp/life/2/2/")!,
+            evacuationInfoURL: URL(string: "https://www.city.itoman.lg.jp/life/2/2/3/")!
         ),
         OkinawaMunicipality(
             id: "tomigusuku",
             name: "豊見城市",
             lat: 26.1611, lon: 127.6669,
-            disasterInfoURL: URL(string: "https://www.city.tomigusuku.lg.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.city.tomigusuku.lg.jp/")!
+            disasterInfoURL: URL(string: "https://www.city.tomigusuku.lg.jp/kurashi_tetsuzuki/anshin_anzen/1/index.html")!,
+            evacuationInfoURL: URL(string: "https://www.city.tomigusuku.lg.jp/kurashi_tetsuzuki/anshin_anzen/1/2/index.html")!
         ),
         OkinawaMunicipality(
             id: "nanjo",
             name: "南城市",
             lat: 26.1447, lon: 127.7669,
-            disasterInfoURL: URL(string: "https://www.city.nanjo.okinawa.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.city.nanjo.okinawa.jp/")!
+            disasterInfoURL: URL(string: "https://www.city.nanjo.okinawa.jp/bousai/")!,
+            evacuationInfoURL: URL(string: "https://www.city.nanjo.okinawa.jp/bousai/")!
         ),
         OkinawaMunicipality(
             id: "nago",
             name: "名護市",
             lat: 26.5917, lon: 127.9775,
-            disasterInfoURL: URL(string: "https://www.city.nago.okinawa.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.city.nago.okinawa.jp/")!
+            disasterInfoURL: URL(string: "https://www.city.nago.okinawa.jp/category/guide/bousai/")!,
+            evacuationInfoURL: URL(string: "https://www.city.nago.okinawa.jp/kurashi/2018071900677/")!
         ),
         OkinawaMunicipality(
             id: "onna",
@@ -102,15 +102,15 @@ enum OkinawaMunicipalityCatalog {
             id: "miyakojima",
             name: "宮古島市",
             lat: 24.8056, lon: 125.2811,
-            disasterInfoURL: URL(string: "https://www.city.miyakojima.lg.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.city.miyakojima.lg.jp/")!
+            disasterInfoURL: URL(string: "https://www.city.miyakojima.lg.jp/kurashi/bousai/index.html")!,
+            evacuationInfoURL: URL(string: "https://www.city.miyakojima.lg.jp/kurashi/bousai/index.html")!
         ),
         OkinawaMunicipality(
             id: "ishigaki",
             name: "石垣市",
             lat: 24.3444, lon: 124.1572,
-            disasterInfoURL: URL(string: "https://www.city.ishigaki.okinawa.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.city.ishigaki.okinawa.jp/")!
+            disasterInfoURL: URL(string: "https://www.city.ishigaki.okinawa.jp/soshiki/1/2/index.html")!,
+            evacuationInfoURL: URL(string: "https://www.city.ishigaki.okinawa.jp/soshiki/1/2/index.html")!
         ),
         OkinawaMunicipality(
             id: "taketomi",
@@ -181,36 +181,36 @@ enum OkinawaMunicipalityCatalog {
             id: "yomitan",
             name: "読谷村",
             lat: 26.3961, lon: 127.7444,
-            disasterInfoURL: URL(string: "https://www.vill.yomitan.okinawa.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.vill.yomitan.okinawa.jp/")!
+            disasterInfoURL: URL(string: "https://www.vill.yomitan.okinawa.jp/kurashi/anzen_anshin/bosai/index.html")!,
+            evacuationInfoURL: URL(string: "https://www.vill.yomitan.okinawa.jp/kurashi/anzen_anshin/bosai/2303.html")!
         ),
         OkinawaMunicipality(
             id: "kadena",
             name: "嘉手納町",
             lat: 26.3618, lon: 127.7554,
-            disasterInfoURL: URL(string: "https://www.town.kadena.okinawa.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.town.kadena.okinawa.jp/")!
+            disasterInfoURL: URL(string: "https://www.town.kadena.okinawa.jp/life/kur97.html")!,
+            evacuationInfoURL: URL(string: "https://www.town.kadena.okinawa.jp/life/kur7673.html")!
         ),
         OkinawaMunicipality(
             id: "chatan",
             name: "北谷町",
             lat: 26.3201, lon: 127.7638,
-            disasterInfoURL: URL(string: "https://www.chatan.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.chatan.jp/")!
+            disasterInfoURL: URL(string: "https://www.chatan.jp/seikatsuguide/anshin_anzen/taisaku/index.html")!,
+            evacuationInfoURL: URL(string: "https://www.chatan.jp/seikatsuguide/anshin_anzen/taisaku/hinannbsyohinanzyo.html")!
         ),
         OkinawaMunicipality(
             id: "kitanakagusuku",
             name: "北中城村",
             lat: 26.3007, lon: 127.7929,
-            disasterInfoURL: URL(string: "https://www.vill.kitanakagusuku.lg.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.vill.kitanakagusuku.lg.jp/")!
+            disasterInfoURL: URL(string: "https://www.vill.kitanakagusuku.lg.jp/kakuka/soumu/soumukakari/bousai/index.html")!,
+            evacuationInfoURL: URL(string: "https://www.vill.kitanakagusuku.lg.jp/kakuka/soumu/soumukakari/bousai/1597.html")!
         ),
         OkinawaMunicipality(
             id: "nakagusuku",
             name: "中城村",
             lat: 26.2620, lon: 127.7896,
-            disasterInfoURL: URL(string: "https://www.vill.nakagusuku.okinawa.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.vill.nakagusuku.okinawa.jp/")!
+            disasterInfoURL: URL(string: "https://www.vill.nakagusuku.okinawa.jp/bousai/")!,
+            evacuationInfoURL: URL(string: "https://www.vill.nakagusuku.okinawa.jp/bousai/emergency_info/")!
         ),
         // 本島南部
         OkinawaMunicipality(
@@ -224,22 +224,22 @@ enum OkinawaMunicipalityCatalog {
             id: "yonabaru",
             name: "与那原町",
             lat: 26.1996, lon: 127.7545,
-            disasterInfoURL: URL(string: "https://www.town.yonabaru.okinawa.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.town.yonabaru.okinawa.jp/")!
+            disasterInfoURL: URL(string: "https://www.town.yonabaru.okinawa.jp/life/1/1/")!,
+            evacuationInfoURL: URL(string: "https://www.town.yonabaru.okinawa.jp/life/1/1/2/")!
         ),
         OkinawaMunicipality(
             id: "haebaru",
             name: "南風原町",
             lat: 26.1911, lon: 127.7285,
-            disasterInfoURL: URL(string: "https://www.town.haebaru.lg.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.town.haebaru.lg.jp/")!
+            disasterInfoURL: URL(string: "https://www.town.haebaru.lg.jp/life/1/8/")!,
+            evacuationInfoURL: URL(string: "https://www.town.haebaru.lg.jp/soshiki/4/3230.html")!
         ),
         OkinawaMunicipality(
             id: "yaese",
             name: "八重瀬町",
             lat: 26.1583, lon: 127.7187,
-            disasterInfoURL: URL(string: "https://www.town.yaese.lg.jp/")!,
-            evacuationInfoURL: URL(string: "https://www.town.yaese.lg.jp/")!
+            disasterInfoURL: URL(string: "https://www.town.yaese.lg.jp/docs/2014042500044/")!,
+            evacuationInfoURL: URL(string: "https://www.town.yaese.lg.jp/docs/2014042500044/")!
         ),
         // 離島（本島周辺・慶良間・久米島）
         OkinawaMunicipality(
