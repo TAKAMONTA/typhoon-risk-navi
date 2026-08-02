@@ -111,21 +111,65 @@ enum JMAWarningFetcher {
         URL(string: "https://www.jma.go.jp/bosai/warning/data/warning/\(officeCode).json")!
     }
 
+    /// 防災情報XMLの高頻度フィード。bosai JSON が古いときのフォールバック取得に使う。
+    static let warningFeedURL = URL(string: "https://www.data.jma.go.jp/developer/xml/feed/extra.xml")!
+
     static func detailPageURL(officeCode: String) -> URL {
         URL(string: "https://www.jma.go.jp/bosai/warning/#area_type=offices&area_code=\(officeCode)&lang=ja")!
     }
 
     /// 沖縄4地方の警報・注意報を取得。失敗した地方はスキップ。
+    ///
+    /// まず従来の bosai JSON を読み、古い（または取れない）予報区だけ防災情報XML経路で
+    /// 補完する。JSON 系統が復旧すれば追加の通信なしで自動的に JSON 優先へ戻る。
     static func fetchOkinawaWarnings(
         session: URLSession = .shared
     ) async -> [OfficialWarning] {
-        var results: [OfficialWarning] = []
+        var jsonResults: [String: OfficialWarning] = [:]
         for office in okinawaOffices {
-            if let warning = try? await fetchWarning(officeCode: office.code, areaName: office.name, session: session) {
-                results.append(warning)
+            jsonResults[office.code] = try? await fetchWarning(
+                officeCode: office.code, areaName: office.name, session: session
+            )
+        }
+
+        // 全予報区が新鮮なら XML には行かない（平常時に無駄な通信をしない）。
+        let needsFallback = okinawaOffices.contains { jsonResults[$0.code]?.isStale ?? true }
+
+        var xmlResults: [String: OfficialWarning] = [:]
+        if needsFallback,
+           let feedData = try? await fetchData(from: warningFeedURL, session: session) {
+            let links = JMAWarningXMLParser.parseFeedLinks(feedData)
+            for office in okinawaOffices {
+                guard jsonResults[office.code]?.isStale ?? true,
+                      let url = links[office.code],
+                      let data = try? await fetchData(from: url, session: session) else { continue }
+                xmlResults[office.code] = JMAWarningXMLParser.parseWarningXML(
+                    data, officeCode: office.code, areaName: office.name
+                )
             }
         }
-        return results
+
+        return okinawaOffices.compactMap {
+            choose(json: jsonResults[$0.code], xml: xmlResults[$0.code])
+        }
+    }
+
+    /// JSON と XML のどちらを採用するか。
+    /// 新鮮な方を使う。両方新鮮なら一次系統の JSON、両方古ければ JSON を返して
+    /// UI の鮮度ガード（isStale 表示）に委ねる。
+    static func choose(json: OfficialWarning?, xml: OfficialWarning?) -> OfficialWarning? {
+        switch (json, xml) {
+        case (nil, nil):
+            return nil
+        case (let json?, nil):
+            return json
+        case (nil, let xml?):
+            return xml
+        case (let json?, let xml?):
+            if !json.isStale { return json }
+            if !xml.isStale { return xml }
+            return json
+        }
     }
 
     /// 代表地点に近い地方を優先して並べた一覧。
