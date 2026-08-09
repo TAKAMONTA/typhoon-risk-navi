@@ -142,6 +142,8 @@ class TyphoonViewModel: ObservableObject {
 
         // 旧バージョンが投入したデモ場所の後始末（実行は一度きり。撮影モードでは書き換えない）
         locationStore.purgeDemoSeedsIfNeeded()
+        // 旧バージョンが生成した時刻入りの「現在地」名を、時刻が分かる新しい表記に書き換える
+        locationStore.clarifyCurrentLocationNamesIfNeeded()
 
         // 気象庁を優先、失敗時のみ JTWC を試す
         var realTyphoon: Typhoon?

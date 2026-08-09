@@ -191,7 +191,9 @@ struct LocationsView: View {
         locationHelper.onLocation = { loc in
             let lat = loc.coordinate.latitude
             let lon = loc.coordinate.longitude
-            let name = "現在地 (\(Date().formatted(date: .omitted, time: .shortened)))"
+            // 書式（"H時mm分"・「現在地（…に登録）」の組み立て）は CurrentLocationNaming に集約し、
+            // 旧名の移行処理（LocalLocationStore.clarifyCurrentLocationNamesIfNeeded）と一致させる。
+            let name = CurrentLocationNaming.name(at: Date())
             addLocation(name: name, lat: lat, lon: lon, notificationLevel: "MEDIUM")
             // 登録直後から「最寄り自治体の情報」が実際の現在地基準になるようにする。
             viewModel.updateDeviceLocation(loc.coordinate)
