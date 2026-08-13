@@ -94,7 +94,15 @@
 - reviewer 判定 APPROVE。
 - **シミュレータで移行検証（過去の教訓どおり「既存データあり・再起動」条件）**。旧形式4件を plist 注入（`現在地 (11:49)` / `現在地 (3:05 pm)` / `現在地 (自宅)` / `恩納村`）→ 新ビルドで起動。結果: 前2件が `現在地（11時49分に登録）` `現在地（3:05 pmに登録）` に、後2件は不変。**4回連続起動しても一切変化なし**（毎起動実行の冪等性が実データで確認できた）。座標・通知レベル・id もすべて保持。UI（地図カード・場所一覧の両方）でも表示を確認済み。
 
+### リリース（0.9.5 build 11）
+- main に ff マージ・push 済み。ブランチ `fix/current-location-name-registered-at` も push 済み。
+- **バージョンは 0.9.5**。当初「build 11 に上げれば提出できる」と考えたのは誤りで、0.9.4 が READY_FOR_SALE に達した時点でトレインが閉じており、同一 MARKETING_VERSION への追加アップロードは ITMS-90062 で弾かれる。**ビルド番号とマーケティングバージョンは常にセットで上げる**。
+- 2026-08-13 06:02 UTC に審査提出、状態 WAITING_FOR_REVIEW。リリース方式は 0.9.4 と同じ AFTER_APPROVAL（通過後に自動公開）。
+- 手順は `asc xcode archive` → `asc xcode export` → `asc builds upload --wait` → `asc versions create --copy-metadata-from "0.9.4" --exclude-fields "whatsNew"` → `asc localizations update --whats-new` → `asc review submit --confirm`。
+  - **`asc publish appstore --submit` は使わないこと**。アップロード済みビルドがあっても計画に `upload_build` を含むため重複アップロードになる。既存ビルドの提出だけなら `asc review submit --app <id> --version <str> --build <build-id> --confirm` が正しい。
+  - 提出前に `asc validate --app <id> --version-id <id>` を必ず走らせる（今回はエラー0・警告0。App Privacy の公開状態だけは API から検証不能という info が出るが、既出アプリなので問題なし）。
+- 成果物は `.asc/artifacts/0.9.5/`（バージョンごとにディレクトリを分け、過去ビルドの成果物を消さない運用にした）。
+
 ### 未了
-- **ビルド番号が10のまま**。build 10 は既に READY_FOR_SALE なので、提出するなら project.yml の `CURRENT_PROJECT_VERSION` を11へ上げる必要がある（Info.plist は `$(CURRENT_PROJECT_VERSION)` 参照なので1箇所でよい）。
-- 未コミット。コミット・提出はユーザー指示待ち。
 - 同じ「分」に2回「現在地を追加」を押すと同名になる（`add` に重複排除なし）。今回は範囲外とした。
+- 英語ロケールでも場所名は日本語（`現在地（11時49分に登録）`）。`L10n` に1本足せば解消できる。
