@@ -40,8 +40,10 @@
 		A30FC2EC5FA506191871CB5F /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E91DE24F246777322AAD301 /* Localizable.swift */; };
 		A5E10E806FDCB22CF6927768 /* RiskCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BE136F5A8640E6BC99524F /* RiskCalculatorTests.swift */; };
 		A793621033DF5606C5511E8C /* JTWCParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE330269A063510A9116FBB5 /* JTWCParserTests.swift */; };
+		ACD0C25737B1549D99F5CC6E /* MoodPostRateLimiter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305C0287CA0FCFB8A89FC8E /* MoodPostRateLimiter.swift */; };
 		AF5B374A1443F66DCE636757 /* JMAWarningXMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01DC9FCE03FE990BCA076 /* JMAWarningXMLParserTests.swift */; };
 		BB9DCA1F568C23F3EAA610FD /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 1AD2F6DBD66C8DABE66AEE80 /* PrivacyInfo.xcprivacy */; };
+		BBEBDFBCDAFE74713D304A73 /* MoodPostRateLimiterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B71DA9B0183B77EC5CC0DF3 /* MoodPostRateLimiterTests.swift */; };
 		C25E6CB4D651230951D3FAD7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F903263231A3D51783A97642 /* Localizable.strings */; };
 		C744B338AF00DEDB2B02ED93 /* CurrentLocationNaming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9898CD2CE044954C7F76F521 /* CurrentLocationNaming.swift */; };
 		CA7AA7FE8909360F28F44F5D /* NearestMunicipalityAnchorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511E8AE6C53BA16D4ED819C8 /* NearestMunicipalityAnchorTests.swift */; };
@@ -71,12 +73,14 @@
 		1457F76248D6CC3F098EB07E /* JMAFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMAFetcher.swift; sourceTree = "<group>"; };
 		180A45E944E280E4CCE618C9 /* JTWCFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTWCFetcher.swift; sourceTree = "<group>"; };
 		1AD2F6DBD66C8DABE66AEE80 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		1B71DA9B0183B77EC5CC0DF3 /* MoodPostRateLimiterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodPostRateLimiterTests.swift; sourceTree = "<group>"; };
 		1E56CE1C9C58D7974059A46F /* TyphoonRiskNaviTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TyphoonRiskNaviTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FB5D2A64DFFAC9612DEE1D1 /* RiskCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiskCalculator.swift; sourceTree = "<group>"; };
 		215D985FFD72000F365FA413 /* CurrentLocationNamingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationNamingTests.swift; sourceTree = "<group>"; };
 		31ADB00051BCD6EE40B5F001 /* JMAParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMAParserTests.swift; sourceTree = "<group>"; };
 		31B10BDF4448CC71D0C7F0A2 /* TyphoonRiskNaviApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TyphoonRiskNaviApp.swift; sourceTree = "<group>"; };
 		3EDC4D5CA246DA05E0FACCEE /* OkinawaArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OkinawaArea.swift; sourceTree = "<group>"; };
+		4305C0287CA0FCFB8A89FC8E /* MoodPostRateLimiter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodPostRateLimiter.swift; sourceTree = "<group>"; };
 		48A44DB88BAFEB3080C73126 /* JMAWarningXMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMAWarningXMLParser.swift; sourceTree = "<group>"; };
 		4B46BB3E9167487605A1B8DA /* DemoSeedPurgeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSeedPurgeTests.swift; sourceTree = "<group>"; };
 		4B813C27C29EB1BFF04C6550 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -188,6 +192,7 @@
 				AF1C63BA2E4D5BA29033B5F1 /* MapRegionTests.swift */,
 				C1C55D3EB152CDD21122AC7E /* MoodAggregatorTests.swift */,
 				EEFE334B5B0BD2E36ADE6581 /* MoodPhraseCatalogTests.swift */,
+				1B71DA9B0183B77EC5CC0DF3 /* MoodPostRateLimiterTests.swift */,
 				511E8AE6C53BA16D4ED819C8 /* NearestMunicipalityAnchorTests.swift */,
 				A73666D91499EA165D801714 /* OfficialWarningStalenessTests.swift */,
 				B57181001FA51C5725123E90 /* OkinawaAreaTests.swift */,
@@ -231,6 +236,7 @@
 				D85B424DDCED6F2860E01B4B /* LocationManagerHelper.swift */,
 				836FA20483F11CA22DA72131 /* MoodAggregator.swift */,
 				5CCEEFB65EAA7DDC44FC61F9 /* MoodPhraseCatalog.swift */,
+				4305C0287CA0FCFB8A89FC8E /* MoodPostRateLimiter.swift */,
 				3EDC4D5CA246DA05E0FACCEE /* OkinawaArea.swift */,
 				8E0C3228D57573C708A6FDF4 /* OkinawaMunicipalityCatalog.swift */,
 				1FB5D2A64DFFAC9612DEE1D1 /* RiskCalculator.swift */,
@@ -346,6 +352,7 @@
 				E3C902DDE37745FF12EE662C /* MapRegionTests.swift in Sources */,
 				7EF8936D4AF449B425996443 /* MoodAggregatorTests.swift in Sources */,
 				D0CDE6DD6988C6B8238702CF /* MoodPhraseCatalogTests.swift in Sources */,
+				BBEBDFBCDAFE74713D304A73 /* MoodPostRateLimiterTests.swift in Sources */,
 				CA7AA7FE8909360F28F44F5D /* NearestMunicipalityAnchorTests.swift in Sources */,
 				07C714B819EE1691DD613E52 /* OfficialWarningStalenessTests.swift in Sources */,
 				8507163545B8927692C32ED4 /* OkinawaAreaTests.swift in Sources */,
@@ -378,6 +385,7 @@
 				1561230299D25038238E167A /* Models.swift in Sources */,
 				85D4FDA28C34840B61CC7EED /* MoodAggregator.swift in Sources */,
 				E8E60D8AC02CC12AA64FAE25 /* MoodPhraseCatalog.swift in Sources */,
+				ACD0C25737B1549D99F5CC6E /* MoodPostRateLimiter.swift in Sources */,
 				27CF7A0DDF4FD860040E87BD /* OkinawaArea.swift in Sources */,
 				1654D2F53A433AC86DEC30EF /* OkinawaMunicipalityCatalog.swift in Sources */,
 				96108E445D501A76661AE8F4 /* OnboardingView.swift in Sources */,
