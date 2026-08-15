@@ -50,6 +50,8 @@
 		CCA131A52D1AB8E859E07581 /* CurrentLocationNameMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BEB68B42E85BE12BA65FB5 /* CurrentLocationNameMigrationTests.swift */; };
 		CE506F755AD2F78096E19409 /* TyphoonActionGuideTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60F5AC4768962770BB35DD5 /* TyphoonActionGuideTests.swift */; };
 		D0CDE6DD6988C6B8238702CF /* MoodPhraseCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFE334B5B0BD2E36ADE6581 /* MoodPhraseCatalogTests.swift */; };
+		D640436C7D8E4BCC7A221BBE /* MoodPostStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5581FA865109966DA16EA88 /* MoodPostStore.swift */; };
+		D9B6E9E2C90428DB7A8D6411 /* InMemoryMoodPostStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E13E3671EF340F1E608A457 /* InMemoryMoodPostStoreTests.swift */; };
 		E3C902DDE37745FF12EE662C /* MapRegionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1C63BA2E4D5BA29033B5F1 /* MapRegionTests.swift */; };
 		E4D65AB98F3E099395784FD6 /* LocationManagerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85B424DDCED6F2860E01B4B /* LocationManagerHelper.swift */; };
 		E8E60D8AC02CC12AA64FAE25 /* MoodPhraseCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCEEFB65EAA7DDC44FC61F9 /* MoodPhraseCatalog.swift */; };
@@ -88,6 +90,7 @@
 		511E8AE6C53BA16D4ED819C8 /* NearestMunicipalityAnchorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestMunicipalityAnchorTests.swift; sourceTree = "<group>"; };
 		5CCEEFB65EAA7DDC44FC61F9 /* MoodPhraseCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodPhraseCatalog.swift; sourceTree = "<group>"; };
 		6D49D1949BCB393A2D0357A9 /* DemoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoData.swift; sourceTree = "<group>"; };
+		6E13E3671EF340F1E608A457 /* InMemoryMoodPostStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryMoodPostStoreTests.swift; sourceTree = "<group>"; };
 		6E442F1D07E9BC516574505A /* LocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsView.swift; sourceTree = "<group>"; };
 		706607BDAB84172079AC4ED5 /* LocalNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationService.swift; sourceTree = "<group>"; };
 		73E846E8D940B7EE67897F71 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -112,6 +115,7 @@
 		B9E23C0D7FD52C934DA6A3B4 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		BE330269A063510A9116FBB5 /* JTWCParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTWCParserTests.swift; sourceTree = "<group>"; };
 		C1C55D3EB152CDD21122AC7E /* MoodAggregatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodAggregatorTests.swift; sourceTree = "<group>"; };
+		C5581FA865109966DA16EA88 /* MoodPostStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodPostStore.swift; sourceTree = "<group>"; };
 		C60F5AC4768962770BB35DD5 /* TyphoonActionGuideTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TyphoonActionGuideTests.swift; sourceTree = "<group>"; };
 		CB735590313CAFB2558F9F5B /* LocalLocationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalLocationStore.swift; sourceTree = "<group>"; };
 		CD8604C186D0CB1D5E0F96B0 /* TyphoonActionGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TyphoonActionGuide.swift; sourceTree = "<group>"; };
@@ -185,6 +189,7 @@
 				95BEB68B42E85BE12BA65FB5 /* CurrentLocationNameMigrationTests.swift */,
 				215D985FFD72000F365FA413 /* CurrentLocationNamingTests.swift */,
 				4B46BB3E9167487605A1B8DA /* DemoSeedPurgeTests.swift */,
+				6E13E3671EF340F1E608A457 /* InMemoryMoodPostStoreTests.swift */,
 				31ADB00051BCD6EE40B5F001 /* JMAParserTests.swift */,
 				A8C7756F1F83397EEF35319F /* JMAWarningFetcherTests.swift */,
 				98F01DC9FCE03FE990BCA076 /* JMAWarningXMLParserTests.swift */,
@@ -237,6 +242,7 @@
 				836FA20483F11CA22DA72131 /* MoodAggregator.swift */,
 				5CCEEFB65EAA7DDC44FC61F9 /* MoodPhraseCatalog.swift */,
 				4305C0287CA0FCFB8A89FC8E /* MoodPostRateLimiter.swift */,
+				C5581FA865109966DA16EA88 /* MoodPostStore.swift */,
 				3EDC4D5CA246DA05E0FACCEE /* OkinawaArea.swift */,
 				8E0C3228D57573C708A6FDF4 /* OkinawaMunicipalityCatalog.swift */,
 				1FB5D2A64DFFAC9612DEE1D1 /* RiskCalculator.swift */,
@@ -345,6 +351,7 @@
 				CCA131A52D1AB8E859E07581 /* CurrentLocationNameMigrationTests.swift in Sources */,
 				4E0227E7DDA314931E9F4806 /* CurrentLocationNamingTests.swift in Sources */,
 				30345626D7BB06F79F8556A7 /* DemoSeedPurgeTests.swift in Sources */,
+				D9B6E9E2C90428DB7A8D6411 /* InMemoryMoodPostStoreTests.swift in Sources */,
 				5D15AD6219EBC3397B7D342A /* JMAParserTests.swift in Sources */,
 				26C6C4431579DDCDBE330948 /* JMAWarningFetcherTests.swift in Sources */,
 				AF5B374A1443F66DCE636757 /* JMAWarningXMLParserTests.swift in Sources */,
@@ -386,6 +393,7 @@
 				85D4FDA28C34840B61CC7EED /* MoodAggregator.swift in Sources */,
 				E8E60D8AC02CC12AA64FAE25 /* MoodPhraseCatalog.swift in Sources */,
 				ACD0C25737B1549D99F5CC6E /* MoodPostRateLimiter.swift in Sources */,
+				D640436C7D8E4BCC7A221BBE /* MoodPostStore.swift in Sources */,
 				27CF7A0DDF4FD860040E87BD /* OkinawaArea.swift in Sources */,
 				1654D2F53A433AC86DEC30EF /* OkinawaMunicipalityCatalog.swift in Sources */,
 				96108E445D501A76661AE8F4 /* OnboardingView.swift in Sources */,
