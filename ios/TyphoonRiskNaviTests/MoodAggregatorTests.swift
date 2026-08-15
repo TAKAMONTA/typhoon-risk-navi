@@ -57,6 +57,20 @@ final class MoodAggregatorTests: XCTestCase {
         }
     }
 
+    /// 最頻値は「最も重いレベル」ではない。穏やかな投稿の多数派が、
+    /// 少数の重い投稿に上書きされないことを固定する。
+    func testModeWinsOverAMoreSevereMinority() {
+        let posts = [
+            post(.naha, .calm, minutesAgo: 10),
+            post(.naha, .calm, minutesAgo: 20),
+            post(.naha, .calm, minutesAgo: 30),
+            post(.naha, .violent, minutesAgo: 40),
+        ]
+        let result = MoodAggregator.summarize(posts: posts, now: now)
+        XCTAssertEqual(result[.naha]?.representativeLevel, .calm)
+        XCTAssertEqual(result[.naha]?.postCount, 4)
+    }
+
     /// エリアをまたいで混ざらない。
     func testAreasAreIndependent() {
         let posts = [

@@ -22,7 +22,7 @@ enum MoodAggregator {
             let counts = Dictionary(grouping: areaPosts, by: \.level).mapValues(\.count)
             let representative = counts.max { a, b in
                 if a.value != b.value { return a.value < b.value }
-                return a.key < b.key   // 同数なら高いレベルを採る
+                return a.key < b.key   // キー比較は必須。外すと同数時の結果が Dictionary の反復順に依存する
             }?.key
             result[area] = AreaMoodSummary(
                 area: area,
