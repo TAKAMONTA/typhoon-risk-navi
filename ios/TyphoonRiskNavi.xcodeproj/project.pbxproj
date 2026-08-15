@@ -28,7 +28,9 @@
 		720444B2BE2CAC72606E99E3 /* LocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E442F1D07E9BC516574505A /* LocationsView.swift */; };
 		7A83D009FE81DC3A53FE2CB4 /* JTWCParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AE01192F80178E166D04 /* JTWCParser.swift */; };
 		7EB67AA36B564C58DE4CB955 /* JTWCFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180A45E944E280E4CCE618C9 /* JTWCFetcher.swift */; };
+		7EF8936D4AF449B425996443 /* MoodAggregatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C55D3EB152CDD21122AC7E /* MoodAggregatorTests.swift */; };
 		8507163545B8927692C32ED4 /* OkinawaAreaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57181001FA51C5725123E90 /* OkinawaAreaTests.swift */; };
+		85D4FDA28C34840B61CC7EED /* MoodAggregator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836FA20483F11CA22DA72131 /* MoodAggregator.swift */; };
 		8CCC7BEA88E4708EA42040A5 /* TyphoonActionGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8604C186D0CB1D5E0F96B0 /* TyphoonActionGuide.swift */; };
 		93827317748054CB8DA70EC1 /* DemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D49D1949BCB393A2D0357A9 /* DemoData.swift */; };
 		9443EB1C226D33BDD0BA28B7 /* DataSourceStatusBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6119A0C9521F2B9E98298E /* DataSourceStatusBanner.swift */; };
@@ -89,6 +91,7 @@
 		7760478548819A747667D779 /* TyphoonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TyphoonViewModel.swift; sourceTree = "<group>"; };
 		7B6119A0C9521F2B9E98298E /* DataSourceStatusBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceStatusBanner.swift; sourceTree = "<group>"; };
 		7D38E8FB0EEFC3A6E2AA465E /* TyphoonRiskNavi.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TyphoonRiskNavi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		836FA20483F11CA22DA72131 /* MoodAggregator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodAggregator.swift; sourceTree = "<group>"; };
 		843633ADBA1986F68A51CE17 /* JMAWarningFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMAWarningFetcher.swift; sourceTree = "<group>"; };
 		8E0C3228D57573C708A6FDF4 /* OkinawaMunicipalityCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OkinawaMunicipalityCatalog.swift; sourceTree = "<group>"; };
 		95BEB68B42E85BE12BA65FB5 /* CurrentLocationNameMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationNameMigrationTests.swift; sourceTree = "<group>"; };
@@ -104,6 +107,7 @@
 		B57181001FA51C5725123E90 /* OkinawaAreaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OkinawaAreaTests.swift; sourceTree = "<group>"; };
 		B9E23C0D7FD52C934DA6A3B4 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		BE330269A063510A9116FBB5 /* JTWCParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTWCParserTests.swift; sourceTree = "<group>"; };
+		C1C55D3EB152CDD21122AC7E /* MoodAggregatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodAggregatorTests.swift; sourceTree = "<group>"; };
 		C60F5AC4768962770BB35DD5 /* TyphoonActionGuideTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TyphoonActionGuideTests.swift; sourceTree = "<group>"; };
 		CB735590313CAFB2558F9F5B /* LocalLocationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalLocationStore.swift; sourceTree = "<group>"; };
 		CD8604C186D0CB1D5E0F96B0 /* TyphoonActionGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TyphoonActionGuide.swift; sourceTree = "<group>"; };
@@ -182,6 +186,7 @@
 				98F01DC9FCE03FE990BCA076 /* JMAWarningXMLParserTests.swift */,
 				BE330269A063510A9116FBB5 /* JTWCParserTests.swift */,
 				AF1C63BA2E4D5BA29033B5F1 /* MapRegionTests.swift */,
+				C1C55D3EB152CDD21122AC7E /* MoodAggregatorTests.swift */,
 				EEFE334B5B0BD2E36ADE6581 /* MoodPhraseCatalogTests.swift */,
 				511E8AE6C53BA16D4ED819C8 /* NearestMunicipalityAnchorTests.swift */,
 				A73666D91499EA165D801714 /* OfficialWarningStalenessTests.swift */,
@@ -224,6 +229,7 @@
 				CB735590313CAFB2558F9F5B /* LocalLocationStore.swift */,
 				706607BDAB84172079AC4ED5 /* LocalNotificationService.swift */,
 				D85B424DDCED6F2860E01B4B /* LocationManagerHelper.swift */,
+				836FA20483F11CA22DA72131 /* MoodAggregator.swift */,
 				5CCEEFB65EAA7DDC44FC61F9 /* MoodPhraseCatalog.swift */,
 				3EDC4D5CA246DA05E0FACCEE /* OkinawaArea.swift */,
 				8E0C3228D57573C708A6FDF4 /* OkinawaMunicipalityCatalog.swift */,
@@ -338,6 +344,7 @@
 				AF5B374A1443F66DCE636757 /* JMAWarningXMLParserTests.swift in Sources */,
 				A793621033DF5606C5511E8C /* JTWCParserTests.swift in Sources */,
 				E3C902DDE37745FF12EE662C /* MapRegionTests.swift in Sources */,
+				7EF8936D4AF449B425996443 /* MoodAggregatorTests.swift in Sources */,
 				D0CDE6DD6988C6B8238702CF /* MoodPhraseCatalogTests.swift in Sources */,
 				CA7AA7FE8909360F28F44F5D /* NearestMunicipalityAnchorTests.swift in Sources */,
 				07C714B819EE1691DD613E52 /* OfficialWarningStalenessTests.swift in Sources */,
@@ -369,6 +376,7 @@
 				720444B2BE2CAC72606E99E3 /* LocationsView.swift in Sources */,
 				4BC6A5FCE7C695B2EEDC0663 /* MainTabView.swift in Sources */,
 				1561230299D25038238E167A /* Models.swift in Sources */,
+				85D4FDA28C34840B61CC7EED /* MoodAggregator.swift in Sources */,
 				E8E60D8AC02CC12AA64FAE25 /* MoodPhraseCatalog.swift in Sources */,
 				27CF7A0DDF4FD860040E87BD /* OkinawaArea.swift in Sources */,
 				1654D2F53A433AC86DEC30EF /* OkinawaMunicipalityCatalog.swift in Sources */,
