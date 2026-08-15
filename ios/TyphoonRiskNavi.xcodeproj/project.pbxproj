@@ -14,6 +14,7 @@
 		1662B83332C511203D092B3F /* OkinawaMunicipalityCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A45637DF62C98DEF8C5F6C76 /* OkinawaMunicipalityCatalogTests.swift */; };
 		1FDB9603DE1F79D42171BFE0 /* RiskCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5D2A64DFFAC9612DEE1D1 /* RiskCalculator.swift */; };
 		26C6C4431579DDCDBE330948 /* JMAWarningFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C7756F1F83397EEF35319F /* JMAWarningFetcherTests.swift */; };
+		27CF7A0DDF4FD860040E87BD /* OkinawaArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC4D5CA246DA05E0FACCEE /* OkinawaArea.swift */; };
 		30345626D7BB06F79F8556A7 /* DemoSeedPurgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46BB3E9167487605A1B8DA /* DemoSeedPurgeTests.swift */; };
 		421B63785175D6914ECF14DE /* TyphoonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7760478548819A747667D779 /* TyphoonViewModel.swift */; };
 		4BC6A5FCE7C695B2EEDC0663 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76111743BD294C3A74DCBD0 /* MainTabView.swift */; };
@@ -26,6 +27,7 @@
 		720444B2BE2CAC72606E99E3 /* LocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E442F1D07E9BC516574505A /* LocationsView.swift */; };
 		7A83D009FE81DC3A53FE2CB4 /* JTWCParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AE01192F80178E166D04 /* JTWCParser.swift */; };
 		7EB67AA36B564C58DE4CB955 /* JTWCFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180A45E944E280E4CCE618C9 /* JTWCFetcher.swift */; };
+		8507163545B8927692C32ED4 /* OkinawaAreaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57181001FA51C5725123E90 /* OkinawaAreaTests.swift */; };
 		8CCC7BEA88E4708EA42040A5 /* TyphoonActionGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8604C186D0CB1D5E0F96B0 /* TyphoonActionGuide.swift */; };
 		93827317748054CB8DA70EC1 /* DemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D49D1949BCB393A2D0357A9 /* DemoData.swift */; };
 		9443EB1C226D33BDD0BA28B7 /* DataSourceStatusBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6119A0C9521F2B9E98298E /* DataSourceStatusBanner.swift */; };
@@ -69,6 +71,7 @@
 		215D985FFD72000F365FA413 /* CurrentLocationNamingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationNamingTests.swift; sourceTree = "<group>"; };
 		31ADB00051BCD6EE40B5F001 /* JMAParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMAParserTests.swift; sourceTree = "<group>"; };
 		31B10BDF4448CC71D0C7F0A2 /* TyphoonRiskNaviApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TyphoonRiskNaviApp.swift; sourceTree = "<group>"; };
+		3EDC4D5CA246DA05E0FACCEE /* OkinawaArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OkinawaArea.swift; sourceTree = "<group>"; };
 		48A44DB88BAFEB3080C73126 /* JMAWarningXMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMAWarningXMLParser.swift; sourceTree = "<group>"; };
 		4B46BB3E9167487605A1B8DA /* DemoSeedPurgeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSeedPurgeTests.swift; sourceTree = "<group>"; };
 		4B813C27C29EB1BFF04C6550 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -93,6 +96,7 @@
 		A73666D91499EA165D801714 /* OfficialWarningStalenessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficialWarningStalenessTests.swift; sourceTree = "<group>"; };
 		A8C7756F1F83397EEF35319F /* JMAWarningFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMAWarningFetcherTests.swift; sourceTree = "<group>"; };
 		AF1C63BA2E4D5BA29033B5F1 /* MapRegionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRegionTests.swift; sourceTree = "<group>"; };
+		B57181001FA51C5725123E90 /* OkinawaAreaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OkinawaAreaTests.swift; sourceTree = "<group>"; };
 		B9E23C0D7FD52C934DA6A3B4 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		BE330269A063510A9116FBB5 /* JTWCParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTWCParserTests.swift; sourceTree = "<group>"; };
 		C60F5AC4768962770BB35DD5 /* TyphoonActionGuideTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TyphoonActionGuideTests.swift; sourceTree = "<group>"; };
@@ -173,6 +177,7 @@
 				AF1C63BA2E4D5BA29033B5F1 /* MapRegionTests.swift */,
 				511E8AE6C53BA16D4ED819C8 /* NearestMunicipalityAnchorTests.swift */,
 				A73666D91499EA165D801714 /* OfficialWarningStalenessTests.swift */,
+				B57181001FA51C5725123E90 /* OkinawaAreaTests.swift */,
 				A45637DF62C98DEF8C5F6C76 /* OkinawaMunicipalityCatalogTests.swift */,
 				D4BE136F5A8640E6BC99524F /* RiskCalculatorTests.swift */,
 				C60F5AC4768962770BB35DD5 /* TyphoonActionGuideTests.swift */,
@@ -211,6 +216,7 @@
 				CB735590313CAFB2558F9F5B /* LocalLocationStore.swift */,
 				706607BDAB84172079AC4ED5 /* LocalNotificationService.swift */,
 				D85B424DDCED6F2860E01B4B /* LocationManagerHelper.swift */,
+				3EDC4D5CA246DA05E0FACCEE /* OkinawaArea.swift */,
 				8E0C3228D57573C708A6FDF4 /* OkinawaMunicipalityCatalog.swift */,
 				1FB5D2A64DFFAC9612DEE1D1 /* RiskCalculator.swift */,
 				CD8604C186D0CB1D5E0F96B0 /* TyphoonActionGuide.swift */,
@@ -325,6 +331,7 @@
 				E3C902DDE37745FF12EE662C /* MapRegionTests.swift in Sources */,
 				CA7AA7FE8909360F28F44F5D /* NearestMunicipalityAnchorTests.swift in Sources */,
 				07C714B819EE1691DD613E52 /* OfficialWarningStalenessTests.swift in Sources */,
+				8507163545B8927692C32ED4 /* OkinawaAreaTests.swift in Sources */,
 				1662B83332C511203D092B3F /* OkinawaMunicipalityCatalogTests.swift in Sources */,
 				A5E10E806FDCB22CF6927768 /* RiskCalculatorTests.swift in Sources */,
 				CE506F755AD2F78096E19409 /* TyphoonActionGuideTests.swift in Sources */,
@@ -351,6 +358,7 @@
 				720444B2BE2CAC72606E99E3 /* LocationsView.swift in Sources */,
 				4BC6A5FCE7C695B2EEDC0663 /* MainTabView.swift in Sources */,
 				1561230299D25038238E167A /* Models.swift in Sources */,
+				27CF7A0DDF4FD860040E87BD /* OkinawaArea.swift in Sources */,
 				1654D2F53A433AC86DEC30EF /* OkinawaMunicipalityCatalog.swift in Sources */,
 				96108E445D501A76661AE8F4 /* OnboardingView.swift in Sources */,
 				1FDB9603DE1F79D42171BFE0 /* RiskCalculator.swift in Sources */,
