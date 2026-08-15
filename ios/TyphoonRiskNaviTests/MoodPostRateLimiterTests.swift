@@ -39,6 +39,18 @@ final class MoodPostRateLimiterTests: XCTestCase {
         limiter.recordPost(now: now)
         XCTAssertFalse(limiter.canPost(now: now.addingTimeInterval(599)))
         XCTAssertTrue(limiter.canPost(now: now.addingTimeInterval(600)))
+        XCTAssertEqual(limiter.remainingSeconds(now: now.addingTimeInterval(600)), 0)
+        XCTAssertEqual(limiter.remainingSeconds(now: now.addingTimeInterval(601)), 0)
+    }
+
+    /// 端末の時計が巻き戻り、保存時刻が未来になった場合は、値が壊れているとみなして
+    /// 未投稿と同じ扱いにする（型が壊れていた場合と同じ fail-open）。
+    func testFutureTimestampIsTreatedAsNeverPosted() {
+        let limiter = MoodPostRateLimiter(defaults: defaults)
+        let now = Date(timeIntervalSince1970: 1_800_000_000)
+        limiter.recordPost(now: now.addingTimeInterval(3600))   // 1時間先の時刻で記録された
+        XCTAssertEqual(limiter.remainingSeconds(now: now), 0)
+        XCTAssertTrue(limiter.canPost(now: now))
     }
 
     /// interval を注入できる（テストや将来の調整用）。

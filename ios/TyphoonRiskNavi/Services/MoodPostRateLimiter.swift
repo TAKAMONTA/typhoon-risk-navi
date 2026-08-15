@@ -21,7 +21,13 @@ struct MoodPostRateLimiter {
 
     /// 次に投稿できるまでの残り秒数。投稿可能なら 0。
     func remainingSeconds(now: Date = Date()) -> TimeInterval {
+        // 型が壊れていたら未投稿扱い（投稿をブロックし続けるより安全）。
         guard let last = defaults.object(forKey: Self.lastPostKey) as? Date else { return 0 }
+        // 保存時刻が now より未来なら、端末の時計が巻き戻された等で値が壊れている。
+        // 同じく未投稿扱いにする。上限（min）で抑える案は採らない。表示される数字が
+        // 600 秒に見えるだけで実際の解除は last + interval のままなので、
+        // 「あと10分」の表示が何十分も動かないという、より悪い状態になる。
+        guard last <= now else { return 0 }
         return max(0, interval - now.timeIntervalSince(last))
     }
 
