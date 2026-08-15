@@ -2,7 +2,7 @@ import Foundation
 
 /// 体感投稿の取得・送信を抽象化する。本番は CloudKit 実装、テストとスクショモードは InMemory 実装。
 protocol MoodPostStore {
-    /// since 以降の投稿を新しい順で返す。limit 件で打ち切る。
+    /// since 以降の投稿を新しい順で返す。limit 件で打ち切る（limit は 0 以上を想定）。
     func fetchPosts(since: Date, limit: Int) async throws -> [AreaMoodPost]
     /// 投稿を1件保存し、保存されたレコードを返す。
     func submit(area: OkinawaArea, level: MoodLevel, phraseID: String) async throws -> AreaMoodPost
@@ -26,7 +26,8 @@ final class InMemoryMoodPostStore: MoodPostStore {
         if let fetchError { throw fetchError }
         return posts
             .filter { $0.createdAt >= since }
-            .sorted { $0.createdAt > $1.createdAt }
+            // createdAt が同値の場合に備え id をタイブレークにする（sorted は安定ソートを保証しないため）
+            .sorted { ($0.createdAt, $0.id) > ($1.createdAt, $1.id) }
             .prefix(limit)
             .map { $0 }
     }
@@ -61,6 +62,6 @@ extension InMemoryMoodPostStore {
             sample(.ishigaki, .calm, "L1_still_quiet", minutesAgo: 50),
             sample(.yonaguni, .calm, "L1_as_usual", minutesAgo: 65),
             sample(.daito, .stormy, "L3_umbrella_useless", minutesAgo: 22),
-        ])
+        ], now: { now })
     }
 }
