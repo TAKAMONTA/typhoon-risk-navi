@@ -148,10 +148,45 @@
 - **コントローラ（メインセッション）の修正指示も間違う**。Task 4 で私は `min(interval, ...)` で上限を掛けろと指示したが、これは**表示される数字を丸めるだけで実際のロック解除時刻を変えない**。実装者が実測して止めてくれた。採用したのは「保存時刻が未来なら壊れた値として未投稿扱い（fail-open）」。Task 5 でも私の提案した `XCTAssertEqual(store.posts, [saved])` が不十分（返り値と保存値が同じ誤値になるだけで通る）と実装者に指摘された。**実装者に「ブリーフが間違っていると思ったら実装前に言え」と明示的に許可を出しておくと機能する**。
 - 端末ローカルのレート制限は時計を進められれば素通しできる。不正防止ではなく誤操作抑制が目的なので、壊れた値には fail-open で構わない。
 
-### 次回の再開ポイント
-**Task 6（CloudKit entitlements + CloudKitMoodPostStore）から。** ブリーフは `.superpowers/sdd/2026-08-15-area-mood-posts/task-6-brief.md` に生成済み（Task 7〜11 も生成済み）。
+### 実装完了（2026-08-17）— Task 1〜10 完了、Task 11 はユーザー作業待ち
 
-- Task 6 は entitlements ファイルの新規作成（現状リポジトリに存在しない）と `ios/project.yml` への `CODE_SIGN_ENTITLEMENTS` 追加を伴う。**Apple の署名まわりで詰まる可能性がある**。詰まったら Xcode での初回ビルドをユーザーに依頼する。
-- Task 6 の dispatch には Task 2 からの申し送りを必ず含める: `MoodLevel(rawValue:)` の Optional を握りつぶさず、未知レベルの投稿はスキップする（1件の未知レコードでフィード全体が落ちるのを防ぐ）。
-- **リリース前に必須**: CloudKit コンソールで Development スキーマを Production へデプロイ（忘れると審査環境で機能が全く動かない）、`PrivacyInfo.xcprivacy` に粗い位置情報の収集宣言を追加、MARKETING_VERSION と CURRENT_PROJECT_VERSION をセットで上げる。
+コミット `0fd1487`〜`429cd26`。テスト140件全緑。
+
+| Task | 内容 | コミット | 修正ラウンド |
+|---|---|---|---|
+| 6 | CloudKit entitlements + Store | `4f783bf` | 1回 |
+| 7 | AreaMoodViewModel | `958776f` | 1回 |
+| 8 | みんなタブ + 10エリアグリッド | `8648ef2` | なし |
+| 9 | 詳細シート + 3タップ投稿 | `1c5bd2a` | 1回 |
+| 10 | Privacy Manifest | `429cd26` | なし |
+
+### 追加の決定・発見
+- **`NSPrivacyCollectedDataTypeLocation` は存在しないキーだった**。有効値は `PreciseLocation` と `CoarseLocation` の2つだけ（Xcode の `DVTCorePlistStructDefs.xcplugindata` で確認）。無効値は黙って無視されるため、**出荷済みの 0.9.5 は精密位置情報の収集を実質未申告のまま提出していた**。`PreciseLocation` に修正済み。
+- **CloudKit コンテナは実機向けビルド（`-allowProvisioningUpdates`）で自動登録された**。Xcode を手で開く必要はなかった。
+- タブラベルの英語は「Community」。既存3タブが全て英訳済み（184行フルパリティ）で、日本語だと唯一の未翻訳キーになるため計画から変更した。
+- **画面内の文言は L10n を通さず日本語ハードコード**。model 層（`MoodLevel.label` / `OkinawaArea.displayName`）も日本語固定のため、この画面だけでは解決できない。機能横断の判断として保留中。
+- **CloudKit public DB のレコードには `creatorUserRecordID` がサーバー付与される**。アプリは読み書きしないが、コンソール上では投稿が iCloud アカウントに紐づく。「匿名」の説明をどう書くかはユーザー判断待ち。
+
+### 追加の教訓
+- **サブエージェントに `screencapture` を使わせてはいけない**。Task 9 の実装者が実行し、シミュレータではなくユーザーの実デスクトップ（App Store Connect の売上情報）が撮影された。即座に削除して `simctl io screenshot` に切り替えたが、以後は指示で明示的に禁止している。
+- **UI タスクはコントローラ自身が実機で触って確認する**。Task 8 でレビューが見つけられなかった「タイトルと免責がほぼ同一文言で2行重なる」問題は、スクリーンショットを見て初めて分かった。サブエージェントは権限の制約で実際のタップができないことがある。
+- 実装者の押し戻しは Task 4/5/10 でも起きて、いずれも正しかった。Task 10 では**ブリーフの範囲外**にある既存不具合を自発的に報告してきた。
+
+### 次回の再開ポイント — Task 11（ユーザー作業が必要）
+アプリ側の実装は完了。CloudKit の**サーバー側セットアップだけが未了**で、Apple アカウントでのブラウザ操作が要る。
+
+現状: スクショモードなしで起動すると `CKError BadContainer (1014)` が返る。アプリは正しく劣化し、グリッドを redaction 表示＋「更新できませんでした」バナーを出す（「投稿なし」とは断定しない）。
+
+1. [ ] [CloudKit Console](https://icloud.developer.apple.com/) → コンテナ `iCloud.com.example.OkinawaTyphoonNavi` → **Development 環境**
+2. [ ] Record Type `AreaMoodPost` を作成。フィールド: `area` (String) / `level` (Int64) / `phraseID` (String)
+3. [ ] **Indexes で `creationDate` に Sortable と Queryable を追加**（これが無いと `fetchPosts` が `Field 'creationDate' is not marked queryable` で必ず失敗する）。`recordName` に Queryable も追加
+4. [ ] シミュレータに iCloud サインイン（設定アプリ）してから、スクショモードなしで起動 → 投稿 → 再起動して取得できることを確認
+5. [ ] リリース前に **Deploy Schema Changes to Production**（忘れると審査環境で機能が全く動かない）
+6. [ ] App Store Connect の App Privacy 回答に「おおよその位置情報」を追加し、精密位置情報の申告が今回の修正と整合しているか確認
+7. [ ] MARKETING_VERSION と CURRENT_PROJECT_VERSION をセットで上げる（0.9.5 → 0.9.6）
+
+### 未了・要判断
+- 画面の日本語ハードコード（機能横断のローカライズ方針）
+- CloudKit public DB の `creatorUserRecordID` を踏まえた「匿名」の説明文
+- 繰り越した Minor 指摘は `.superpowers/sdd/2026-08-15-area-mood-posts/progress.md` に一覧
 - 計画に記載の「既存92テスト」は誤り。実測97が正しい。
