@@ -49,4 +49,19 @@ final class OkinawaAreaTests: XCTestCase {
         XCTAssertEqual(OkinawaArea.keramaAguni.displayName, "慶良間・粟国")
         XCTAssertEqual(OkinawaArea.naha.displayName, "那覇")
     }
+
+    /// displayName が解決されずに生のローカライズキーのまま表示されていないこと(全10エリア)。
+    /// キーの typo は NSLocalizedString がキー自体を返すため、これが唯一の検出手段になる。
+    func testAllDisplayNamesResolveToRealText() {
+        for area in OkinawaArea.allCases {
+            XCTAssertFalse(area.displayName.hasPrefix("area."), "\(area) の displayName が未解決: \(area.displayName)")
+        }
+    }
+
+    /// MoodLevel.label が解決されずに生のローカライズキーのまま表示されていないこと(全5レベル)。
+    func testAllMoodLevelLabelsResolveToRealText() {
+        for level in MoodLevel.allCases {
+            XCTAssertFalse(level.label.hasPrefix("mood."), "レベル\(level.rawValue) の label が未解決: \(level.label)")
+        }
+    }
 }

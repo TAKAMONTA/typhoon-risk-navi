@@ -45,4 +45,12 @@ final class MoodPhraseCatalogTests: XCTestCase {
         XCTAssertTrue(MoodLevel.calm < MoodLevel.violent)
         XCTAssertEqual(MoodLevel(rawValue: 3), .stormy)
     }
+
+    /// 文言が解決されずに生のローカライズキーのまま表示されていないこと。
+    /// キーの typo は NSLocalizedString がキー自体を返すため、これが唯一の検出手段になる。
+    func testAllPhrasesResolveToRealText() {
+        for phrase in MoodPhraseCatalog.all {
+            XCTAssertFalse(phrase.text.hasPrefix("mood."), "\(phrase.id) の文言が未解決: \(phrase.text)")
+        }
+    }
 }

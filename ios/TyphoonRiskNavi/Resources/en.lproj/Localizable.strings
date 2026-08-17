@@ -214,7 +214,7 @@
 "mood.phrase.l2_still_walkable" = "Can still walk outside";
 "mood.phrase.l3_windows_rattling" = "Windows rattling";
 "mood.phrase.l3_staying_in" = "Staying inside";
-"mood.phrase.l3_transport_disrupted" = "Transit disrupted";
+"mood.phrase.l3_transport_disrupted" = "Transport is disrupted";
 "mood.phrase.l3_umbrella_useless" = "Can't use an umbrella";
 "mood.phrase.l4_cannot_go_out" = "Can't go outside";
 "mood.phrase.l4_debris_flying" = "Debris flying";
@@ -257,4 +257,4 @@
 "mood.rate_limited" = "You can't post again yet (about %d min left)";
 "mood.post_failed_generic" = "Couldn't post. Please try again later.";
 "mood.error.not_signed_in" = "Posting requires iCloud sign-in. Please sign in from the Settings app.";
-"mood.error.invalid_record" = "Couldn't read the post data";
+"mood.error.invalid_record" = "Couldn't read the post data.";
