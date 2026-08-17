@@ -23,7 +23,8 @@ enum L10n {
     static let tabMap = "tab.map".localized
     static let tabLocations = "tab.locations".localized
     static let tabSettings = "tab.settings".localized
-    
+    static let tabMood = "tab.mood".localized
+
     // General
     static let retry = "retry".localized
     static let errorDataFetchFailed = "error.data_fetch_failed".localized

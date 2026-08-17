@@ -4,6 +4,7 @@
 "tab.map" = "Okinawa Typhoons";
 "tab.locations" = "My Locations";
 "tab.settings" = "Settings";
+"tab.mood" = "Community";
 
 /* General */
 "retry" = "Retry";

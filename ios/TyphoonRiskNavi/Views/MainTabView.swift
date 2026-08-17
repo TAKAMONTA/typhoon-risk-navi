@@ -37,6 +37,12 @@ struct MainTabView: View {
                 }
                 .environmentObject(viewModel)
                 .tag(2)
+
+            AreaMoodView()
+                .tabItem {
+                    Label(L10n.tabMood, systemImage: "person.3")
+                }
+                .tag(3)
         }
         .sheet(isPresented: Binding(
             get: { shouldShowOnboarding },
