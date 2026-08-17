@@ -32,6 +32,20 @@
 				<string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
 			</array>
 		</dict>
+		<dict>
+			<!-- 体感投稿のエリア（沖縄10区分の粗い位置に相当）。ユーザーが選択した区分値のみを
+			     CloudKit に送信し、精密な位置情報・ユーザー識別子は送らない -->
+			<key>NSPrivacyCollectedDataType</key>
+			<string>NSPrivacyCollectedDataTypeCoarseLocation</string>
+			<key>NSPrivacyCollectedDataTypeLinked</key>
+			<false/>
+			<key>NSPrivacyCollectedDataTypeTracking</key>
+			<false/>
+			<key>NSPrivacyCollectedDataTypePurposes</key>
+			<array>
+				<string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+			</array>
+		</dict>
 	</array>
 </dict>
 </plist>
