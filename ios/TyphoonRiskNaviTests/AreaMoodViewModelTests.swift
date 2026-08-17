@@ -76,6 +76,7 @@ final class AreaMoodViewModelTests: XCTestCase {
         XCTAssertNil(viewModel.postError)
         XCTAssertNotNil(viewModel.postingBlockedReason, "投稿直後はレート制限がかかるはず")
         XCTAssertEqual(store.posts.count, 1, "成功したのにストアへ書かれていない")
+        XCTAssertEqual(viewModel.lastUpdated, now, "投稿成功後も lastUpdated が nil のままだとグリッドが redacted のままになる")
     }
 
     /// 投稿の楽観的反映は既存のサマリーを消さず、新しい投稿を積み増す
@@ -139,10 +140,15 @@ final class AreaMoodViewModelTests: XCTestCase {
     }
 
     /// 座標→エリア判定は最寄り自治体経由（那覇市役所付近 → 那覇、石垣市役所付近 → 石垣）。
+    /// 沖縄県外の座標では距離キャップにより nil を返す（東京付近）。
     func testAreaForCoordinate() {
         let naha = CLLocationCoordinate2D(latitude: 26.2124, longitude: 127.6809)
         XCTAssertEqual(AreaMoodViewModel.area(for: naha), .naha)
         let ishigaki = CLLocationCoordinate2D(latitude: 24.3444, longitude: 124.1572)
         XCTAssertEqual(AreaMoodViewModel.area(for: ishigaki), .ishigaki)
+        // 沖縄から離れた座標(例: 東京)は、最寄りの自治体があっても遠すぎるため nil を返す
+        // (県外ユーザーに沖縄のエリアが誤って自動選択されるのを防ぐ)。
+        let tokyo = CLLocationCoordinate2D(latitude: 35.68, longitude: 139.77)
+        XCTAssertNil(AreaMoodViewModel.area(for: tokyo), "沖縄県外の座標はエリアを返してはいけない")
     }
 }

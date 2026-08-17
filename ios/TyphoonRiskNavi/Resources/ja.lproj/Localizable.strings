@@ -252,6 +252,7 @@
 "mood.post.phrase_section" = "ひとことで言うと？";
 "mood.post.title" = "体感を投稿";
 "mood.post.submit" = "投稿する";
+"mood.post.outside_okinawa" = "現在地は沖縄県内ではないようです。エリアは手動で選んでください";
 
 /* Area Mood (みんな) - errors */
 "mood.rate_limited" = "連続投稿はできません（あと約%d分）";

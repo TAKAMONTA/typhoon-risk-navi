@@ -13,28 +13,35 @@ struct AreaMoodView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 12) {
-                    disclaimer
-                    if viewModel.fetchFailed {
-                        fetchFailedBanner
-                    }
-                    areaGrid
-                        .redacted(reason: isFirstLoad ? .placeholder : [])
-                        .allowsHitTesting(!isFirstLoad)
-                        .overlay {
-                            if isFirstLoad && viewModel.isLoading {
-                                ProgressView()
-                            }
+            // disclaimer を ScrollView の外(兄弟)に置くことで、アクセシビリティ文字サイズで
+            // グリッドが伸びてスクロールしても免責文言が画面外に流れない（スペック §1: 常時表示）。
+            VStack(alignment: .leading, spacing: 8) {
+                disclaimer
+                    .padding(.horizontal)
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 12) {
+                        if viewModel.fetchFailed {
+                            fetchFailedBanner
                         }
-                    if let lastUpdated = viewModel.lastUpdated {
-                        Text(L10n.moodUpdatedAt(lastUpdated.formatted(date: .omitted, time: .shortened)))
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
+                        areaGrid
+                            .redacted(reason: isFirstLoad ? .placeholder : [])
+                            .allowsHitTesting(!isFirstLoad)
+                            .overlay {
+                                if isFirstLoad && viewModel.isLoading {
+                                    ProgressView()
+                                }
+                            }
+                        if let lastUpdated = viewModel.lastUpdated {
+                            Text(L10n.moodUpdatedAt(lastUpdated.formatted(date: .omitted, time: .shortened)))
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                        }
                     }
+                    .padding()
                 }
-                .padding()
+                .refreshable { await viewModel.refresh() }
             }
+            .padding(.top, 8)
             .navigationTitle(L10n.moodTitle)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -45,7 +52,6 @@ struct AreaMoodView: View {
                     }
                 }
             }
-            .refreshable { await viewModel.refresh() }
             .task {
                 await viewModel.refresh()
                 // タブ切り替えでこの task がキャンセルされた後は、

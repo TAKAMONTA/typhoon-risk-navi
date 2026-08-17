@@ -307,6 +307,7 @@ enum L10n {
     static let moodPostPhraseSection = "mood.post.phrase_section".localized
     static let moodPostTitle = "mood.post.title".localized
     static let moodPostSubmit = "mood.post.submit".localized
+    static let moodPostOutsideOkinawa = "mood.post.outside_okinawa".localized
 
     // Area Mood (みんな) - errors
     static func moodRateLimited(_ minutes: Int) -> String {

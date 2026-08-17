@@ -8,6 +8,11 @@ final class AreaMoodViewModel: ObservableObject {
 
     /// 1回の取得で読む最大件数。10エリア×直近20件相当で、代表値の決定には十分。
     static let fetchLimit = 200
+    /// 現在地からのエリア自動選択で「沖縄県内」とみなす上限距離(km)。
+    /// 沖縄県内のどの地点からも最寄りの自治体はこの範囲に収まる。これを超える最寄り自治体しか
+    /// 見つからない場合、その座標は沖縄県外であり、最寄りだからといってエリアを確定させてはいけない
+    /// （県外ユーザーに沖縄のエリアが誤って自動選択され、捏造投稿につながるのを防ぐ）。
+    static let maxAreaDetectionDistanceKm: Double = 100
     /// 表示中の自動更新間隔の既定値。テストから短い値を注入できるようにインスタンスプロパティにもしてある。
     /// init のデフォルト引数式から参照するため、MainActor 分離のない定数にしておく。
     nonisolated static let defaultRefreshInterval: TimeInterval = 5 * 60
@@ -98,6 +103,10 @@ final class AreaMoodViewModel: ObservableObject {
             rateLimiter.recordPost(now: now())
             recentPosts.insert(saved, at: 0)
             summaries = MoodAggregator.summarize(posts: recentPosts, now: now())
+            // fetchPosts が失敗していても(fetchFailed = true のままでも)、自分の投稿は
+            // 確かに反映されたので lastUpdated を進める。isFirstLoad の判定はこれだけを見ており、
+            // 更新しないと投稿が成功してもグリッドが redacted のままになり、反映が伝わらない。
+            lastUpdated = now()
             postError = nil
             return true
         } catch {
@@ -135,7 +144,13 @@ final class AreaMoodViewModel: ObservableObject {
     }
 
     /// 座標からエリアを推定する（既存の最寄り自治体判定を経由）。
+    /// 最寄りの自治体までの距離が maxAreaDetectionDistanceKm を超える場合は、
+    /// その座標が沖縄県外にあるとみなし nil を返す。
     static func area(for coordinate: CLLocationCoordinate2D) -> OkinawaArea? {
-        OkinawaMunicipalityCatalog.nearest(to: coordinate)?.municipality.area
+        guard let nearest = OkinawaMunicipalityCatalog.nearest(to: coordinate),
+              nearest.distanceKm <= maxAreaDetectionDistanceKm else {
+            return nil
+        }
+        return nearest.municipality.area
     }
 }

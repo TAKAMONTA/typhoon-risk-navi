@@ -109,7 +109,12 @@ struct AreaMoodPostSheet: View {
 
     private func detectAreaFromCurrentLocation(overwriteExisting: Bool) {
         locationHelper.onLocation = { location in
-            guard let area = AreaMoodViewModel.area(for: location.coordinate) else { return }
+            guard let area = AreaMoodViewModel.area(for: location.coordinate) else {
+                // 現在地が沖縄県外と判定された場合、黙って何もしないとボタンが無反応に見えるため
+                // (かつては最寄りの自治体が無条件に選ばれてしまい、県外からの捏造投稿を招いていた)。
+                viewModel.postError = L10n.moodPostOutsideOkinawa
+                return
+            }
             // 自動検出中にユーザーが手で選んでいたら、後着の測位で上書きしない
             if overwriteExisting || selectedArea == nil {
                 selectedArea = area

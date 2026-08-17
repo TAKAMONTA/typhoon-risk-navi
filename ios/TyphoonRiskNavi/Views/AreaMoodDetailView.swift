@@ -8,6 +8,7 @@ struct AreaMoodDetailView: View {
     var body: some View {
         NavigationStack {
             List {
+                disclaimer
                 if posts.isEmpty {
                     Text(L10n.moodDetailNoRecentPosts)
                         .foregroundStyle(.secondary)
@@ -36,6 +37,16 @@ struct AreaMoodDetailView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
         .presentationDetents([.medium, .large])
+    }
+
+    /// 常時表示の免責。公式情報と誤認させない（スペック §1）。AreaMoodView と同じ文言・体裁。
+    private var disclaimer: some View {
+        HStack(spacing: 6) {
+            Image(systemName: "person.2")
+            Text(L10n.moodDisclaimer)
+        }
+        .font(.caption)
+        .foregroundStyle(.secondary)
     }
 
     /// レベル5→1の順（重い方を上）に、件数を横棒で示す。

@@ -252,6 +252,7 @@
 "mood.post.phrase_section" = "In a word?";
 "mood.post.title" = "Post your mood";
 "mood.post.submit" = "Post";
+"mood.post.outside_okinawa" = "Your location doesn't appear to be in Okinawa. Please choose an area manually.";
 
 /* Area Mood (みんな) - errors */
 "mood.rate_limited" = "You can't post again yet (about %d min left)";
