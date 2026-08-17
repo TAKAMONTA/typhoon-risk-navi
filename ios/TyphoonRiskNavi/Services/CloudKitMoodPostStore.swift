@@ -19,8 +19,8 @@ final class CloudKitMoodPostStore: MoodPostStore {
 
         var errorDescription: String? {
             switch self {
-            case .notSignedIn: return "投稿には iCloud サインインが必要です。設定アプリからサインインしてください"
-            case .invalidRecord: return "投稿データを読み取れませんでした"
+            case .notSignedIn: return L10n.moodErrorNotSignedIn
+            case .invalidRecord: return L10n.moodErrorInvalidRecord
             }
         }
     }

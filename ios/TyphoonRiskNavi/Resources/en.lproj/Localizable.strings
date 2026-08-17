@@ -4,7 +4,7 @@
 "tab.map" = "Okinawa Typhoons";
 "tab.locations" = "My Locations";
 "tab.settings" = "Settings";
-"tab.mood" = "Community";
+"tab.mood" = "Mood";
 
 /* General */
 "retry" = "Retry";
@@ -183,3 +183,78 @@
 "last_real_data.just_now" = "Latest real data: just now";
 "last_real_data.relative" = "Latest real data: %@";
 "map.anchor.okinawa" = "Okinawa";
+
+/* Area Mood (みんな) - area names */
+"area.naha" = "Naha";
+"area.south" = "Southern";
+"area.central" = "Central";
+"area.north" = "Northern";
+"area.kerama_aguni" = "Kerama & Aguni";
+"area.kumejima" = "Kumejima";
+"area.miyako" = "Miyako";
+"area.ishigaki" = "Ishigaki";
+"area.yonaguni" = "Yonaguni";
+"area.daito" = "Daito";
+
+/* Area Mood (みんな) - mood level labels */
+"mood.level.calm" = "Calm";
+"mood.level.breezy" = "Wind picking up";
+"mood.level.stormy" = "Strong wind & rain";
+"mood.level.dangerous" = "Dangerous outside";
+"mood.level.violent" = "Violent wind";
+
+/* Area Mood (みんな) - phrase catalog */
+"mood.phrase.l1_still_quiet" = "Still quiet";
+"mood.phrase.l1_gentle_wind" = "Gentle breeze";
+"mood.phrase.l1_no_rain" = "No rain yet";
+"mood.phrase.l1_as_usual" = "Same as usual";
+"mood.phrase.l2_trees_swaying" = "Trees swaying";
+"mood.phrase.l2_rain_started" = "Rain has started";
+"mood.phrase.l2_stocked_up" = "Went to stock up";
+"mood.phrase.l2_still_walkable" = "Can still walk outside";
+"mood.phrase.l3_windows_rattling" = "Windows rattling";
+"mood.phrase.l3_staying_in" = "Staying inside";
+"mood.phrase.l3_transport_disrupted" = "Transit disrupted";
+"mood.phrase.l3_umbrella_useless" = "Can't use an umbrella";
+"mood.phrase.l4_cannot_go_out" = "Can't go outside";
+"mood.phrase.l4_debris_flying" = "Debris flying";
+"mood.phrase.l4_power_outage" = "Power is out";
+"mood.phrase.l4_water_outage" = "Water is out";
+"mood.phrase.l5_roaring_wind" = "Wind is roaring";
+"mood.phrase.l5_away_from_windows" = "Staying away from windows";
+"mood.phrase.l5_peak_ahead" = "Peak is still ahead";
+"mood.phrase.l5_maybe_past_peak" = "Maybe past the peak";
+
+/* Area Mood (みんな) - screen */
+"mood.title" = "Mood";
+"mood.post_action" = "Post";
+"mood.disclaimer" = "Community reports, not official JMA information";
+"mood.fetch_failed" = "Couldn't refresh";
+"mood.updated_at" = "Updated %@";
+"mood.no_posts" = "No reports";
+"mood.cell_caption" = "%@ · %d";
+"mood.cell_accessibility_label" = "%@, %@";
+
+/* Area Mood (みんな) - detail sheet */
+"mood.detail.no_recent_posts" = "No reports in the last 3 hours";
+"mood.detail.breakdown" = "Mood breakdown";
+"mood.detail.recent_posts" = "Recent reports";
+"mood.time.just_now" = "Just now";
+"mood.time.minutes_ago" = "%d min ago";
+"mood.time.hours_minutes_ago" = "%dh %dm ago";
+
+/* Area Mood (みんな) - post sheet */
+"mood.post.area_section" = "Which area?";
+"mood.post.area_picker_label" = "Area";
+"mood.post.select_placeholder" = "Select";
+"mood.post.use_current_location" = "Use current location";
+"mood.post.level_section" = "How does it feel right now?";
+"mood.post.phrase_section" = "In a word?";
+"mood.post.title" = "Post your mood";
+"mood.post.submit" = "Post";
+
+/* Area Mood (みんな) - errors */
+"mood.rate_limited" = "You can't post again yet (about %d min left)";
+"mood.post_failed_generic" = "Couldn't post. Please try again later.";
+"mood.error.not_signed_in" = "Posting requires iCloud sign-in. Please sign in from the Settings app.";
+"mood.error.invalid_record" = "Couldn't read the post data";

@@ -16,9 +16,9 @@ struct AreaMoodPostSheet: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("どのエリア？") {
-                    Picker("エリア", selection: $selectedArea) {
-                        Text("選択してください").tag(OkinawaArea?.none)
+                Section(L10n.moodPostAreaSection) {
+                    Picker(L10n.moodPostAreaPickerLabel, selection: $selectedArea) {
+                        Text(L10n.moodPostSelectPlaceholder).tag(OkinawaArea?.none)
                         ForEach(OkinawaArea.allCases) { area in
                             Text(area.displayName).tag(OkinawaArea?.some(area))
                         }
@@ -26,11 +26,11 @@ struct AreaMoodPostSheet: View {
                     Button {
                         detectAreaFromCurrentLocation(overwriteExisting: true)
                     } label: {
-                        Label("現在地から選ぶ", systemImage: "location")
+                        Label(L10n.moodPostUseCurrentLocation, systemImage: "location")
                     }
                 }
 
-                Section("いまの体感は？") {
+                Section(L10n.moodPostLevelSection) {
                     ForEach(MoodLevel.allCases) { level in
                         Button {
                             selectedLevel = level
@@ -56,7 +56,7 @@ struct AreaMoodPostSheet: View {
                 }
 
                 if let level = selectedLevel {
-                    Section("ひとことで言うと？") {
+                    Section(L10n.moodPostPhraseSection) {
                         ForEach(MoodPhraseCatalog.phrases(for: level)) { phrase in
                             Button {
                                 selectedPhraseID = phrase.id
@@ -82,15 +82,15 @@ struct AreaMoodPostSheet: View {
                     }
                 }
             }
-            .navigationTitle("体感を投稿")
+            .navigationTitle(L10n.moodPostTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("閉じる") { dismiss() }
+                    Button(L10n.mapSummaryCollapse) { dismiss() }
                         .disabled(isSubmitting)
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("投稿する") { submit() }
+                    Button(L10n.moodPostSubmit) { submit() }
                         .disabled(selectedArea == nil || selectedLevel == nil
                                   || selectedPhraseID == nil || isSubmitting)
                 }

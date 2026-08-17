@@ -15,13 +15,7 @@ enum MoodLevel: Int, CaseIterable, Codable, Comparable, Identifiable {
     static func < (lhs: MoodLevel, rhs: MoodLevel) -> Bool { lhs.rawValue < rhs.rawValue }
 
     var label: String {
-        switch self {
-        case .calm: return "おだやか"
-        case .breezy: return "風が出てきた"
-        case .stormy: return "雨風が強い"
-        case .dangerous: return "外は危険"
-        case .violent: return "暴風"
-        }
+        L10n.moodLevelLabel(self)
     }
 
     var emoji: String {

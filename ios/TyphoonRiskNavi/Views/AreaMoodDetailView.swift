@@ -9,13 +9,13 @@ struct AreaMoodDetailView: View {
         NavigationStack {
             List {
                 if posts.isEmpty {
-                    Text("直近3時間の投稿はありません")
+                    Text(L10n.moodDetailNoRecentPosts)
                         .foregroundStyle(.secondary)
                 } else {
-                    Section("体感の内訳") {
+                    Section(L10n.moodDetailBreakdown) {
                         distribution
                     }
-                    Section("最近の投稿") {
+                    Section(L10n.moodDetailRecentPosts) {
                         ForEach(posts) { post in
                             HStack(spacing: 10) {
                                 Text(post.level.emoji)
@@ -64,8 +64,8 @@ struct AreaMoodDetailView: View {
 
     private func relativeTime(_ date: Date) -> String {
         let minutes = Int(Date().timeIntervalSince(date) / 60)
-        if minutes < 1 { return "たった今" }
-        if minutes < 60 { return "\(minutes)分前" }
-        return "\(minutes / 60)時間\(minutes % 60)分前"
+        if minutes < 1 { return L10n.moodTimeJustNow }
+        if minutes < 60 { return L10n.moodTimeMinutesAgo(minutes) }
+        return L10n.moodTimeHoursMinutesAgo(minutes / 60, minutes % 60)
     }
 }

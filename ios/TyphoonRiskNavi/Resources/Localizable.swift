@@ -237,4 +237,82 @@ enum L10n {
     static let settingsUsingDemoBecauseFetchFailed = "settings.using_demo_because_fetch_failed".localized
 
     static let alertLocationPermissionTitle = "alert.location_permission_title".localized
+
+    // Area Mood (みんな) - area names
+    static func areaDisplayName(_ area: OkinawaArea) -> String {
+        switch area {
+        case .naha: return "area.naha".localized
+        case .south: return "area.south".localized
+        case .central: return "area.central".localized
+        case .north: return "area.north".localized
+        case .keramaAguni: return "area.kerama_aguni".localized
+        case .kumejima: return "area.kumejima".localized
+        case .miyako: return "area.miyako".localized
+        case .ishigaki: return "area.ishigaki".localized
+        case .yonaguni: return "area.yonaguni".localized
+        case .daito: return "area.daito".localized
+        }
+    }
+
+    // Area Mood (みんな) - mood level labels
+    static func moodLevelLabel(_ level: MoodLevel) -> String {
+        switch level {
+        case .calm: return "mood.level.calm".localized
+        case .breezy: return "mood.level.breezy".localized
+        case .stormy: return "mood.level.stormy".localized
+        case .dangerous: return "mood.level.dangerous".localized
+        case .violent: return "mood.level.violent".localized
+        }
+    }
+
+    // Area Mood (みんな) - phrase catalog
+    static func moodPhraseText(_ id: String) -> String {
+        "mood.phrase.\(id.lowercased())".localized
+    }
+
+    // Area Mood (みんな) - screen
+    static let moodTitle = "mood.title".localized
+    static let moodPostAction = "mood.post_action".localized
+    static let moodDisclaimer = "mood.disclaimer".localized
+    static let moodFetchFailed = "mood.fetch_failed".localized
+    static func moodUpdatedAt(_ time: String) -> String {
+        String(format: "mood.updated_at".localized, time)
+    }
+    static let moodNoPosts = "mood.no_posts".localized
+    static func moodCellCaption(_ levelLabel: String, _ count: Int) -> String {
+        String(format: "mood.cell_caption".localized, levelLabel, count)
+    }
+    static func moodCellAccessibilityLabel(_ areaName: String, _ caption: String) -> String {
+        String(format: "mood.cell_accessibility_label".localized, areaName, caption)
+    }
+
+    // Area Mood (みんな) - detail sheet
+    static let moodDetailNoRecentPosts = "mood.detail.no_recent_posts".localized
+    static let moodDetailBreakdown = "mood.detail.breakdown".localized
+    static let moodDetailRecentPosts = "mood.detail.recent_posts".localized
+    static let moodTimeJustNow = "mood.time.just_now".localized
+    static func moodTimeMinutesAgo(_ minutes: Int) -> String {
+        String(format: "mood.time.minutes_ago".localized, minutes)
+    }
+    static func moodTimeHoursMinutesAgo(_ hours: Int, _ minutes: Int) -> String {
+        String(format: "mood.time.hours_minutes_ago".localized, hours, minutes)
+    }
+
+    // Area Mood (みんな) - post sheet
+    static let moodPostAreaSection = "mood.post.area_section".localized
+    static let moodPostAreaPickerLabel = "mood.post.area_picker_label".localized
+    static let moodPostSelectPlaceholder = "mood.post.select_placeholder".localized
+    static let moodPostUseCurrentLocation = "mood.post.use_current_location".localized
+    static let moodPostLevelSection = "mood.post.level_section".localized
+    static let moodPostPhraseSection = "mood.post.phrase_section".localized
+    static let moodPostTitle = "mood.post.title".localized
+    static let moodPostSubmit = "mood.post.submit".localized
+
+    // Area Mood (みんな) - errors
+    static func moodRateLimited(_ minutes: Int) -> String {
+        String(format: "mood.rate_limited".localized, minutes)
+    }
+    static let moodPostFailedGeneric = "mood.post_failed_generic".localized
+    static let moodErrorNotSignedIn = "mood.error.not_signed_in".localized
+    static let moodErrorInvalidRecord = "mood.error.invalid_record".localized
 }

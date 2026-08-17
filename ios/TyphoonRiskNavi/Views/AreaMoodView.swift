@@ -28,20 +28,20 @@ struct AreaMoodView: View {
                             }
                         }
                     if let lastUpdated = viewModel.lastUpdated {
-                        Text("更新 \(lastUpdated.formatted(date: .omitted, time: .shortened))")
+                        Text(L10n.moodUpdatedAt(lastUpdated.formatted(date: .omitted, time: .shortened)))
                             .font(.caption2)
                             .foregroundStyle(.secondary)
                     }
                 }
                 .padding()
             }
-            .navigationTitle("みんな")
+            .navigationTitle(L10n.moodTitle)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
                         isShowingPostSheet = true
                     } label: {
-                        Label("投稿", systemImage: "plus.bubble")
+                        Label(L10n.moodPostAction, systemImage: "plus.bubble")
                     }
                 }
             }
@@ -73,7 +73,7 @@ struct AreaMoodView: View {
     private var disclaimer: some View {
         HStack(spacing: 6) {
             Image(systemName: "person.2")
-            Text("みんなの体感（公式情報ではありません）")
+            Text(L10n.moodDisclaimer)
         }
         .font(.caption)
         .foregroundStyle(.secondary)
@@ -85,11 +85,11 @@ struct AreaMoodView: View {
         HStack(spacing: 6) {
             Image(systemName: "exclamationmark.triangle")
                 .foregroundStyle(.orange)
-            Text("更新できませんでした")
+            Text(L10n.moodFetchFailed)
                 .font(.caption)
                 .foregroundStyle(.secondary)
             Spacer()
-            Button("再試行") {
+            Button(L10n.retry) {
                 Task { await viewModel.refresh() }
             }
             .font(.caption.bold())
@@ -172,13 +172,13 @@ struct AreaMoodView: View {
         .buttonStyle(.plain)
         // 素の読み上げは「slightly smiling face、北部、風が出てきた・1件、ボタン」のように断片化するため、
         // 意味の通る一文にまとめる（「－」も含まれなくなる）。
-        .accessibilityLabel("\(area.displayName)、\(cellCaption(summary))")
+        .accessibilityLabel(L10n.moodCellAccessibilityLabel(area.displayName, cellCaption(summary)))
     }
 
     private func cellCaption(_ summary: AreaMoodSummary?) -> String {
         guard let summary, summary.postCount > 0, let level = summary.representativeLevel else {
-            return "投稿なし"
+            return L10n.moodNoPosts
         }
-        return "\(level.label)・\(summary.postCount)件"
+        return L10n.moodCellCaption(level.label, summary.postCount)
     }
 }

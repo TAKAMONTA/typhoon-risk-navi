@@ -19,18 +19,7 @@ enum OkinawaArea: String, CaseIterable, Codable, Identifiable {
     var id: String { rawValue }
 
     var displayName: String {
-        switch self {
-        case .naha: return "那覇"
-        case .south: return "南部"
-        case .central: return "中部"
-        case .north: return "北部"
-        case .keramaAguni: return "慶良間・粟国"
-        case .kumejima: return "久米島"
-        case .miyako: return "宮古"
-        case .ishigaki: return "石垣"
-        case .yonaguni: return "与那国"
-        case .daito: return "大東"
-        }
+        L10n.areaDisplayName(self)
     }
 
     /// 自治体ID（OkinawaMunicipalityCatalog の id）→ エリアの対応表。

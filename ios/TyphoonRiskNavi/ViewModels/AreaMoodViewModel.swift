@@ -80,7 +80,7 @@ final class AreaMoodViewModel: ObservableObject {
         let remaining = rateLimiter.remainingSeconds(now: now())
         guard remaining > 0 else { return nil }
         let minutes = Int(ceil(remaining / 60))
-        return "連続投稿はできません（あと約\(minutes)分）"
+        return L10n.moodRateLimited(minutes)
     }
 
     /// 投稿して楽観的に反映する。成功なら true。
@@ -102,7 +102,7 @@ final class AreaMoodViewModel: ObservableObject {
             return true
         } catch {
             postError = (error as? LocalizedError)?.errorDescription
-                ?? "投稿できませんでした。時間をおいて再度お試しください"
+                ?? L10n.moodPostFailedGeneric
             return false
         }
     }

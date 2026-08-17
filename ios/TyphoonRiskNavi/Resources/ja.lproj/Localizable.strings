@@ -183,3 +183,78 @@
 "last_real_data.just_now" = "最終実データ: たった今";
 "last_real_data.relative" = "最終実データ: %@";
 "map.anchor.okinawa" = "沖縄本島";
+
+/* Area Mood (みんな) - area names */
+"area.naha" = "那覇";
+"area.south" = "南部";
+"area.central" = "中部";
+"area.north" = "北部";
+"area.kerama_aguni" = "慶良間・粟国";
+"area.kumejima" = "久米島";
+"area.miyako" = "宮古";
+"area.ishigaki" = "石垣";
+"area.yonaguni" = "与那国";
+"area.daito" = "大東";
+
+/* Area Mood (みんな) - mood level labels */
+"mood.level.calm" = "おだやか";
+"mood.level.breezy" = "風が出てきた";
+"mood.level.stormy" = "雨風が強い";
+"mood.level.dangerous" = "外は危険";
+"mood.level.violent" = "暴風";
+
+/* Area Mood (みんな) - phrase catalog */
+"mood.phrase.l1_still_quiet" = "まだ静か";
+"mood.phrase.l1_gentle_wind" = "風は穏やか";
+"mood.phrase.l1_no_rain" = "雨は降っていない";
+"mood.phrase.l1_as_usual" = "普段どおり";
+"mood.phrase.l2_trees_swaying" = "木が揺れている";
+"mood.phrase.l2_rain_started" = "雨が降り始めた";
+"mood.phrase.l2_stocked_up" = "買い出しに行った";
+"mood.phrase.l2_still_walkable" = "まだ出歩ける";
+"mood.phrase.l3_windows_rattling" = "窓が音を立てている";
+"mood.phrase.l3_staying_in" = "外出はやめた";
+"mood.phrase.l3_transport_disrupted" = "交通が乱れている";
+"mood.phrase.l3_umbrella_useless" = "傘がさせない";
+"mood.phrase.l4_cannot_go_out" = "外に出られない";
+"mood.phrase.l4_debris_flying" = "物が飛んでいる";
+"mood.phrase.l4_power_outage" = "停電しています";
+"mood.phrase.l4_water_outage" = "断水しています";
+"mood.phrase.l5_roaring_wind" = "風の音がすごい";
+"mood.phrase.l5_away_from_windows" = "窓から離れている";
+"mood.phrase.l5_peak_ahead" = "峠はまだ先";
+"mood.phrase.l5_maybe_past_peak" = "峠を越えたかも";
+
+/* Area Mood (みんな) - screen */
+"mood.title" = "みんな";
+"mood.post_action" = "投稿";
+"mood.disclaimer" = "みんなの体感（公式情報ではありません）";
+"mood.fetch_failed" = "更新できませんでした";
+"mood.updated_at" = "更新 %@";
+"mood.no_posts" = "投稿なし";
+"mood.cell_caption" = "%@・%d件";
+"mood.cell_accessibility_label" = "%@、%@";
+
+/* Area Mood (みんな) - detail sheet */
+"mood.detail.no_recent_posts" = "直近3時間の投稿はありません";
+"mood.detail.breakdown" = "体感の内訳";
+"mood.detail.recent_posts" = "最近の投稿";
+"mood.time.just_now" = "たった今";
+"mood.time.minutes_ago" = "%d分前";
+"mood.time.hours_minutes_ago" = "%d時間%d分前";
+
+/* Area Mood (みんな) - post sheet */
+"mood.post.area_section" = "どのエリア？";
+"mood.post.area_picker_label" = "エリア";
+"mood.post.select_placeholder" = "選択してください";
+"mood.post.use_current_location" = "現在地から選ぶ";
+"mood.post.level_section" = "いまの体感は？";
+"mood.post.phrase_section" = "ひとことで言うと？";
+"mood.post.title" = "体感を投稿";
+"mood.post.submit" = "投稿する";
+
+/* Area Mood (みんな) - errors */
+"mood.rate_limited" = "連続投稿はできません（あと約%d分）";
+"mood.post_failed_generic" = "投稿できませんでした。時間をおいて再度お試しください";
+"mood.error.not_signed_in" = "投稿には iCloud サインインが必要です。設定アプリからサインインしてください";
+"mood.error.invalid_record" = "投稿データを読み取れませんでした";

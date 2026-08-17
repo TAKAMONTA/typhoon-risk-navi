@@ -13,30 +13,30 @@ enum MoodPhraseCatalog {
 
     static let all: [MoodPhrase] = [
         // レベル1: おだやか
-        MoodPhrase(id: "L1_still_quiet", level: .calm, text: "まだ静か"),
-        MoodPhrase(id: "L1_gentle_wind", level: .calm, text: "風は穏やか"),
-        MoodPhrase(id: "L1_no_rain", level: .calm, text: "雨は降っていない"),
-        MoodPhrase(id: "L1_as_usual", level: .calm, text: "普段どおり"),
+        MoodPhrase(id: "L1_still_quiet", level: .calm, text: L10n.moodPhraseText("L1_still_quiet")),
+        MoodPhrase(id: "L1_gentle_wind", level: .calm, text: L10n.moodPhraseText("L1_gentle_wind")),
+        MoodPhrase(id: "L1_no_rain", level: .calm, text: L10n.moodPhraseText("L1_no_rain")),
+        MoodPhrase(id: "L1_as_usual", level: .calm, text: L10n.moodPhraseText("L1_as_usual")),
         // レベル2: 風が出てきた
-        MoodPhrase(id: "L2_trees_swaying", level: .breezy, text: "木が揺れている"),
-        MoodPhrase(id: "L2_rain_started", level: .breezy, text: "雨が降り始めた"),
-        MoodPhrase(id: "L2_stocked_up", level: .breezy, text: "買い出しに行った"),
-        MoodPhrase(id: "L2_still_walkable", level: .breezy, text: "まだ出歩ける"),
+        MoodPhrase(id: "L2_trees_swaying", level: .breezy, text: L10n.moodPhraseText("L2_trees_swaying")),
+        MoodPhrase(id: "L2_rain_started", level: .breezy, text: L10n.moodPhraseText("L2_rain_started")),
+        MoodPhrase(id: "L2_stocked_up", level: .breezy, text: L10n.moodPhraseText("L2_stocked_up")),
+        MoodPhrase(id: "L2_still_walkable", level: .breezy, text: L10n.moodPhraseText("L2_still_walkable")),
         // レベル3: 雨風が強い
-        MoodPhrase(id: "L3_windows_rattling", level: .stormy, text: "窓が音を立てている"),
-        MoodPhrase(id: "L3_staying_in", level: .stormy, text: "外出はやめた"),
-        MoodPhrase(id: "L3_transport_disrupted", level: .stormy, text: "交通が乱れている"),
-        MoodPhrase(id: "L3_umbrella_useless", level: .stormy, text: "傘がさせない"),
+        MoodPhrase(id: "L3_windows_rattling", level: .stormy, text: L10n.moodPhraseText("L3_windows_rattling")),
+        MoodPhrase(id: "L3_staying_in", level: .stormy, text: L10n.moodPhraseText("L3_staying_in")),
+        MoodPhrase(id: "L3_transport_disrupted", level: .stormy, text: L10n.moodPhraseText("L3_transport_disrupted")),
+        MoodPhrase(id: "L3_umbrella_useless", level: .stormy, text: L10n.moodPhraseText("L3_umbrella_useless")),
         // レベル4: 外は危険
-        MoodPhrase(id: "L4_cannot_go_out", level: .dangerous, text: "外に出られない"),
-        MoodPhrase(id: "L4_debris_flying", level: .dangerous, text: "物が飛んでいる"),
-        MoodPhrase(id: "L4_power_outage", level: .dangerous, text: "停電しています"),
-        MoodPhrase(id: "L4_water_outage", level: .dangerous, text: "断水しています"),
+        MoodPhrase(id: "L4_cannot_go_out", level: .dangerous, text: L10n.moodPhraseText("L4_cannot_go_out")),
+        MoodPhrase(id: "L4_debris_flying", level: .dangerous, text: L10n.moodPhraseText("L4_debris_flying")),
+        MoodPhrase(id: "L4_power_outage", level: .dangerous, text: L10n.moodPhraseText("L4_power_outage")),
+        MoodPhrase(id: "L4_water_outage", level: .dangerous, text: L10n.moodPhraseText("L4_water_outage")),
         // レベル5: 暴風
-        MoodPhrase(id: "L5_roaring_wind", level: .violent, text: "風の音がすごい"),
-        MoodPhrase(id: "L5_away_from_windows", level: .violent, text: "窓から離れている"),
-        MoodPhrase(id: "L5_peak_ahead", level: .violent, text: "峠はまだ先"),
-        MoodPhrase(id: "L5_maybe_past_peak", level: .violent, text: "峠を越えたかも"),
+        MoodPhrase(id: "L5_roaring_wind", level: .violent, text: L10n.moodPhraseText("L5_roaring_wind")),
+        MoodPhrase(id: "L5_away_from_windows", level: .violent, text: L10n.moodPhraseText("L5_away_from_windows")),
+        MoodPhrase(id: "L5_peak_ahead", level: .violent, text: L10n.moodPhraseText("L5_peak_ahead")),
+        MoodPhrase(id: "L5_maybe_past_peak", level: .violent, text: L10n.moodPhraseText("L5_maybe_past_peak")),
     ]
 
     static func phrases(for level: MoodLevel) -> [MoodPhrase] {
