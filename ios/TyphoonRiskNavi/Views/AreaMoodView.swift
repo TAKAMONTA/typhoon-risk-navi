@@ -7,6 +7,12 @@ struct AreaMoodView: View {
     @State private var selectedArea: OkinawaArea?
     @State private var isShowingPostSheet = false
 
+    /// 初回読み込み中かどうか。この間は「投稿なし」を「まだ不明」と誤って断定しないよう、
+    /// グリッドをプレースホルダ表示にする。
+    private var isFirstLoad: Bool {
+        viewModel.isLoading && viewModel.lastUpdated == nil
+    }
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -16,6 +22,13 @@ struct AreaMoodView: View {
                         fetchFailedBanner
                     }
                     areaGrid
+                        .redacted(reason: isFirstLoad ? .placeholder : [])
+                        .allowsHitTesting(!isFirstLoad)
+                        .overlay {
+                            if isFirstLoad {
+                                ProgressView()
+                            }
+                        }
                     if let lastUpdated = viewModel.lastUpdated {
                         Text("更新 \(lastUpdated.formatted(date: .omitted, time: .shortened))")
                             .font(.caption2)
@@ -24,7 +37,7 @@ struct AreaMoodView: View {
                 }
                 .padding()
             }
-            .navigationTitle("みんなの体感")
+            .navigationTitle("みんな")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
@@ -37,16 +50,21 @@ struct AreaMoodView: View {
             .refreshable { await viewModel.refresh() }
             .task {
                 await viewModel.refresh()
-                viewModel.startAutoRefresh()
+                // タブ切り替えでこの task がキャンセルされた後は、
+                // オフスクリーンのタブでポーリングを起動しない。
+                if !Task.isCancelled {
+                    viewModel.startAutoRefresh()
+                }
             }
             .onDisappear { viewModel.stopAutoRefresh() }
             .sheet(item: $selectedArea) { area in
-                // Task 9 で AreaMoodDetailView に差し替える
-                Text(area.displayName)
+                AreaMoodDetailView(
+                    area: area,
+                    posts: viewModel.recentPosts.filter { $0.area == area }
+                )
             }
             .sheet(isPresented: $isShowingPostSheet) {
-                // Task 9 で AreaMoodPostSheet に差し替える
-                Text("投稿")
+                AreaMoodPostSheet(viewModel: viewModel)
             }
         }
     }
@@ -132,9 +150,12 @@ struct AreaMoodView: View {
             VStack(spacing: 4) {
                 Text(level?.emoji ?? "－")
                     .font(.title2)
+                    // 表情は装飾。VoiceOver には下のボタン全体のラベルでまとめて読ませる。
+                    .accessibilityHidden(true)
                 Text(area.displayName)
                     .font(.caption.bold())
-                    .lineLimit(1)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.center)
                     .minimumScaleFactor(0.7)
                 Text(cellCaption(summary))
                     .font(.caption2)
@@ -149,6 +170,9 @@ struct AreaMoodView: View {
             )
         }
         .buttonStyle(.plain)
+        // 素の読み上げは「slightly smiling face、北部、風が出てきた・1件、ボタン」のように断片化するため、
+        // 意味の通る一文にまとめる（「－」も含まれなくなる）。
+        .accessibilityLabel("\(area.displayName)、\(cellCaption(summary))")
     }
 
     private func cellCaption(_ summary: AreaMoodSummary?) -> String {
