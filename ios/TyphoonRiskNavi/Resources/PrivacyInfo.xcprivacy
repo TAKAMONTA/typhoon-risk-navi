@@ -21,8 +21,10 @@
 	<key>NSPrivacyCollectedDataTypes</key>
 	<array>
 		<dict>
+			<!-- NSPrivacyCollectedDataTypeLocation は Apple の有効な値一覧に存在しないキーだったため、
+			     kCLLocationAccuracyNearestTenMeters を使う精密位置情報として PreciseLocation に修正 -->
 			<key>NSPrivacyCollectedDataType</key>
-			<string>NSPrivacyCollectedDataTypeLocation</string>
+			<string>NSPrivacyCollectedDataTypePreciseLocation</string>
 			<key>NSPrivacyCollectedDataTypeLinked</key>
 			<false/>
 			<key>NSPrivacyCollectedDataTypeTracking</key>
