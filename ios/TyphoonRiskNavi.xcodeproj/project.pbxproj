@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		07C714B819EE1691DD613E52 /* OfficialWarningStalenessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73666D91499EA165D801714 /* OfficialWarningStalenessTests.swift */; };
 		08F7F5D5A76930447B169C4F /* JMAWarningFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843633ADBA1986F68A51CE17 /* JMAWarningFetcher.swift */; };
+		12124EF9AE8C025ACF93C516 /* CloudKitMoodPostStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E11C163DEF7B4C1BA61BE0 /* CloudKitMoodPostStoreTests.swift */; };
 		1561230299D25038238E167A /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E23C0D7FD52C934DA6A3B4 /* Models.swift */; };
 		1654D2F53A433AC86DEC30EF /* OkinawaMunicipalityCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C3228D57573C708A6FDF4 /* OkinawaMunicipalityCatalog.swift */; };
 		1662B83332C511203D092B3F /* OkinawaMunicipalityCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A45637DF62C98DEF8C5F6C76 /* OkinawaMunicipalityCatalogTests.swift */; };
@@ -17,6 +18,7 @@
 		27CF7A0DDF4FD860040E87BD /* OkinawaArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDC4D5CA246DA05E0FACCEE /* OkinawaArea.swift */; };
 		2997BF86BC63594C329A3DEE /* AreaMoodModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D885FB8503EE0CCF46F7406 /* AreaMoodModels.swift */; };
 		30345626D7BB06F79F8556A7 /* DemoSeedPurgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B46BB3E9167487605A1B8DA /* DemoSeedPurgeTests.swift */; };
+		3EE78FE1AC9FC9F7AA1ED755 /* CloudKitMoodPostStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4801D76B7B9EC304EDDBCD /* CloudKitMoodPostStore.swift */; };
 		421B63785175D6914ECF14DE /* TyphoonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7760478548819A747667D779 /* TyphoonViewModel.swift */; };
 		4BC6A5FCE7C695B2EEDC0663 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76111743BD294C3A74DCBD0 /* MainTabView.swift */; };
 		4C6CC53765BB79DF28C595B0 /* LocalLocationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB735590313CAFB2558F9F5B /* LocalLocationStore.swift */; };
@@ -79,8 +81,10 @@
 		1E56CE1C9C58D7974059A46F /* TyphoonRiskNaviTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TyphoonRiskNaviTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FB5D2A64DFFAC9612DEE1D1 /* RiskCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiskCalculator.swift; sourceTree = "<group>"; };
 		215D985FFD72000F365FA413 /* CurrentLocationNamingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationNamingTests.swift; sourceTree = "<group>"; };
+		30A5B6A6AC177F6A8C138940 /* TyphoonRiskNavi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TyphoonRiskNavi.entitlements; sourceTree = "<group>"; };
 		31ADB00051BCD6EE40B5F001 /* JMAParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMAParserTests.swift; sourceTree = "<group>"; };
 		31B10BDF4448CC71D0C7F0A2 /* TyphoonRiskNaviApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TyphoonRiskNaviApp.swift; sourceTree = "<group>"; };
+		3C4801D76B7B9EC304EDDBCD /* CloudKitMoodPostStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitMoodPostStore.swift; sourceTree = "<group>"; };
 		3EDC4D5CA246DA05E0FACCEE /* OkinawaArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OkinawaArea.swift; sourceTree = "<group>"; };
 		4305C0287CA0FCFB8A89FC8E /* MoodPostRateLimiter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodPostRateLimiter.swift; sourceTree = "<group>"; };
 		48A44DB88BAFEB3080C73126 /* JMAWarningXMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMAWarningXMLParser.swift; sourceTree = "<group>"; };
@@ -106,6 +110,7 @@
 		98A284B78754D72C957BFE1E /* JMAParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMAParser.swift; sourceTree = "<group>"; };
 		98F01DC9FCE03FE990BCA076 /* JMAWarningXMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMAWarningXMLParserTests.swift; sourceTree = "<group>"; };
 		9D885FB8503EE0CCF46F7406 /* AreaMoodModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaMoodModels.swift; sourceTree = "<group>"; };
+		A3E11C163DEF7B4C1BA61BE0 /* CloudKitMoodPostStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitMoodPostStoreTests.swift; sourceTree = "<group>"; };
 		A3F7DEEB1BDF30FAA4AE93B5 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A45637DF62C98DEF8C5F6C76 /* OkinawaMunicipalityCatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OkinawaMunicipalityCatalogTests.swift; sourceTree = "<group>"; };
 		A73666D91499EA165D801714 /* OfficialWarningStalenessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficialWarningStalenessTests.swift; sourceTree = "<group>"; };
@@ -144,6 +149,7 @@
 		5A9D3796AF7E08948089CC17 /* TyphoonRiskNavi */ = {
 			isa = PBXGroup;
 			children = (
+				30A5B6A6AC177F6A8C138940 /* TyphoonRiskNavi.entitlements */,
 				31B10BDF4448CC71D0C7F0A2 /* TyphoonRiskNaviApp.swift */,
 				9F594F6C1D6119EE7D222726 /* Models */,
 				9AE1B7389821950A279DA048 /* Resources */,
@@ -186,6 +192,7 @@
 		A1833BAC3A03D6C15D3EE931 /* TyphoonRiskNaviTests */ = {
 			isa = PBXGroup;
 			children = (
+				A3E11C163DEF7B4C1BA61BE0 /* CloudKitMoodPostStoreTests.swift */,
 				95BEB68B42E85BE12BA65FB5 /* CurrentLocationNameMigrationTests.swift */,
 				215D985FFD72000F365FA413 /* CurrentLocationNamingTests.swift */,
 				4B46BB3E9167487605A1B8DA /* DemoSeedPurgeTests.swift */,
@@ -228,6 +235,7 @@
 		AF2B99F8D4450C6809CB8F86 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				3C4801D76B7B9EC304EDDBCD /* CloudKitMoodPostStore.swift */,
 				9898CD2CE044954C7F76F521 /* CurrentLocationNaming.swift */,
 				6D49D1949BCB393A2D0357A9 /* DemoData.swift */,
 				1457F76248D6CC3F098EB07E /* JMAFetcher.swift */,
@@ -348,6 +356,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				12124EF9AE8C025ACF93C516 /* CloudKitMoodPostStoreTests.swift in Sources */,
 				CCA131A52D1AB8E859E07581 /* CurrentLocationNameMigrationTests.swift in Sources */,
 				4E0227E7DDA314931E9F4806 /* CurrentLocationNamingTests.swift in Sources */,
 				30345626D7BB06F79F8556A7 /* DemoSeedPurgeTests.swift in Sources */,
@@ -374,6 +383,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2997BF86BC63594C329A3DEE /* AreaMoodModels.swift in Sources */,
+				3EE78FE1AC9FC9F7AA1ED755 /* CloudKitMoodPostStore.swift in Sources */,
 				C744B338AF00DEDB2B02ED93 /* CurrentLocationNaming.swift in Sources */,
 				9443EB1C226D33BDD0BA28B7 /* DataSourceStatusBanner.swift in Sources */,
 				93827317748054CB8DA70EC1 /* DemoData.swift in Sources */,
@@ -433,6 +443,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TyphoonRiskNavi/TyphoonRiskNavi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = TyphoonRiskNavi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -451,6 +462,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TyphoonRiskNavi/TyphoonRiskNavi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = TyphoonRiskNavi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
