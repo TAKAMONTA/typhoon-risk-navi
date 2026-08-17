@@ -24,7 +24,7 @@ struct AreaMoodPostSheet: View {
                         }
                     }
                     Button {
-                        detectAreaFromCurrentLocation()
+                        detectAreaFromCurrentLocation(overwriteExisting: true)
                     } label: {
                         Label("現在地から選ぶ", systemImage: "location")
                     }
@@ -87,6 +87,7 @@ struct AreaMoodPostSheet: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("閉じる") { dismiss() }
+                        .disabled(isSubmitting)
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("投稿する") { submit() }
@@ -99,16 +100,18 @@ struct AreaMoodPostSheet: View {
                 viewModel.postError = viewModel.postingBlockedReason
                 // 許可済みなら黙って初期選択（未許可ならボタン操作まで何もしない）
                 if locationHelper.isAuthorized, selectedArea == nil {
-                    detectAreaFromCurrentLocation()
+                    detectAreaFromCurrentLocation(overwriteExisting: false)
                 }
             }
         }
         .presentationDetents([.large])
     }
 
-    private func detectAreaFromCurrentLocation() {
+    private func detectAreaFromCurrentLocation(overwriteExisting: Bool) {
         locationHelper.onLocation = { location in
-            if let area = AreaMoodViewModel.area(for: location.coordinate) {
+            guard let area = AreaMoodViewModel.area(for: location.coordinate) else { return }
+            // 自動検出中にユーザーが手で選んでいたら、後着の測位で上書きしない
+            if overwriteExisting || selectedArea == nil {
                 selectedArea = area
             }
         }
@@ -120,6 +123,7 @@ struct AreaMoodPostSheet: View {
 
     private func submit() {
         guard let area = selectedArea, let level = selectedLevel, let phraseID = selectedPhraseID else { return }
+        viewModel.postError = nil
         isSubmitting = true
         Task {
             let succeeded = await viewModel.post(area: area, level: level, phraseID: phraseID)

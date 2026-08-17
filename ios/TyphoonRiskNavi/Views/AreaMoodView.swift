@@ -7,11 +7,9 @@ struct AreaMoodView: View {
     @State private var selectedArea: OkinawaArea?
     @State private var isShowingPostSheet = false
 
-    /// 初回読み込み中かどうか。この間は「投稿なし」を「まだ不明」と誤って断定しないよう、
-    /// グリッドをプレースホルダ表示にする。
-    private var isFirstLoad: Bool {
-        viewModel.isLoading && viewModel.lastUpdated == nil
-    }
+    /// 一度もデータが届いていない状態。取得中か失敗かを問わない。
+    /// isLoading を条件に含めると、初回取得が失敗したときに「投稿なし」の断定表示に戻ってしまう。
+    private var isFirstLoad: Bool { viewModel.lastUpdated == nil }
 
     var body: some View {
         NavigationStack {
@@ -25,7 +23,7 @@ struct AreaMoodView: View {
                         .redacted(reason: isFirstLoad ? .placeholder : [])
                         .allowsHitTesting(!isFirstLoad)
                         .overlay {
-                            if isFirstLoad {
+                            if isFirstLoad && viewModel.isLoading {
                                 ProgressView()
                             }
                         }
@@ -60,7 +58,9 @@ struct AreaMoodView: View {
             .sheet(item: $selectedArea) { area in
                 AreaMoodDetailView(
                     area: area,
-                    posts: viewModel.recentPosts.filter { $0.area == area }
+                    posts: viewModel.recentPosts.filter {
+                        $0.area == area && $0.createdAt >= Date().addingTimeInterval(-MoodAggregator.window)
+                    }
                 )
             }
             .sheet(isPresented: $isShowingPostSheet) {

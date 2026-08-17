@@ -24,6 +24,9 @@ final class AreaMoodViewModel: ObservableObject {
     private let now: () -> Date
     private let refreshInterval: TimeInterval
     private var refreshTask: Task<Void, Never>?
+    /// 送信中フラグ。シートを閉じて開き直すと @State の isSubmitting は初期化されるため、
+    /// 多重送信を防ぐ不変条件はシートではなくここに置く必要がある。
+    private var isPosting = false
 
     init(
         store: MoodPostStore,
@@ -83,6 +86,9 @@ final class AreaMoodViewModel: ObservableObject {
     /// 投稿して楽観的に反映する。成功なら true。
     /// レート制限の記録は成功後のみ（失敗時に10分待たせない）。
     func post(area: OkinawaArea, level: MoodLevel, phraseID: String) async -> Bool {
+        guard !isPosting else { return false }
+        isPosting = true
+        defer { isPosting = false }
         if let reason = postingBlockedReason {
             postError = reason
             return false

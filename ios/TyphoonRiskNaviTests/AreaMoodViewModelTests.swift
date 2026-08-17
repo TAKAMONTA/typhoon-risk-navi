@@ -127,14 +127,14 @@ final class AreaMoodViewModelTests: XCTestCase {
     func testStopAutoRefreshDoesNotTriggerAnotherFetch() async throws {
         struct Boom: Error {}
         let store = InMemoryMoodPostStore(now: { self.now })
-        let viewModel = makeViewModel(store: store, refreshInterval: 0.05)
+        // 間隔を十分長くとり、スケジュールされた refresh が一度も発火しない状態にする。
+        // こうすると「sleep のキャンセルを try? が飲んで refresh が走る」バグだけを検出できる。
+        let viewModel = makeViewModel(store: store, refreshInterval: 10)
         viewModel.startAutoRefresh()
-        try await Task.sleep(nanoseconds: 120_000_000)   // 2周期ぶん回す
-        XCTAssertFalse(viewModel.fetchFailed)
-
-        store.fetchError = Boom()                        // 以降の取得は必ず失敗する
-        viewModel.stopAutoRefresh()                      // バグがあるとここで1回取得が走る
-        try await Task.sleep(nanoseconds: 200_000_000)
+        try await Task.sleep(nanoseconds: 50_000_000)
+        store.fetchError = Boom()
+        viewModel.stopAutoRefresh()          // バグがあるとここで1回取得が走る
+        try await Task.sleep(nanoseconds: 300_000_000)
         XCTAssertFalse(viewModel.fetchFailed, "停止後に取得が走った")
     }
 
