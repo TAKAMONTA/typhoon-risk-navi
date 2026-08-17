@@ -7,32 +7,38 @@ struct AreaMoodDetailView: View {
 
     var body: some View {
         NavigationStack {
-            List {
+            // disclaimer を List の外(兄弟)に置くことで、内訳・直近投稿をスクロールしても
+            // 免責文言が画面外に流れない（AreaMoodView と同じ構成。スペック §1: 常時表示）。
+            VStack(alignment: .leading, spacing: 8) {
                 disclaimer
-                if posts.isEmpty {
-                    Text(L10n.moodDetailNoRecentPosts)
-                        .foregroundStyle(.secondary)
-                } else {
-                    Section(L10n.moodDetailBreakdown) {
-                        distribution
-                    }
-                    Section(L10n.moodDetailRecentPosts) {
-                        ForEach(posts) { post in
-                            HStack(spacing: 10) {
-                                Text(post.level.emoji)
-                                VStack(alignment: .leading, spacing: 2) {
-                                    // 未知の phraseID（将来バージョンのフレーズ）はレベルのラベルで代替
-                                    Text(MoodPhraseCatalog.phrase(for: post.phraseID)?.text ?? post.level.label)
-                                        .font(.subheadline)
-                                    Text(relativeTime(post.createdAt))
-                                        .font(.caption2)
-                                        .foregroundStyle(.secondary)
+                    .padding(.horizontal)
+                List {
+                    if posts.isEmpty {
+                        Text(L10n.moodDetailNoRecentPosts)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        Section(L10n.moodDetailBreakdown) {
+                            distribution
+                        }
+                        Section(L10n.moodDetailRecentPosts) {
+                            ForEach(posts) { post in
+                                HStack(spacing: 10) {
+                                    Text(post.level.emoji)
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        // 未知の phraseID（将来バージョンのフレーズ）はレベルのラベルで代替
+                                        Text(MoodPhraseCatalog.phrase(for: post.phraseID)?.text ?? post.level.label)
+                                            .font(.subheadline)
+                                        Text(relativeTime(post.createdAt))
+                                            .font(.caption2)
+                                            .foregroundStyle(.secondary)
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
+            .padding(.top, 8)
             .navigationTitle(area.displayName)
             .navigationBarTitleDisplayMode(.inline)
         }

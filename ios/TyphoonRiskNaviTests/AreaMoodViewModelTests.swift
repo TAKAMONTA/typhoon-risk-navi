@@ -76,7 +76,27 @@ final class AreaMoodViewModelTests: XCTestCase {
         XCTAssertNil(viewModel.postError)
         XCTAssertNotNil(viewModel.postingBlockedReason, "投稿直後はレート制限がかかるはず")
         XCTAssertEqual(store.posts.count, 1, "成功したのにストアへ書かれていない")
-        XCTAssertEqual(viewModel.lastUpdated, now, "投稿成功後も lastUpdated が nil のままだとグリッドが redacted のままになる")
+        XCTAssertNil(viewModel.lastUpdated, "post() は取得成功時刻ではないので lastUpdated を進めてはいけない（「更新」ラベルの意味が壊れる）")
+        XCTAssertTrue(viewModel.hasEverShownData, "投稿成功後もグリッドが redacted のままになってはいけない")
+    }
+
+    /// fetch 失敗のまま post だけ成功する組み合わせ。lastUpdated と hasEverShownData を混同すると、
+    /// 取得失敗バナーと「更新 HH:mm」ラベルが同時に出てしまう（レビューで指摘された矛盾）の回帰防止。
+    func testPostSuccessAfterFetchFailureEndsFirstLoadWithoutLastUpdated() async {
+        struct Boom: Error {}
+        let store = InMemoryMoodPostStore(now: { self.now })
+        store.fetchError = Boom()
+        let viewModel = makeViewModel(store: store)
+
+        await viewModel.refresh()
+        XCTAssertTrue(viewModel.fetchFailed)
+        XCTAssertNil(viewModel.lastUpdated)
+        XCTAssertFalse(viewModel.hasEverShownData, "取得が一度も成功していないのに first load を抜けた")
+
+        let succeeded = await viewModel.post(area: .naha, level: .calm, phraseID: "L1_still_quiet")
+        XCTAssertTrue(succeeded)
+        XCTAssertTrue(viewModel.hasEverShownData, "投稿成功後もグリッドが redacted のままになってはいけない")
+        XCTAssertNil(viewModel.lastUpdated, "取得は一度も成功していないので「更新」ラベルを出してはいけない")
     }
 
     /// 投稿の楽観的反映は既存のサマリーを消さず、新しい投稿を積み増す

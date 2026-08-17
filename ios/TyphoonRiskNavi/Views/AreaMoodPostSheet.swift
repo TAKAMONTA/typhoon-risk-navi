@@ -115,6 +115,9 @@ struct AreaMoodPostSheet: View {
                 viewModel.postError = L10n.moodPostOutsideOkinawa
                 return
             }
+            // 位置情報の解決に成功したので、直前の「県外のようです」エラーが
+            // 画面に残り続けないようにする
+            viewModel.postError = nil
             // 自動検出中にユーザーが手で選んでいたら、後着の測位で上書きしない
             if overwriteExisting || selectedArea == nil {
                 selectedArea = area

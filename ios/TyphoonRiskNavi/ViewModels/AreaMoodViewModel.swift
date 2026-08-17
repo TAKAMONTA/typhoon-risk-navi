@@ -21,6 +21,10 @@ final class AreaMoodViewModel: ObservableObject {
     @Published private(set) var recentPosts: [AreaMoodPost] = []
     @Published private(set) var isLoading = false
     @Published private(set) var lastUpdated: Date?
+    /// 初回表示(redacted)を抜けたかどうかの判定専用のシグナル。取得成功・投稿成功のどちらでも true になる。
+    /// lastUpdated は「取得が最後に成功した時刻」という意味だけに保つため、これとは分離してある
+    /// （分離した理由は post() 内のコメント参照）。
+    @Published private(set) var hasEverShownData = false
     @Published private(set) var fetchFailed = false
     @Published var postError: String?
 
@@ -69,6 +73,7 @@ final class AreaMoodViewModel: ObservableObject {
             recentPosts = posts
             summaries = MoodAggregator.summarize(posts: posts, now: current)
             lastUpdated = current
+            hasEverShownData = true
             fetchFailed = false
         } catch {
             // 前回の結果を保持したまま、失敗だけ知らせる（無言で失敗させない）。
@@ -104,9 +109,10 @@ final class AreaMoodViewModel: ObservableObject {
             recentPosts.insert(saved, at: 0)
             summaries = MoodAggregator.summarize(posts: recentPosts, now: now())
             // fetchPosts が失敗していても(fetchFailed = true のままでも)、自分の投稿は
-            // 確かに反映されたので lastUpdated を進める。isFirstLoad の判定はこれだけを見ており、
-            // 更新しないと投稿が成功してもグリッドが redacted のままになり、反映が伝わらない。
-            lastUpdated = now()
+            // 確かに反映されたので hasEverShownData を立てて redacted を解除する。
+            // lastUpdated はここでは進めない。進めてしまうと「取得が成功した時刻」という
+            // 意味が崩れ、取得失敗バナーと「更新 HH:mm」ラベルが同時に出て矛盾してしまう。
+            hasEverShownData = true
             postError = nil
             return true
         } catch {

@@ -9,7 +9,10 @@ struct AreaMoodView: View {
 
     /// 一度もデータが届いていない状態。取得中か失敗かを問わない。
     /// isLoading を条件に含めると、初回取得が失敗したときに「投稿なし」の断定表示に戻ってしまう。
-    private var isFirstLoad: Bool { viewModel.lastUpdated == nil }
+    /// lastUpdated ではなく hasEverShownData を見る。lastUpdated は「取得が最後に成功した時刻」
+    /// を意味し「更新 HH:mm」ラベルの入力でもあるため、取得は失敗したまま投稿だけ成功した場合に
+    /// lastUpdated で判定すると、そのラベルが取得失敗バナーと同時に出て矛盾してしまう。
+    private var isFirstLoad: Bool { !viewModel.hasEverShownData }
 
     var body: some View {
         NavigationStack {
