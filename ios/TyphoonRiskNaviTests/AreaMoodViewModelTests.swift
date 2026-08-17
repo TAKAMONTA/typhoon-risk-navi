@@ -21,11 +21,15 @@ final class AreaMoodViewModelTests: XCTestCase {
         super.tearDown()
     }
 
-    private func makeViewModel(store: InMemoryMoodPostStore) -> AreaMoodViewModel {
+    private func makeViewModel(
+        store: InMemoryMoodPostStore,
+        refreshInterval: TimeInterval = AreaMoodViewModel.defaultRefreshInterval
+    ) -> AreaMoodViewModel {
         AreaMoodViewModel(
             store: store,
             rateLimiter: MoodPostRateLimiter(defaults: defaults),
-            now: { self.now }
+            now: { self.now },
+            refreshInterval: refreshInterval
         )
     }
 
@@ -57,6 +61,8 @@ final class AreaMoodViewModelTests: XCTestCase {
         await viewModel.refresh()
         XCTAssertTrue(viewModel.fetchFailed)
         XCTAssertEqual(viewModel.summaries[.miyako]?.representativeLevel, .violent, "前回の結果が消えた")
+        XCTAssertEqual(viewModel.recentPosts.count, 1, "失敗時に recentPosts が消えた")
+        XCTAssertEqual(viewModel.lastUpdated, now, "失敗なのに lastUpdated が更新された")
     }
 
     /// 投稿成功で楽観的に反映され、レート制限が記録される。
@@ -114,6 +120,22 @@ final class AreaMoodViewModelTests: XCTestCase {
         XCTAssertFalse(succeeded)
         XCTAssertNotNil(viewModel.postError)
         XCTAssertNil(viewModel.postingBlockedReason, "失敗したのにレート制限が記録された")
+    }
+
+    /// stopAutoRefresh() の後に取得が走らないこと。
+    /// Task.sleep のキャンセルを try? で飲むと、停止直後に1回だけ取得が走ってしまう。
+    func testStopAutoRefreshDoesNotTriggerAnotherFetch() async throws {
+        struct Boom: Error {}
+        let store = InMemoryMoodPostStore(now: { self.now })
+        let viewModel = makeViewModel(store: store, refreshInterval: 0.05)
+        viewModel.startAutoRefresh()
+        try await Task.sleep(nanoseconds: 120_000_000)   // 2周期ぶん回す
+        XCTAssertFalse(viewModel.fetchFailed)
+
+        store.fetchError = Boom()                        // 以降の取得は必ず失敗する
+        viewModel.stopAutoRefresh()                      // バグがあるとここで1回取得が走る
+        try await Task.sleep(nanoseconds: 200_000_000)
+        XCTAssertFalse(viewModel.fetchFailed, "停止後に取得が走った")
     }
 
     /// 座標→エリア判定は最寄り自治体経由（那覇市役所付近 → 那覇、石垣市役所付近 → 石垣）。

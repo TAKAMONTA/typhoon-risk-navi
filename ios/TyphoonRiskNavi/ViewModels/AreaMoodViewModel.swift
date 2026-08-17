@@ -8,8 +8,9 @@ final class AreaMoodViewModel: ObservableObject {
 
     /// 1回の取得で読む最大件数。10エリア×直近20件相当で、代表値の決定には十分。
     static let fetchLimit = 200
-    /// 表示中の自動更新間隔。
-    static let refreshInterval: TimeInterval = 5 * 60
+    /// 表示中の自動更新間隔の既定値。テストから短い値を注入できるようにインスタンスプロパティにもしてある。
+    /// init のデフォルト引数式から参照するため、MainActor 分離のない定数にしておく。
+    nonisolated static let defaultRefreshInterval: TimeInterval = 5 * 60
 
     @Published private(set) var summaries: [OkinawaArea: AreaMoodSummary]
     @Published private(set) var recentPosts: [AreaMoodPost] = []
@@ -21,16 +22,19 @@ final class AreaMoodViewModel: ObservableObject {
     private let store: MoodPostStore
     private let rateLimiter: MoodPostRateLimiter
     private let now: () -> Date
+    private let refreshInterval: TimeInterval
     private var refreshTask: Task<Void, Never>?
 
     init(
         store: MoodPostStore,
         rateLimiter: MoodPostRateLimiter = MoodPostRateLimiter(),
-        now: @escaping () -> Date = { Date() }
+        now: @escaping () -> Date = { Date() },
+        refreshInterval: TimeInterval = AreaMoodViewModel.defaultRefreshInterval
     ) {
         self.store = store
         self.rateLimiter = rateLimiter
         self.now = now
+        self.refreshInterval = refreshInterval
         // 初期状態でも全エリアのセルが描けるよう、空の集約で埋めておく。
         self.summaries = MoodAggregator.summarize(posts: [], now: now())
     }
@@ -44,6 +48,8 @@ final class AreaMoodViewModel: ObservableObject {
     }
 
     func refresh() async {
+        // 取得の多重実行を防ぐ。重なると古い結果が新しい結果を上書きし、lastUpdated が巻き戻る。
+        guard !isLoading else { return }
         isLoading = true
         defer { isLoading = false }
         let current = now()
@@ -98,9 +104,17 @@ final class AreaMoodViewModel: ObservableObject {
     /// タブ表示中の自動更新を開始する。多重起動しない。
     func startAutoRefresh() {
         guard refreshTask == nil else { return }
+        let interval = refreshInterval
         refreshTask = Task { [weak self] in
             while !Task.isCancelled {
-                try? await Task.sleep(nanoseconds: UInt64(Self.refreshInterval * 1_000_000_000))
+                do {
+                    try await Task.sleep(nanoseconds: UInt64(interval * 1_000_000_000))
+                } catch {
+                    // stopAutoRefresh() によるキャンセルはここに CancellationError として届く。
+                    // try? で握りつぶすと、キャンセル後も次の行の refresh() が1回丸ごと走ってしまう
+                    // （余計な取得が飛ぶ・キャンセルが fetchFailed = true として誤検出される）。
+                    break
+                }
                 // self が解放されたらループを抜ける。weak self のまま回し続けると、
                 // 誰にもキャンセルされない Task が5分おきに起き続けて何もせず眠るだけになる。
                 guard let self else { break }
