@@ -54,4 +54,12 @@ final class CloudKitMoodPostStoreTests: XCTestCase {
         XCTAssertEqual(post?.area, .miyako)
         XCTAssertEqual(post?.phraseID, "L2_rain_started")
     }
+
+    /// レベルの有効範囲の両端（1 と 5）が通ることを固定する。
+    /// 内側だけをテストしていると、範囲を狭めた誤実装が最重症レベルを
+    /// サイレントに落としても気づけない。
+    func testLevelRangeBoundsAreValid() {
+        XCTAssertEqual(CloudKitMoodPostStore.post(from: makeRecord(area: "naha", level: 1, phraseID: "L1_still_quiet"))?.level, .calm)
+        XCTAssertEqual(CloudKitMoodPostStore.post(from: makeRecord(area: "naha", level: 5, phraseID: "L5_roaring_wind"))?.level, .violent)
+    }
 }

@@ -34,6 +34,10 @@ final class CloudKitMoodPostStore: MoodPostStore {
     }
 
     func fetchPosts(since: Date, limit: Int) async throws -> [AreaMoodPost] {
+        // CloudKit の resultsLimit は 0 を「サーバが返せるだけ返す」と解釈するため、
+        // そのまま渡すと limit: 0 が全件取得になる。InMemoryMoodPostStore の
+        // prefix(0) と挙動を揃えるため、ここで打ち切る。
+        guard limit > 0 else { return [] }
         let predicate = NSPredicate(format: "creationDate >= %@", since as NSDate)
         let query = CKQuery(recordType: Self.recordType, predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
