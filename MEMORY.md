@@ -190,3 +190,35 @@
 - CloudKit public DB の `creatorUserRecordID` を踏まえた「匿名」の説明文
 - 繰り越した Minor 指摘は `.superpowers/sdd/2026-08-15-area-mood-posts/progress.md` に一覧
 - 計画に記載の「既存92テスト」は誤り。実測97が正しい。
+
+## 2026-08-18 0.9.6 (build 12) 提出完了 — みんなの体感リポート
+
+2026-08-18 01:40 UTC に審査提出、状態 WAITING_FOR_REVIEW。リリース方式は AFTER_APPROVAL（通過後に自動公開）。
+submissionId: b7531015-d5f8-4292-a9e8-7b6bba123c28 / buildId: a68f754e-7845-4e9c-8ac9-c027d94ffaa8
+
+### CloudKit セットアップ（完了）
+- Development に AreaMoodPost を作成（area String / level Int64 / phraseID String）
+- インデックス: `___createTime` に Queryable + Sortable、`___recordID` に Queryable
+- **Production へ Deploy Schema Changes 実行済み**。Prod 環境で実在を目視確認
+- Security Roles は新規レコードタイプ作成時に CloudKit が自動生成（_world=Read / _icloud / _creator）。
+  Prod の `_world` に AreaMoodPost の Read が入っていることを確認済み → 未サインインの審査員でも画面が出る
+- IPA の entitlements が `icloud-container-environment = Production` であることを codesign で実測確認
+
+### 提出前監査で見つかった問題（すべて修正済み）
+出荷済みの文書・文言が、新機能によって軒並み嘘になっていた。**新機能を足したら、既存の「〜しません」系の記述を全部洗い直すこと**。
+1. `Info.plist` の位置情報の用途文が到達時刻予測のみに言及。投稿エリア選択の用途を追記し、**en.lproj/InfoPlist.strings も新設**（従来は英語端末でも日本語の許可ダイアログが出ていた）
+2. `PRIVACY.md` の4箇所が虚偽に。§2.3 を新設し、送信内容3つ・公開範囲・iCloud サインイン必須・Apple が識別子を付与・アプリ削除でも消えない・個別削除機能なし、を明記。§5「第三者提供なし」も投稿の公開性と矛盾していたため書き分けた
+3. オンボーディングの「外部送信せず」も同様に修正（日英）
+4. **App Store の商品説明文にも「外部へのデータ送信なし」が残っていた**。商品ページ本文は ASC 側にあるためリポジトリの grep では見つからない。提出時は必ず ASC の説明文も確認する
+5. 空タブが10個の「投稿なし」だけになる問題 → 「まだ投稿がありません。最初の1件を投稿してみましょう」を追加
+6. 定型文「停電しています」「断水しています」→「うちは停電した」「うちは断水した」に変更（見知らぬ人が地域について事実を断言する形を避ける）
+
+### App Privacy（ASC 側の申告）
+- 「おおよその場所」（既存・アプリの機能）に加え、**「その他のユーザコンテンツ」を追加**（アプリの機能 / 身元に非関連 / トラッキングなし）
+- ブラウザペインが描画不能になり最後の用途設定はユーザーが手動で完了。**ASC のプライバシー設定は、途中でページを離れると未保存分が破棄される**
+
+### 未了・次回以降
+- `PrivacyInfo.xcprivacy` が `PreciseLocation` を過剰申告している。緯度経度は端末外に出ないので本来は `CoarseLocation` のみが正しい。**過剰申告は審査リスクなしのため今回は据え置き**（修正にはビルド再作成が必要）。次回の更新時に直す
+- App Store のスクリーンショットは v0.9.2 のままで新タブが写っていない
+- `ios/README.md` / `README.md` / `AppStore_Metadata.md` にタブ構成3つ等の古い記述、`example.com` のプレースホルダURLが残る
+- 繰り越した Minor 指摘28件は `.superpowers/sdd/2026-08-15-area-mood-posts/progress.md` に一覧（最終レビューで全件非ブロッキングと判定済み）
