@@ -71,7 +71,9 @@
 
 ### 5. 第三者への提供
 
-本アプリは、ユーザーの情報を第三者に提供することは**ありません**。
+- **広告・分析・データブローカー等への提供**: 事業者へのユーザー情報の提供・販売は**一切行いません**。
+- **「みんな」タブへの投稿（§2.3）は例外です**: 投稿はこの機能の目的上、Apple の CloudKit パブリックデータベースに保存され、**誰でも読み取り可能**です。これは本アプリが第三者に情報を「提供」しているのではなく、ユーザーが投稿という形で自ら公開した内容だからです。
+- **投稿の保存先**: Apple の CloudKit です。CloudKit には Apple 自身のプライバシーポリシーが適用されます。
 
 ### 6. データの保持・削除
 
@@ -160,7 +162,9 @@ The App performs network communication only in the following cases:
 
 ### 5. Third-Party Sharing
 
-The App **does not** share user information with third parties.
+- **Advertisers, analytics providers, and data brokers**: The App does **not** sell or share user information with these kinds of third parties.
+- **Mood tab posts (§2.3) are the exception**: By the nature of that feature, posts are stored in Apple's CloudKit **public database** and are **readable by anyone**. This is not the App "sharing" information with a third party — it is content the user chose to make public by posting it.
+- **Where posts are stored**: Apple's CloudKit, which is subject to Apple's own privacy policy.
 
 ### 6. Data Retention and Deletion
 
