@@ -43,9 +43,11 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 
-	<!-- 位置情報の利用目的（App Store 提出時必須） -->
+	<!-- 位置情報の利用目的（App Store 提出時必須）。ja/en の実際の表示文言は
+	     Resources/ja.lproj/InfoPlist.strings, Resources/en.lproj/InfoPlist.strings が優先される。
+	     ここの値は CFBundleDevelopmentRegion(ja) 向けのフォールバック。 -->
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>沖縄に接近する台風があなたの現在地に到達する時刻を予測するために、現在地を使用します。</string>
+	<string>沖縄に接近する台風があなたの現在地に到達する時刻を予測するために、現在地を使用します。また「みんな」タブで体感を投稿する際に、沖縄10区分のどのエリアかを自動選択するために使用します。送信されるのはエリア区分のみで、精密な座標は送信しません。</string>
 
 	<!-- 言語サポート -->
 	<key>CFBundleLocalizations</key>

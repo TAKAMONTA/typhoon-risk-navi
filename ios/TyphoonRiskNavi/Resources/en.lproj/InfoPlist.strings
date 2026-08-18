@@ -1,0 +1,2 @@
+/* Reason for requesting location access (required for App Store submission). */
+"NSLocationWhenInUseUsageDescription" = "We use your location to predict when an approaching typhoon will reach you. It's also used in the Mood tab to automatically select which of Okinawa's 10 areas you're posting from. Only the area is sent — never your precise coordinates.";

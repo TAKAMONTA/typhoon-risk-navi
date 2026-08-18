@@ -18,7 +18,7 @@
 "onboarding.title" = "Welcome to Okinawa Typhoon Navi";
 "onboarding.skip" = "Skip";
 "onboarding.start" = "Get Started";
-"onboarding.footnote" = "Location is used only when you tap Add Current Location. Saved locations stay on this device.";
+"onboarding.footnote" = "Location is used only when you tap Add Current Location or post in the Mood tab. Only the area is sent — never your precise coordinates.";
 "onboarding.map.title" = "Know the typhoon";
 "onboarding.map.message" = "See track, forecast circles, and wind areas on the map, plus your place risk at a glance.";
 "onboarding.locations.title" = "Know what to do";
@@ -26,7 +26,7 @@
 "onboarding.data.title" = "Real data first, demo when needed";
 "onboarding.data.message" = "The app prioritizes Japan Meteorological Agency typhoon data. When no typhoon is active or data cannot be retrieved, demo data keeps the app explorable.";
 "onboarding.privacy.title" = "Location only when you choose";
-"onboarding.privacy.message" = "Your location is used only when you choose Add Current Location. It is not sent externally and is stored as a local saved place.";
+"onboarding.privacy.message" = "Your location is used only when you choose Add Current Location or post in the Mood tab. Only the area is sent — your precise coordinates are never sent.";
 
 /* Locations View */
 "locations.empty.title" = "No Saved Locations";
@@ -218,8 +218,8 @@
 "mood.phrase.l3_umbrella_useless" = "Can't use an umbrella";
 "mood.phrase.l4_cannot_go_out" = "Can't go outside";
 "mood.phrase.l4_debris_flying" = "Debris flying";
-"mood.phrase.l4_power_outage" = "Power is out";
-"mood.phrase.l4_water_outage" = "Water is out";
+"mood.phrase.l4_power_outage" = "Our power is out";
+"mood.phrase.l4_water_outage" = "Our water is out";
 "mood.phrase.l5_roaring_wind" = "Wind is roaring";
 "mood.phrase.l5_away_from_windows" = "Staying away from windows";
 "mood.phrase.l5_peak_ahead" = "Peak is still ahead";
@@ -232,6 +232,7 @@
 "mood.fetch_failed" = "Couldn't refresh";
 "mood.updated_at" = "Updated %@";
 "mood.no_posts" = "No reports";
+"mood.empty_state" = "No reports yet. Be the first to post.";
 "mood.cell_caption" = "%@ · %d";
 "mood.cell_accessibility_label" = "%@, %@";
 

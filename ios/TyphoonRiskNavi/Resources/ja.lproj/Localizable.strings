@@ -18,7 +18,7 @@
 "onboarding.title" = "沖縄台風ナビへようこそ";
 "onboarding.skip" = "スキップ";
 "onboarding.start" = "はじめる";
-"onboarding.footnote" = "位置情報は「現在地を追加」を押した時だけ使います。保存場所は端末内に保存されます。";
+"onboarding.footnote" = "位置情報は「現在地を追加」や「みんな」タブでの投稿時だけ使います。送信されるのはエリア情報のみで、精密な座標は送信しません。";
 "onboarding.map.title" = "台風を知る";
 "onboarding.map.message" = "進路・予報円・強風域を地図で確認し、自分の場所の危険度が一目でわかります。";
 "onboarding.locations.title" = "対策がわかる";
@@ -26,7 +26,7 @@
 "onboarding.data.title" = "実データ優先、取れない時も安心";
 "onboarding.data.message" = "気象庁の台風データを優先して取得します。台風がない時や取得できない時はデモデータで操作を確認できます。";
 "onboarding.privacy.title" = "現在地は必要な時だけ";
-"onboarding.privacy.message" = "現在地は、あなたが「現在地を追加」を選んだ時だけ使用します。外部送信せず、端末内の保存場所として扱います。";
+"onboarding.privacy.message" = "現在地は、あなたが「現在地を追加」を選んだときや、「みんな」タブで体感を投稿するときだけ使用します。送信されるのはエリア情報のみで、精密な座標を送信することはありません。";
 
 /* 場所一覧 */
 "locations.empty.title" = "保存場所がありません";
@@ -218,8 +218,8 @@
 "mood.phrase.l3_umbrella_useless" = "傘がさせない";
 "mood.phrase.l4_cannot_go_out" = "外に出られない";
 "mood.phrase.l4_debris_flying" = "物が飛んでいる";
-"mood.phrase.l4_power_outage" = "停電しています";
-"mood.phrase.l4_water_outage" = "断水しています";
+"mood.phrase.l4_power_outage" = "うちは停電した";
+"mood.phrase.l4_water_outage" = "うちは断水した";
 "mood.phrase.l5_roaring_wind" = "風の音がすごい";
 "mood.phrase.l5_away_from_windows" = "窓から離れている";
 "mood.phrase.l5_peak_ahead" = "峠はまだ先";
@@ -232,6 +232,7 @@
 "mood.fetch_failed" = "更新できませんでした";
 "mood.updated_at" = "更新 %@";
 "mood.no_posts" = "投稿なし";
+"mood.empty_state" = "まだ投稿がありません。最初の1件を投稿してみましょう";
 "mood.cell_caption" = "%@・%d件";
 "mood.cell_accessibility_label" = "%@、%@";
 

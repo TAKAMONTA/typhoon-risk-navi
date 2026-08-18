@@ -279,6 +279,7 @@ enum L10n {
         String(format: "mood.updated_at".localized, time)
     }
     static let moodNoPosts = "mood.no_posts".localized
+    static let moodEmptyState = "mood.empty_state".localized
     static func moodCellCaption(_ levelLabel: String, _ count: Int) -> String {
         String(format: "mood.cell_caption".localized, levelLabel, count)
     }

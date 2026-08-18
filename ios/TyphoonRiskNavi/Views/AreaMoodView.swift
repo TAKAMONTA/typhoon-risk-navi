@@ -14,6 +14,14 @@ struct AreaMoodView: View {
     /// lastUpdated で判定すると、そのラベルが取得失敗バナーと同時に出て矛盾してしまう。
     private var isFirstLoad: Bool { !viewModel.hasEverShownData }
 
+    /// 取得が一度は成功していて(=初回表示済み)、直近の取得も失敗していなくて(=fetchFailed でない)、
+    /// かつ全10エリアの投稿数が0のときだけ true。初回取得中・取得失敗中はそれぞれ専用の表示
+    /// （redacted+ProgressView / fetchFailedBanner）があるため、ここでは重複させない。
+    private var isEmptyAfterSuccessfulFetch: Bool {
+        !isFirstLoad && !viewModel.fetchFailed
+            && viewModel.summaries.values.allSatisfy { $0.postCount == 0 }
+    }
+
     var body: some View {
         NavigationStack {
             // disclaimer を ScrollView の外(兄弟)に置くことで、アクセシビリティ文字サイズで
@@ -25,6 +33,8 @@ struct AreaMoodView: View {
                     VStack(alignment: .leading, spacing: 12) {
                         if viewModel.fetchFailed {
                             fetchFailedBanner
+                        } else if isEmptyAfterSuccessfulFetch {
+                            emptyStateNotice
                         }
                         areaGrid
                             .redacted(reason: isFirstLoad ? .placeholder : [])
@@ -107,6 +117,13 @@ struct AreaMoodView: View {
         .padding(.vertical, 8)
         .background(Color.orange.opacity(0.1))
         .cornerRadius(10)
+    }
+
+    /// 取得は成功したが全エリア0件のときの案内。グリッド自体はこの下にそのまま表示し続ける。
+    private var emptyStateNotice: some View {
+        Text(L10n.moodEmptyState)
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
     }
 
     /// 地理関係のラフな再現:

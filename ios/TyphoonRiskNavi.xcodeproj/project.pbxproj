@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		07C714B819EE1691DD613E52 /* OfficialWarningStalenessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73666D91499EA165D801714 /* OfficialWarningStalenessTests.swift */; };
 		08F7F5D5A76930447B169C4F /* JMAWarningFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843633ADBA1986F68A51CE17 /* JMAWarningFetcher.swift */; };
+		10981036BDB1F07B08F59A06 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 252D56A5D7A43ADB49C0B691 /* InfoPlist.strings */; };
 		12124EF9AE8C025ACF93C516 /* CloudKitMoodPostStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E11C163DEF7B4C1BA61BE0 /* CloudKitMoodPostStoreTests.swift */; };
 		1561230299D25038238E167A /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E23C0D7FD52C934DA6A3B4 /* Models.swift */; };
 		1654D2F53A433AC86DEC30EF /* OkinawaMunicipalityCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C3228D57573C708A6FDF4 /* OkinawaMunicipalityCatalog.swift */; };
@@ -78,6 +79,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		05886B955090ADD75AB1F6B2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0EF9AE01192F80178E166D04 /* JTWCParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTWCParser.swift; sourceTree = "<group>"; };
 		1457F76248D6CC3F098EB07E /* JMAFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMAFetcher.swift; sourceTree = "<group>"; };
 		180A45E944E280E4CCE618C9 /* JTWCFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JTWCFetcher.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 		7D38E8FB0EEFC3A6E2AA465E /* TyphoonRiskNavi.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TyphoonRiskNavi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		836FA20483F11CA22DA72131 /* MoodAggregator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodAggregator.swift; sourceTree = "<group>"; };
 		843633ADBA1986F68A51CE17 /* JMAWarningFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMAWarningFetcher.swift; sourceTree = "<group>"; };
+		8B288A0608CB5135F1073B6B /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8E0C3228D57573C708A6FDF4 /* OkinawaMunicipalityCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OkinawaMunicipalityCatalog.swift; sourceTree = "<group>"; };
 		95BEB68B42E85BE12BA65FB5 /* CurrentLocationNameMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationNameMigrationTests.swift; sourceTree = "<group>"; };
 		9898CD2CE044954C7F76F521 /* CurrentLocationNaming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationNaming.swift; sourceTree = "<group>"; };
@@ -188,6 +191,7 @@
 				77315EC2B2ABD06E8FA83495 /* Assets.xcassets */,
 				4E91DE24F246777322AAD301 /* Localizable.swift */,
 				1AD2F6DBD66C8DABE66AEE80 /* PrivacyInfo.xcprivacy */,
+				252D56A5D7A43ADB49C0B691 /* InfoPlist.strings */,
 				F903263231A3D51783A97642 /* Localizable.strings */,
 			);
 			path = Resources;
@@ -359,6 +363,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F477A6702A56DEF110377F4B /* Assets.xcassets in Resources */,
+				10981036BDB1F07B08F59A06 /* InfoPlist.strings in Resources */,
 				C25E6CB4D651230951D3FAD7 /* Localizable.strings in Resources */,
 				BB9DCA1F568C23F3EAA610FD /* PrivacyInfo.xcprivacy in Resources */,
 			);
@@ -447,6 +452,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		252D56A5D7A43ADB49C0B691 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				05886B955090ADD75AB1F6B2 /* en */,
+				8B288A0608CB5135F1073B6B /* ja */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		F903263231A3D51783A97642 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -549,7 +563,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = J3U2LZ2886;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -571,7 +585,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 0.9.5;
+				MARKETING_VERSION = 0.9.6;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -637,7 +651,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = J3U2LZ2886;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -653,7 +667,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 0.9.5;
+				MARKETING_VERSION = 0.9.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
