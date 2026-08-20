@@ -21,13 +21,14 @@
 	<key>NSPrivacyCollectedDataTypes</key>
 	<array>
 		<dict>
-			<!-- 精密位置情報（kCLLocationAccuracyNearestTenMeters）はここに宣言しない。
+			<!-- 精密位置情報（kCLLocationAccuracyNearestTenMeters）はここに宣言しない理由:
 			     精密座標は「現在地から選ぶ」でエリアを自動選択する間だけ端末上で使い、
 			     保存先も UserDefaults（地図の現在地表示・保存した場所）のみで、
 			     CloudKit や JMA/JTWC への通信には一切含まれない。Apple の定義上「収集」は
-			     端末外への送信を指すため、送信されないデータ種別は宣言対象にならない。
-			     体感投稿のエリア（沖縄10区分の粗い位置に相当）。ユーザーが選択した区分値のみを
-			     CloudKit に送信し、精密な位置情報・ユーザー識別子は送らない -->
+			     端末外への送信を指すため、送信されないデータ種別は宣言対象にならない。 -->
+			<!-- この dict が宣言しているのは体感投稿のエリア（沖縄10区分の粗い位置に相当）。
+			     ユーザーが選択した区分値のみを CloudKit に送信し、
+			     精密な位置情報・ユーザー識別子は送らない。 -->
 			<key>NSPrivacyCollectedDataType</key>
 			<string>NSPrivacyCollectedDataTypeCoarseLocation</string>
 			<key>NSPrivacyCollectedDataTypeLinked</key>
