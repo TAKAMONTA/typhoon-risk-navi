@@ -10,7 +10,7 @@
 - 保存場所の UserDefaults 永続化 + 通知レベル（LOW/MEDIUM/HIGH/SEVERE）の設定・編集
 - 地図上で通知レベルが高い場所を視覚的に強調
 - 端末上（オンデバイス）で風速半径・動的減衰モデルを使った到達時間・リスク計算
-- タブ構成（地図 / 保存場所 / 設定） + データソース状況の可視化
+- タブ構成（地図 / 保存場所 / 設定 / みんな） + データソース状況の可視化
 
 ## セットアップ & 実行
 
@@ -35,8 +35,9 @@ brew install xcodegen
 
 ## アーキテクチャ
 
-- **MVVM**：`TyphoonViewModel` を 1 つ用意し、地図・場所・設定の 3 タブで共有
+- **MVVM**：`TyphoonViewModel` を 1 つ用意し、地図・場所・設定の 3 タブで共有。「みんな」タブ（`AreaMoodView`）は独立した `AreaMoodViewModel` を持ち、`TyphoonViewModel` とは状態を共有しない（`MainTabView` で意図的に `.environmentObject` を渡していない）
 - **データ取得戦略**：気象庁 (JMA) の `targetTc.json` → `specifications.json` を優先取得 → 失敗時のみ JTWC → どちらも不可ならデモデータにフォールバック
+- **みんなタブのデータ経路**：`CloudKitMoodPostStore` が Apple CloudKit の public database に投稿を書き込み・取得する外部エンドポイント。JMA/JTWC が読み取り専用の取得なのに対し、こちらはユーザーが投稿した内容を書き込む write 経路
 - **リスク計算**：`RiskCalculator`（純関数）で端末上で完結。風速半径 + 動的減衰モデル（4〜16%/日）から到達時間・リスクレベルを算出
 - **保存場所**：`LocalLocationStore` による UserDefaults JSON 永続化（端末ローカル）
 - **通知レベル**：LOW / MEDIUM / HIGH / SEVERE（設定・編集・クイック変更対応）
