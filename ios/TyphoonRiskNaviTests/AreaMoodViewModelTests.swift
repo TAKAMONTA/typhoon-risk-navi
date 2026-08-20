@@ -127,7 +127,9 @@ final class AreaMoodViewModelTests: XCTestCase {
         _ = await viewModel.post(area: .naha, level: .calm, phraseID: "L1_still_quiet")
         let second = await viewModel.post(area: .naha, level: .calm, phraseID: "L1_as_usual")
         XCTAssertFalse(second)
-        XCTAssertNotNil(viewModel.postError)
+        // ブロック理由は postingBlockedReason だけで表現する（postError にはコピーしない）。
+        // postError にもコピーすると @Published 化した意味が消え、シートの表示が固まってしまう。
+        XCTAssertNotNil(viewModel.postingBlockedReason)
         XCTAssertEqual(store.posts.count, 1, "ブロック中にストアへ書かれた")
     }
 

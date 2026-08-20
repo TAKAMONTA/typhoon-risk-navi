@@ -1,3 +1,4 @@
+import CloudKit
 import Combine
 import CoreLocation
 import Foundation
@@ -16,10 +17,6 @@ final class AreaMoodViewModel: ObservableObject {
     /// 表示中の自動更新間隔の既定値。テストから短い値を注入できるようにインスタンスプロパティにもしてある。
     /// init のデフォルト引数式から参照するため、MainActor 分離のない定数にしておく。
     nonisolated static let defaultRefreshInterval: TimeInterval = 5 * 60
-    /// 楽観的に反映した自分の投稿をローカルに残しておく猶予時間。
-    /// 自動更新1回分（defaultRefreshInterval）が経てばサーバー側にも反映されているはずなので、
-    /// それを目安にする。長すぎると古い投稿がいつまでも居座ってしまう。
-    static let optimisticPostRetention: TimeInterval = 5 * 60
 
     @Published private(set) var summaries: [OkinawaArea: AreaMoodSummary]
     @Published private(set) var recentPosts: [AreaMoodPost] = []
@@ -40,6 +37,11 @@ final class AreaMoodViewModel: ObservableObject {
     private let rateLimiter: MoodPostRateLimiter
     private let now: () -> Date
     private let refreshInterval: TimeInterval
+    /// 楽観的に反映した自分の投稿をローカルに残しておく猶予時間。
+    /// 自動更新1回分（refreshInterval）が経てばサーバー側にも反映されているはずなので、
+    /// それを目安にする。refreshInterval に5分より長い値を注入すると、次の refresh() が来る前に
+    /// 猶予が切れて楽観反映が一度も救われなくなるため、最低5分は確保する（max）。
+    private let optimisticPostRetention: TimeInterval
     private var refreshTask: Task<Void, Never>?
     /// 送信中フラグ。シートを閉じて開き直すと @State の isSubmitting は初期化されるため、
     /// 多重送信を防ぐ不変条件はシートではなくここに置く必要がある。
@@ -60,6 +62,7 @@ final class AreaMoodViewModel: ObservableObject {
         self.rateLimiter = rateLimiter
         self.now = now
         self.refreshInterval = refreshInterval
+        self.optimisticPostRetention = max(refreshInterval, 5 * 60)
         // 初期状態でも全エリアのセルが描けるよう、空の集約で埋めておく。
         self.summaries = MoodAggregator.summarize(posts: [], now: now())
         self.postingBlockedReason = Self.blockedReason(rateLimiter: rateLimiter, now: now())
@@ -91,7 +94,7 @@ final class AreaMoodViewModel: ObservableObject {
             let fetchedIDs = Set(posts.map(\.id))
             pendingOptimisticPosts.removeAll {
                 fetchedIDs.contains($0.post.id)
-                    || current.timeIntervalSince($0.insertedAt) > Self.optimisticPostRetention
+                    || current.timeIntervalSince($0.insertedAt) > optimisticPostRetention
             }
             let merged = (pendingOptimisticPosts.map(\.post) + posts)
                 .sorted { ($0.createdAt, $0.id) > ($1.createdAt, $1.id) }
@@ -101,8 +104,10 @@ final class AreaMoodViewModel: ObservableObject {
             hasEverShownData = true
             fetchFailed = false
         } catch {
-            if error is CancellationError {
+            if error is CancellationError || (error as? CKError)?.code == .operationCancelled || Task.isCancelled {
                 // タブ切り替え等で refresh() 自体がキャンセルされただけで、取得に失敗したわけではない。
+                // CloudKit 側は CancellationError ではなく CKError.operationCancelled で返してくる
+                // 可能性もあるため（不確実）、両方と Task.isCancelled を広めに拾って安全側に倒す。
                 // fetchFailed を立てると「更新できませんでした」という誤った表示になる。
                 return
             }
@@ -121,6 +126,15 @@ final class AreaMoodViewModel: ObservableObject {
         postingBlockedReason = Self.blockedReason(rateLimiter: rateLimiter, now: now())
     }
 
+    /// 投稿シートが表示されるたびに View 側から呼ぶ。前回開いたときの postError
+    /// （例: 「県外のようです」）を持ち越さず、postingBlockedReason も今の時刻で再計算する。
+    /// これをしないと、シートを閉じて何も操作せず開き直しただけで前回のエラーが残ってしまい、
+    /// レート制限の残り時間も最後の refresh() 時点のまま固まって見える。
+    func postSheetDidAppear() {
+        postError = nil
+        refreshPostingBlockedReason()
+    }
+
     private static func blockedReason(rateLimiter: MoodPostRateLimiter, now: Date) -> String? {
         let remaining = rateLimiter.remainingSeconds(now: now)
         guard remaining > 0 else { return nil }
@@ -135,8 +149,10 @@ final class AreaMoodViewModel: ObservableObject {
         isPosting = true
         defer { isPosting = false }
         refreshPostingBlockedReason()
-        if let reason = postingBlockedReason {
-            postError = reason
+        if postingBlockedReason != nil {
+            // ブロック理由の文言は postingBlockedReason 側だけで表現する。ここで postError に
+            // コピーすると、@Published にした意味が消えて「あと10分」のまま固まってしまう
+            // （View 側は postError ?? postingBlockedReason で拾う）。
             return false
         }
         do {
