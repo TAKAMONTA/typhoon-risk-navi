@@ -33,6 +33,31 @@ final class OkinawaAreaTests: XCTestCase {
         XCTAssertEqual(assignedAreas, Set(OkinawaArea.allCases))
     }
 
+    /// 各エリアの自治体数を固定する（気象庁 class15 区分準拠）。
+    /// 「全自治体が割り当て済み」「全エリアが1件以上使われている」を確認するだけでは、
+    /// 自治体が別エリアへ迷い込む取り違え（例: onna を north から central へ）を検出できない。
+    /// エリアごとの件数を直接ピン留めすることで、これを検出する。
+    func testMunicipalityCountsPerArea() {
+        let expected: [OkinawaArea: Int] = [
+            .naha: 1,
+            .south: 8,
+            .central: 8,
+            .north: 12,
+            .keramaAguni: 4,
+            .kumejima: 1,
+            .miyako: 2,
+            .ishigaki: 2,
+            .yonaguni: 1,
+            .daito: 2,
+        ]
+        XCTAssertEqual(expected.values.reduce(0, +), 41, "期待値の合計が41自治体と一致しない")
+        let actual = Dictionary(grouping: OkinawaArea.municipalityAreaMap.values, by: { $0 })
+            .mapValues(\.count)
+        for area in OkinawaArea.allCases {
+            XCTAssertEqual(actual[area] ?? 0, expected[area], "\(area) の自治体数が想定と異なる")
+        }
+    }
+
     /// 気象庁 class15 区分との照合（判断が分かれる自治体のスポットチェック）。
     func testJMAClass15SpotChecks() {
         XCTAssertEqual(OkinawaArea.municipalityAreaMap["naha"], .naha)
