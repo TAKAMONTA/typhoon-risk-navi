@@ -1,4 +1,5 @@
 import XCTest
+import SwiftUI
 @testable import TyphoonRiskNavi
 
 /// 定型フレーズカタログの整合性テスト。
@@ -44,6 +45,25 @@ final class MoodPhraseCatalogTests: XCTestCase {
     func testMoodLevelIsComparable() {
         XCTAssertTrue(MoodLevel.calm < MoodLevel.violent)
         XCTAssertEqual(MoodLevel(rawValue: 3), .stormy)
+    }
+
+    /// MoodLevel の絵文字・ラベル・色の組み合わせを固定する。色覚多様性に配慮し色だけに
+    /// 頼らないという設計上の要件のため、この三つ組はデコレーションではなくアクセシビリティ上の
+    /// 保証。レベル同士の入れ替わり（例: breezy と stormy の絵文字入れ替え）は他のテストを
+    /// すべて素通りしてしまうため、ここで全5レベル分を直接ピン留めする。
+    func testEmojiLabelColorTriplePerLevel() {
+        let expected: [(level: MoodLevel, emoji: String, label: String, color: Color)] = [
+            (.calm, "😌", "おだやか", .blue),
+            (.breezy, "🙂", "風が出てきた", .green),
+            (.stormy, "😟", "雨風が強い", .yellow),
+            (.dangerous, "😨", "外は危険", .orange),
+            (.violent, "😱", "暴風", .red),
+        ]
+        for entry in expected {
+            XCTAssertEqual(entry.level.emoji, entry.emoji, "レベル\(entry.level.rawValue) の絵文字が想定と異なる")
+            XCTAssertEqual(entry.level.label, entry.label, "レベル\(entry.level.rawValue) のラベルが想定と異なる")
+            XCTAssertEqual(entry.level.color, entry.color, "レベル\(entry.level.rawValue) の色が想定と異なる")
+        }
     }
 
     /// 文言が解決されずに生のローカライズキーのまま表示されていないこと。
