@@ -231,6 +231,7 @@
 "mood.disclaimer" = "Community reports, not official JMA information";
 "mood.fetch_failed" = "Couldn't refresh";
 "mood.updated_at" = "Updated %@";
+"mood.loading" = "Loading";
 "mood.no_posts" = "No reports";
 "mood.empty_state" = "No reports yet. Be the first to post.";
 "mood.cell_caption" = "%@ · %d";
@@ -243,6 +244,7 @@
 "mood.time.just_now" = "Just now";
 "mood.time.minutes_ago" = "%d min ago";
 "mood.time.hours_minutes_ago" = "%dh %dm ago";
+"mood.time.hours_ago" = "%dh ago";
 
 /* Area Mood (みんな) - post sheet */
 "mood.post.area_section" = "Which area?";

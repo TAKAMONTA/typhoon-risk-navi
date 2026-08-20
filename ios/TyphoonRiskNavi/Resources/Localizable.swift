@@ -278,6 +278,7 @@ enum L10n {
     static func moodUpdatedAt(_ time: String) -> String {
         String(format: "mood.updated_at".localized, time)
     }
+    static let moodLoading = "mood.loading".localized
     static let moodNoPosts = "mood.no_posts".localized
     static let moodEmptyState = "mood.empty_state".localized
     static func moodCellCaption(_ levelLabel: String, _ count: Int) -> String {
@@ -297,6 +298,9 @@ enum L10n {
     }
     static func moodTimeHoursMinutesAgo(_ hours: Int, _ minutes: Int) -> String {
         String(format: "mood.time.hours_minutes_ago".localized, hours, minutes)
+    }
+    static func moodTimeHoursAgo(_ hours: Int) -> String {
+        String(format: "mood.time.hours_ago".localized, hours)
     }
 
     // Area Mood (みんな) - post sheet

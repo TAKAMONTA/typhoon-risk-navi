@@ -39,9 +39,14 @@ struct AreaMoodView: View {
                         areaGrid
                             .redacted(reason: isFirstLoad ? .placeholder : [])
                             .allowsHitTesting(!isFirstLoad)
+                            // redacted 中もセルはアクセシビリティツリーに残るため、VoiceOver が
+                            // 実際には投稿があるかもしれないエリアにまで「投稿なし」と読み上げてしまう。
+                            // 初回表示が終わるまでグリッド全体を読み上げ対象から外す。
+                            .accessibilityHidden(isFirstLoad)
                             .overlay {
                                 if isFirstLoad && viewModel.isLoading {
                                     ProgressView()
+                                        .accessibilityLabel(L10n.moodLoading)
                                 }
                             }
                         if let lastUpdated = viewModel.lastUpdated {

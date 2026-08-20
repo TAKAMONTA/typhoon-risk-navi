@@ -74,7 +74,10 @@ struct AreaMoodPostSheet: View {
                     }
                 }
 
-                if let message = viewModel.postError {
+                // postError（投稿失敗）を優先し、なければ postingBlockedReason（レート制限）を見せる。
+                // postingBlockedReason は @Published なので、シートを開いたままレート制限の
+                // 残り時間が変わったり解除されたりしても表示が自動的に更新される。
+                if let message = viewModel.postError ?? viewModel.postingBlockedReason {
                     Section {
                         Text(message)
                             .font(.caption)
@@ -96,8 +99,6 @@ struct AreaMoodPostSheet: View {
                 }
             }
             .onAppear {
-                // レート制限中なら開いた時点で残り時間を見せる
-                viewModel.postError = viewModel.postingBlockedReason
                 // 許可済みなら黙って初期選択（未許可ならボタン操作まで何もしない）
                 if locationHelper.isAuthorized, selectedArea == nil {
                     detectAreaFromCurrentLocation(overwriteExisting: false)
@@ -130,7 +131,11 @@ struct AreaMoodPostSheet: View {
     }
 
     private func submit() {
-        guard let area = selectedArea, let level = selectedLevel, let phraseID = selectedPhraseID else { return }
+        guard let area = selectedArea, let level = selectedLevel, let phraseID = selectedPhraseID,
+              // UI は選択済みレベルのフレーズしか選ばせないが、その不変条件を書き込み経路でも
+              // 構造的に保証する（表示ロジックとは独立に、level と phraseID の食い違いを防ぐ）。
+              MoodPhraseCatalog.phrase(for: phraseID)?.level == level
+        else { return }
         viewModel.postError = nil
         isSubmitting = true
         Task {

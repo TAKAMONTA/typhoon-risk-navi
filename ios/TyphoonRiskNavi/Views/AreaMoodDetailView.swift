@@ -4,6 +4,7 @@ import SwiftUI
 struct AreaMoodDetailView: View {
     let area: OkinawaArea
     let posts: [AreaMoodPost]   // 呼び出し側でこのエリアの直近3時間分に絞って渡す
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         NavigationStack {
@@ -41,6 +42,12 @@ struct AreaMoodDetailView: View {
             .padding(.top, 8)
             .navigationTitle(area.displayName)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                // 投稿シートと同様、閉じる手段をボタンでも用意する（一貫性のため）。
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(L10n.mapSummaryCollapse) { dismiss() }
+                }
+            }
         }
         .presentationDetents([.medium, .large])
     }
@@ -83,6 +90,10 @@ struct AreaMoodDetailView: View {
         let minutes = Int(Date().timeIntervalSince(date) / 60)
         if minutes < 1 { return L10n.moodTimeJustNow }
         if minutes < 60 { return L10n.moodTimeMinutesAgo(minutes) }
-        return L10n.moodTimeHoursMinutesAgo(minutes / 60, minutes % 60)
+        let hours = minutes / 60
+        let remainderMinutes = minutes % 60
+        // ちょうど1時間などの端数0のとき「1時間0分前」にならないよう、分を省く。
+        if remainderMinutes == 0 { return L10n.moodTimeHoursAgo(hours) }
+        return L10n.moodTimeHoursMinutesAgo(hours, remainderMinutes)
     }
 }
