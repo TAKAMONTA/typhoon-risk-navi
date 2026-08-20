@@ -41,10 +41,27 @@ final class CloudKitMoodPostStore: MoodPostStore {
         let predicate = NSPredicate(format: "creationDate >= %@", since as NSDate)
         let query = CKQuery(recordType: Self.recordType, predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        // queryCursor は意図的に破棄している。「直近の投稿」フィードは limit 件で打ち切れば十分で、
+        // 続きを取りにいく UI（もっと見る等）が存在しないため、ページネーションはしない。
         let (results, _) = try await database.records(matching: query, resultsLimit: limit)
-        return results.compactMap { _, result in
-            guard let record = try? result.get() else { return nil }
-            return Self.post(from: record)
+        return results.compactMap { recordID, result in
+            switch result {
+            case .success(let record):
+                guard let post = Self.post(from: record) else {
+                    // area/level が読めた上での変換失敗＝スキーマドリフトの可能性があるので、
+                    // 「投稿なし」に見えるだけで原因が追えなくならないよう記録しておく。
+                    #if DEBUG
+                    print("CloudKitMoodPostStore.fetchPosts: record \(recordID.recordName) failed to convert to AreaMoodPost (schema drift?)")
+                    #endif
+                    return nil
+                }
+                return post
+            case .failure(let error):
+                #if DEBUG
+                print("CloudKitMoodPostStore.fetchPosts: dropped record \(recordID.recordName): \(error)")
+                #endif
+                return nil
+            }
         }
     }
 
@@ -58,8 +75,16 @@ final class CloudKitMoodPostStore: MoodPostStore {
         record["level"] = level.rawValue as CKRecordValue
         record["phraseID"] = phraseID as CKRecordValue
         let saved = try await database.save(record)
-        guard let post = Self.post(from: saved) else { throw StoreError.invalidRecord }
-        return post
+        // save は既に成功している。ここから先で失敗を投げると「保存済みなのに失敗と表示され、
+        // レート制限がリトライも塞ぐ」という状態になるため、変換に失敗し得ない材料だけで組み立てる。
+        // area/level/phraseID は直前で有効な enum の rawValue から作った値そのものなので必ず有効。
+        return AreaMoodPost(
+            id: saved.recordID.recordName,
+            area: area,
+            level: level,
+            phraseID: phraseID,
+            createdAt: saved.creationDate ?? Date()
+        )
     }
 
     /// CKRecord → AreaMoodPost 変換。未知のエリア・範囲外レベルは nil（呼び出し側で読み飛ばす）。
