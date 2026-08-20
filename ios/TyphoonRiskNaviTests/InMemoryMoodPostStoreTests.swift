@@ -37,6 +37,16 @@ final class InMemoryMoodPostStoreTests: XCTestCase {
         XCTAssertFalse(saved.id.isEmpty)       // id が空や定数でないこと
     }
 
+    /// submit を2回呼ぶと異なる id が発行される。同一の非空 id を返し続ける実装は、
+    /// Identifiable な AreaMoodPost を ForEach で使う際に重複 id として破綻する。
+    func testSubmitTwiceProducesDifferentIDs() async throws {
+        let store = InMemoryMoodPostStore(now: { self.now })
+        let first = try await store.submit(area: .naha, level: .calm, phraseID: "L1_still_quiet")
+        let second = try await store.submit(area: .naha, level: .calm, phraseID: "L1_as_usual")
+        XCTAssertNotEqual(first.id, second.id, "2回の submit が同じ id を返した")
+        XCTAssertEqual(store.posts.count, 2)
+    }
+
     func testErrorsPropagate() async {
         struct Boom: Error {}
         let store = InMemoryMoodPostStore()
