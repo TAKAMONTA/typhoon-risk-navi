@@ -36,6 +36,35 @@ final class MoodAggregatorTests: XCTestCase {
         XCTAssertEqual(result[.miyako]?.representativeLevel, .violent)
     }
 
+    /// 隣接するレベル同士の同数タイ（4 vs 5）でも最重症側に倒す。上のテストは 1 vs 5 という
+    /// 極端な差でしか確認していないため、隣り合う比較でも壊れていないことを別途固定する。
+    func testTieBreaksToHigherLevelWhenAdjacent() {
+        let posts = [
+            post(.ishigaki, .dangerous, minutesAgo: 5),
+            post(.ishigaki, .dangerous, minutesAgo: 10),
+            post(.ishigaki, .violent, minutesAgo: 15),
+            post(.ishigaki, .violent, minutesAgo: 20),
+        ]
+        let result = MoodAggregator.summarize(posts: posts, now: now)
+        XCTAssertEqual(result[.ishigaki]?.representativeLevel, .violent)
+        XCTAssertEqual(result[.ishigaki]?.postCount, 4)
+    }
+
+    /// 3つのレベルが同数（各2件）でタイになっても、その中で最も重いレベルが勝つ。
+    func testThreeWayTieBreaksToHighestLevel() {
+        let posts = [
+            post(.yonaguni, .calm, minutesAgo: 5),
+            post(.yonaguni, .calm, minutesAgo: 10),
+            post(.yonaguni, .stormy, minutesAgo: 15),
+            post(.yonaguni, .stormy, minutesAgo: 20),
+            post(.yonaguni, .violent, minutesAgo: 25),
+            post(.yonaguni, .violent, minutesAgo: 30),
+        ]
+        let result = MoodAggregator.summarize(posts: posts, now: now)
+        XCTAssertEqual(result[.yonaguni]?.representativeLevel, .violent)
+        XCTAssertEqual(result[.yonaguni]?.postCount, 6)
+    }
+
     /// 時間窓の境界: ちょうど3時間前（180分）は含み、181分前は除外する。
     func testWindowBoundary() {
         let boundary = [
@@ -48,9 +77,11 @@ final class MoodAggregatorTests: XCTestCase {
     }
 
     /// 投稿ゼロのエリアも postCount 0・representativeLevel nil で全10件返る。
+    /// OkinawaArea.allCases.count と比較すると、実装が回している集合そのものと比べることになり
+    /// エリア数の巻き戻り（例: 10→9）を検出できない。リテラル10で固定する。
     func testAllAreasPresentEvenWithNoPosts() {
         let result = MoodAggregator.summarize(posts: [], now: now)
-        XCTAssertEqual(result.count, OkinawaArea.allCases.count)
+        XCTAssertEqual(result.count, 10)
         for area in OkinawaArea.allCases {
             XCTAssertEqual(result[area]?.postCount, 0)
             XCTAssertNil(result[area]?.representativeLevel)
