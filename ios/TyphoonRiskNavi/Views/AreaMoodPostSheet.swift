@@ -99,6 +99,9 @@ struct AreaMoodPostSheet: View {
                 }
             }
             .onAppear {
+                // 前回開いたときの postError を持ち越さず、レート制限の残り時間も今の時刻で
+                // 再計算する（シートを閉じて何も操作せず開き直しただけの場合の鮮度を保つ）。
+                viewModel.postSheetDidAppear()
                 // 許可済みなら黙って初期選択（未許可ならボタン操作まで何もしない）
                 if locationHelper.isAuthorized, selectedArea == nil {
                     detectAreaFromCurrentLocation(overwriteExisting: false)
@@ -131,11 +134,16 @@ struct AreaMoodPostSheet: View {
     }
 
     private func submit() {
-        guard let area = selectedArea, let level = selectedLevel, let phraseID = selectedPhraseID,
-              // UI は選択済みレベルのフレーズしか選ばせないが、その不変条件を書き込み経路でも
-              // 構造的に保証する（表示ロジックとは独立に、level と phraseID の食い違いを防ぐ）。
-              MoodPhraseCatalog.phrase(for: phraseID)?.level == level
-        else { return }
+        guard let area = selectedArea, let level = selectedLevel, let phraseID = selectedPhraseID else { return }
+        // UI は選択済みレベルのフレーズしか選ばせないが、その不変条件を書き込み経路でも
+        // 構造的に保証する（表示ロジックとは独立に、level と phraseID の食い違いを防ぐ）。
+        guard MoodPhraseCatalog.phrase(for: phraseID)?.level == level else {
+            // 現状は UI 上到達不能のはず（レベルを変えると不一致になる phraseID は選び直しになる）。
+            // 万一到達すると「投稿する」ボタンが黙って無反応に見えるだけなので、デバッグ時に
+            // 気づけるようにしておく（リリースビルドでは何もしない）。
+            assertionFailure("選択レベルとフレーズの level が一致しない: level=\(level), phraseID=\(phraseID)")
+            return
+        }
         viewModel.postError = nil
         isSubmitting = true
         Task {
