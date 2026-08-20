@@ -24,7 +24,7 @@ struct AreaMoodPostSheet: View {
                         }
                     }
                     Button {
-                        detectAreaFromCurrentLocation(overwriteExisting: true)
+                        detectAreaFromCurrentLocation(overwriteExisting: true, reportsFailure: true)
                     } label: {
                         Label(L10n.moodPostUseCurrentLocation, systemImage: "location")
                     }
@@ -104,19 +104,29 @@ struct AreaMoodPostSheet: View {
                 viewModel.postSheetDidAppear()
                 // 許可済みなら黙って初期選択（未許可ならボタン操作まで何もしない）
                 if locationHelper.isAuthorized, selectedArea == nil {
-                    detectAreaFromCurrentLocation(overwriteExisting: false)
+                    detectAreaFromCurrentLocation(overwriteExisting: false, reportsFailure: false)
                 }
             }
         }
         .presentationDetents([.large])
     }
 
-    private func detectAreaFromCurrentLocation(overwriteExisting: Bool) {
+    /// - Parameters:
+    ///   - overwriteExisting: 後着の測位で、ユーザーが手で選んだエリアを上書きしてよいか。
+    ///   - reportsFailure: 県外・測位失敗をユーザーに赤字で伝えるか。明示的にボタンを押した
+    ///     場合だけ true にする。onAppear の無言の自動検出で true にすると、県外のユーザーが
+    ///     シートを開いただけで、何も操作していないのに赤いエラーを見ることになってしまう
+    ///     （実際に 0.9.6 で発生していた不具合。overwriteExisting とは意味が違うので、
+    ///     たまたま同じ値になる場面があっても相乗りさせない）。
+    private func detectAreaFromCurrentLocation(overwriteExisting: Bool, reportsFailure: Bool) {
         locationHelper.onLocation = { location in
             guard let area = AreaMoodViewModel.area(for: location.coordinate) else {
-                // 現在地が沖縄県外と判定された場合、黙って何もしないとボタンが無反応に見えるため
+                // 現在地が沖縄県外と判定された場合、明示的な操作（ボタン）に対してだけ知らせる。
+                // 黙って何もしないとボタンが無反応に見えるため
                 // (かつては最寄りの自治体が無条件に選ばれてしまい、県外からの捏造投稿を招いていた)。
-                viewModel.postError = L10n.moodPostOutsideOkinawa
+                if reportsFailure {
+                    viewModel.postError = L10n.moodPostOutsideOkinawa
+                }
                 return
             }
             // 位置情報の解決に成功したので、直前の「県外のようです」エラーが
