@@ -9,7 +9,7 @@ final class OkinawaAreaTests: XCTestCase {
         XCTAssertEqual(OkinawaMunicipalityCatalog.all.count, 41)
     }
 
-    /// 41自治体すべてがちょうど1エリアに属する(漏れなし)。
+    /// 41自治体すべてがちょうど1エリアに属する（漏れなし）。
     func testAll41MunicipalitiesHaveAnArea() {
         for municipality in OkinawaMunicipalityCatalog.all {
             XCTAssertNotNil(
@@ -19,7 +19,7 @@ final class OkinawaAreaTests: XCTestCase {
         }
     }
 
-    /// 対応表にカタログ外の孤児キーがない(typo 検出)。
+    /// 対応表にカタログ外の孤児キーがない（typo 検出）。
     func testMappingHasNoOrphanEntries() {
         let catalogIDs = Set(OkinawaMunicipalityCatalog.all.map(\.id))
         for key in OkinawaArea.municipalityAreaMap.keys {
@@ -33,7 +33,7 @@ final class OkinawaAreaTests: XCTestCase {
         XCTAssertEqual(assignedAreas, Set(OkinawaArea.allCases))
     }
 
-    /// 気象庁 class15 区分との照合(判断が分かれる自治体のスポットチェック)。
+    /// 気象庁 class15 区分との照合（判断が分かれる自治体のスポットチェック）。
     func testJMAClass15SpotChecks() {
         XCTAssertEqual(OkinawaArea.municipalityAreaMap["naha"], .naha)
         XCTAssertEqual(OkinawaArea.municipalityAreaMap["urasoe"], .south)      // 浦添は気象庁区分では南部
@@ -50,7 +50,7 @@ final class OkinawaAreaTests: XCTestCase {
         XCTAssertEqual(OkinawaArea.naha.displayName, "那覇")
     }
 
-    /// displayName が解決されずに生のローカライズキーのまま表示されていないこと(全10エリア)。
+    /// displayName が解決されずに生のローカライズキーのまま表示されていないこと（全10エリア）。
     /// キーの typo は NSLocalizedString がキー自体を返すため、これが唯一の検出手段になる。
     func testAllDisplayNamesResolveToRealText() {
         for area in OkinawaArea.allCases {
@@ -58,7 +58,7 @@ final class OkinawaAreaTests: XCTestCase {
         }
     }
 
-    /// MoodLevel.label が解決されずに生のローカライズキーのまま表示されていないこと(全5レベル)。
+    /// MoodLevel.label が解決されずに生のローカライズキーのまま表示されていないこと（全5レベル）。
     func testAllMoodLevelLabelsResolveToRealText() {
         for level in MoodLevel.allCases {
             XCTAssertFalse(level.label.hasPrefix("mood."), "レベル\(level.rawValue) の label が未解決: \(level.label)")

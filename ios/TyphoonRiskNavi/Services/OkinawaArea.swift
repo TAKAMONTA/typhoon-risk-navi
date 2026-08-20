@@ -49,7 +49,9 @@ enum OkinawaArea: String, CaseIterable, Codable, Identifiable {
 
 extension OkinawaMunicipality {
     /// この自治体が属する体感エリア。カタログ全41自治体が対応表に載っていることは
-    /// OkinawaAreaTests が全数検査で保証する。
+    /// OkinawaAreaTests が全数検査で保証するため、実際には nil にならない。
+    /// それでも Optional なのは辞書引きという実装上の性質によるもので、
+    /// 呼び出し側は force unwrap せず、他の「該当エリアなし」経路と同様に nil を安全に扱うこと。
     var area: OkinawaArea? {
         OkinawaArea.municipalityAreaMap[id]
     }
