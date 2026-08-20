@@ -48,10 +48,11 @@ final class CloudKitMoodPostStore: MoodPostStore {
             switch result {
             case .success(let record):
                 guard let post = Self.post(from: record) else {
-                    // area/level が読めた上での変換失敗＝スキーマドリフトの可能性があるので、
+                    // 未知の area/level（新バージョンが追加した値の可能性がある）で読めなかった場合。
+                    // post(from:) のコメントの通り前方互換のための想定内の経路だが、
                     // 「投稿なし」に見えるだけで原因が追えなくならないよう記録しておく。
                     #if DEBUG
-                    print("CloudKitMoodPostStore.fetchPosts: record \(recordID.recordName) failed to convert to AreaMoodPost (schema drift?)")
+                    print("CloudKitMoodPostStore.fetchPosts: record \(recordID.recordName) has an unknown area/level (possibly a newer app version)")
                     #endif
                     return nil
                 }
@@ -89,8 +90,9 @@ final class CloudKitMoodPostStore: MoodPostStore {
 
     /// CKRecord → AreaMoodPost 変換。未知のエリア・範囲外レベルは nil（呼び出し側で読み飛ばす）。
     /// 将来のバージョンがエリアやレベルを増やしても、旧バージョンがクラッシュせず無視できるようにする。
-    /// creationDate は保存前のローカルレコードでは nil のため、現在時刻で代替する
-    /// （submit 直後の楽観的反映で使われるだけで、次回 fetch でサーバー時刻に置き換わる）。
+    /// creationDate は保存前のローカルレコードでは nil のため、現在時刻で代替する。
+    /// この関数を呼ぶのは fetchPosts（サーバーから返る保存済みレコードなので creationDate は必ずある）
+    /// だけなので、このフォールバックは実運用では実質到達不能（テストが未保存レコードを直接渡して検証している）。
     static func post(from record: CKRecord) -> AreaMoodPost? {
         guard
             let areaRaw = record["area"] as? String,
