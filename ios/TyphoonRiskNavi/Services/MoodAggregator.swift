@@ -11,7 +11,7 @@ enum MoodAggregator {
     /// （防災文脈では見逃しより過剰の方が安全）。
     /// createdAt が now より未来の投稿は除外しない。サーバー時刻と端末時計のずれで
     /// 投稿直後の楽観的反映が消えると、投稿が失敗したように見えるため。
-    static func summarize(posts: [AreaMoodPost], now: Date = Date()) -> [OkinawaArea: AreaMoodSummary] {
+    static func summarize(posts: [AreaMoodPost], now: Date) -> [OkinawaArea: AreaMoodSummary] {
         let cutoff = now.addingTimeInterval(-window)
         let recent = posts.filter { $0.createdAt >= cutoff }
         let grouped = Dictionary(grouping: recent, by: \.area)

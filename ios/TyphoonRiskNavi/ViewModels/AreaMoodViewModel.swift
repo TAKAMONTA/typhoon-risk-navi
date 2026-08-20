@@ -16,6 +16,10 @@ final class AreaMoodViewModel: ObservableObject {
     /// 表示中の自動更新間隔の既定値。テストから短い値を注入できるようにインスタンスプロパティにもしてある。
     /// init のデフォルト引数式から参照するため、MainActor 分離のない定数にしておく。
     nonisolated static let defaultRefreshInterval: TimeInterval = 5 * 60
+    /// 楽観的に反映した自分の投稿をローカルに残しておく猶予時間。
+    /// 自動更新1回分（defaultRefreshInterval）が経てばサーバー側にも反映されているはずなので、
+    /// それを目安にする。長すぎると古い投稿がいつまでも居座ってしまう。
+    static let optimisticPostRetention: TimeInterval = 5 * 60
 
     @Published private(set) var summaries: [OkinawaArea: AreaMoodSummary]
     @Published private(set) var recentPosts: [AreaMoodPost] = []
@@ -27,6 +31,10 @@ final class AreaMoodViewModel: ObservableObject {
     @Published private(set) var hasEverShownData = false
     @Published private(set) var fetchFailed = false
     @Published var postError: String?
+    /// 投稿できない理由。nil なら投稿可能。@Published にして refresh()/post() のたびに republish し、
+    /// レート制限が解除された後もシートの文言が固まったままにならないようにする
+    /// （プレーンな computed var のままだと SwiftUI に変更を伝えるきっかけがない）。
+    @Published private(set) var postingBlockedReason: String?
 
     private let store: MoodPostStore
     private let rateLimiter: MoodPostRateLimiter
@@ -36,6 +44,11 @@ final class AreaMoodViewModel: ObservableObject {
     /// 送信中フラグ。シートを閉じて開き直すと @State の isSubmitting は初期化されるため、
     /// 多重送信を防ぐ不変条件はシートではなくここに置く必要がある。
     private var isPosting = false
+    /// post() で楽観的に反映した自分の投稿を、挿入時刻とセットで保持する。
+    /// CloudKit Public Database は結果整合性のため、投稿直後の refresh() ではまだ
+    /// サーバー側の一覧に含まれないことがある。ここに残しておき refresh() のたびに
+    /// サーバー結果とマージすることで、投稿できているのに消えたように見えるのを防ぐ。
+    private var pendingOptimisticPosts: [(post: AreaMoodPost, insertedAt: Date)] = []
 
     init(
         store: MoodPostStore,
@@ -49,6 +62,7 @@ final class AreaMoodViewModel: ObservableObject {
         self.refreshInterval = refreshInterval
         // 初期状態でも全エリアのセルが描けるよう、空の集約で埋めておく。
         self.summaries = MoodAggregator.summarize(posts: [], now: now())
+        self.postingBlockedReason = Self.blockedReason(rateLimiter: rateLimiter, now: now())
     }
 
     /// 実運用は CloudKit、スクリーンショットモード（-screenshotMode YES）はサンプル入り InMemory。
@@ -65,17 +79,33 @@ final class AreaMoodViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
         let current = now()
+        refreshPostingBlockedReason()
         do {
             let posts = try await store.fetchPosts(
                 since: current.addingTimeInterval(-MoodAggregator.window),
                 limit: Self.fetchLimit
             )
-            recentPosts = posts
-            summaries = MoodAggregator.summarize(posts: posts, now: current)
+            // 楽観的に反映した自分の投稿は、CloudKit の結果整合性によりまだ posts に
+            // 含まれないことがある。サーバー側に現れた分（fetchedIDs に含まれる）は
+            // 二重計上を避けるため取り除き、まだ現れていない分も猶予時間を過ぎたら諦めて捨てる。
+            let fetchedIDs = Set(posts.map(\.id))
+            pendingOptimisticPosts.removeAll {
+                fetchedIDs.contains($0.post.id)
+                    || current.timeIntervalSince($0.insertedAt) > Self.optimisticPostRetention
+            }
+            let merged = (pendingOptimisticPosts.map(\.post) + posts)
+                .sorted { ($0.createdAt, $0.id) > ($1.createdAt, $1.id) }
+            recentPosts = merged
+            summaries = MoodAggregator.summarize(posts: merged, now: current)
             lastUpdated = current
             hasEverShownData = true
             fetchFailed = false
         } catch {
+            if error is CancellationError {
+                // タブ切り替え等で refresh() 自体がキャンセルされただけで、取得に失敗したわけではない。
+                // fetchFailed を立てると「更新できませんでした」という誤った表示になる。
+                return
+            }
             // 前回の結果を保持したまま、失敗だけ知らせる（無言で失敗させない）。
             // CloudKit のレート制限（CKError.requestRateLimited）もここに落ちる。即時再試行はせず、
             // 次の再試行はユーザー操作（再試行ボタン/プルリフレッシュ）か5分後の自動更新のみ。
@@ -85,9 +115,14 @@ final class AreaMoodViewModel: ObservableObject {
         }
     }
 
-    /// 投稿できない理由。nil なら投稿可能。
-    var postingBlockedReason: String? {
-        let remaining = rateLimiter.remainingSeconds(now: now())
+    /// postingBlockedReason を現在時刻で再計算して republish する。
+    /// refresh()/post() の節目で呼ぶことで、レート制限の解除に合わせてシートの表示が更新される。
+    private func refreshPostingBlockedReason() {
+        postingBlockedReason = Self.blockedReason(rateLimiter: rateLimiter, now: now())
+    }
+
+    private static func blockedReason(rateLimiter: MoodPostRateLimiter, now: Date) -> String? {
+        let remaining = rateLimiter.remainingSeconds(now: now)
         guard remaining > 0 else { return nil }
         let minutes = Int(ceil(remaining / 60))
         return L10n.moodRateLimited(minutes)
@@ -99,6 +134,7 @@ final class AreaMoodViewModel: ObservableObject {
         guard !isPosting else { return false }
         isPosting = true
         defer { isPosting = false }
+        refreshPostingBlockedReason()
         if let reason = postingBlockedReason {
             postError = reason
             return false
@@ -106,7 +142,9 @@ final class AreaMoodViewModel: ObservableObject {
         do {
             let saved = try await store.submit(area: area, level: level, phraseID: phraseID)
             rateLimiter.recordPost(now: now())
+            refreshPostingBlockedReason()
             recentPosts.insert(saved, at: 0)
+            pendingOptimisticPosts.append((post: saved, insertedAt: now()))
             summaries = MoodAggregator.summarize(posts: recentPosts, now: now())
             // fetchPosts が失敗していても(fetchFailed = true のままでも)、自分の投稿は
             // 確かに反映されたので hasEverShownData を立てて redacted を解除する。
@@ -147,6 +185,12 @@ final class AreaMoodViewModel: ObservableObject {
     func stopAutoRefresh() {
         refreshTask?.cancel()
         refreshTask = nil
+    }
+
+    deinit {
+        // stopAutoRefresh() を呼ばずに解放されると、guard let self else { break } でループは
+        // いずれ終わるものの、最大 refreshInterval 分だけ孤立した Task が眠り続けてしまう。
+        refreshTask?.cancel()
     }
 
     /// 座標からエリアを推定する（既存の最寄り自治体判定を経由）。
