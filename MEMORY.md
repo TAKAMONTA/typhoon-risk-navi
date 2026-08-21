@@ -226,7 +226,8 @@ submissionId: b7531015-d5f8-4292-a9e8-7b6bba123c28 / buildId: a68f754e-7845-4e9c
 
 ## 2026-08-20 0.9.7 (build 13) 提出 — 繰り越し宿題4項目の消化
 
-2026-08-20 05:50 UTC 提出、WAITING_FOR_REVIEW。AFTER_APPROVAL（通過後に自動公開）。
+2026-08-20 05:50 UTC 提出、**翌日までに審査通過し READY_FOR_SALE（公開済み）**。AFTER_APPROVAL（通過後に自動公開）。
+新スクリーンショット（`04_mood_community.png`）も iPhone 6.5 / iPad の両方で COMPLETE。0.9.4 から4連続で一発通過。
 submissionId: 553e2e88-6fe6-4876-b29e-4e7b0c2e6ccf / buildId: f46caed2-2858-4b1e-8bd0-9ca930c6eb55
 テスト 144 → 155 件。
 
